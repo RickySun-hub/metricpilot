@@ -1,6 +1,6 @@
 # Architecture specification
 
-Status: proposed; none of the application components below are implemented yet.
+Status: implemented with zero-cost execution. Deterministic tools/controller and local ONNX retrieval are verified locally. The optional OpenAI selector and quota boundaries have mocked tests, not real-provider/shared-Redis verification. Reports use evidence-derived templates.
 
 ## Responsibilities
 
@@ -40,7 +40,7 @@ Use deterministic entry validation and final claim validation. Between them, per
 
 ## Resource controls
 
-Proposed initial limits: at most five analytical tool calls, at most eight model invocations including formatting retries, at most two total retries, bounded query output and a request deadline. Choose the deadline after measuring local latency; report honest timeouts rather than promising an unmeasured response time.
+Implemented limits: five analytical tool calls, six model invocations, no automatic retries, bounded context and a 45-second graph deadline checked between actions. Provider timeout: 12 seconds. A synchronous tool is not forcibly cancelled by the graph deadline; the hosting function timeout is a separate limit. Default selection is deterministic and visibly labeled.
 
 Enforce an estimated per-request token budget and a shared durable daily spending counter before admitting work. API provider billing may lag; do not present estimated costs as exact invoices. Implement the counter and concurrency handling before exposing unrestricted public model calls. No external analytical writes are part of the MVP.
 

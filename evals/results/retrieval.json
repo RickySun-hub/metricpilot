@@ -1,0 +1,161 @@
+{
+  "scope": "10 labeled development retrieval queries; not a held-out model benchmark or generalization claim.",
+  "cases": [
+    {
+      "query": "What share of new accounts finish a rehearsal within a week?",
+      "expected": "activation",
+      "semantic_top3": [
+        "funnel",
+        "windows",
+        "activation"
+      ],
+      "lexical_top3": [
+        "activation",
+        "confidence",
+        "experiment"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "How many people move from signup through starting to finishing practice?",
+      "expected": "funnel",
+      "semantic_top3": [
+        "funnel",
+        "activation",
+        "windows"
+      ],
+      "lexical_top3": [
+        "funnel",
+        "activation",
+        "windows"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "Can changing acquisition proportions explain the overall conversion change?",
+      "expected": "mix_shift",
+      "semantic_top3": [
+        "mix_shift",
+        "srm",
+        "confidence"
+      ],
+      "lexical_top3": [
+        "mix_shift",
+        "scope",
+        "activation"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "Did the randomized groups receive equal numbers of assigned users?",
+      "expected": "srm",
+      "semantic_top3": [
+        "srm",
+        "experiment",
+        "windows"
+      ],
+      "lexical_top3": [
+        "activation",
+        "srm",
+        "experiment"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "How should we interpret an effect range that contains zero?",
+      "expected": "confidence",
+      "semantic_top3": [
+        "confidence",
+        "experiment",
+        "srm"
+      ],
+      "lexical_top3": [
+        "confidence",
+        "synthetic",
+        "activation"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "Which cohorts have finished their entire observation period?",
+      "expected": "windows",
+      "semantic_top3": [
+        "windows",
+        "experiment",
+        "funnel"
+      ],
+      "lexical_top3": [
+        "windows",
+        "activation",
+        "confidence"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "Are these customer records from a real business?",
+      "expected": "synthetic",
+      "semantic_top3": [
+        "synthetic",
+        "safety",
+        "scope"
+      ],
+      "lexical_top3": [
+        "synthetic",
+        "mix_shift",
+        "scope"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "May the model execute arbitrary SQL or access local files?",
+      "expected": "safety",
+      "semantic_top3": [
+        "safety",
+        "synthetic",
+        "scope"
+      ],
+      "lexical_top3": [
+        "safety",
+        "scope",
+        "mix_shift"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "Can I calculate engagement or retention with this demo?",
+      "expected": "scope",
+      "semantic_top3": [
+        "scope",
+        "funnel",
+        "experiment"
+      ],
+      "lexical_top3": [
+        "scope",
+        "mix_shift",
+        "confidence"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    },
+    {
+      "query": "What is the predeclared outcome and randomization unit for this A/B test?",
+      "expected": "experiment",
+      "semantic_top3": [
+        "experiment",
+        "srm",
+        "confidence"
+      ],
+      "lexical_top3": [
+        "experiment",
+        "srm",
+        "mix_shift"
+      ],
+      "semantic_method": "minilm_cosine_similarity"
+    }
+  ],
+  "semantic_top1_hits": 9,
+  "semantic_top3_hits": 10,
+  "lexical_top1_hits": 9,
+  "lexical_top3_hits": 10,
+  "total": 10,
+  "contract_sha256": "f485e6312de9b932074007edff830b79fe0684c71708f6e4d54195c08ea3bffb"
+}

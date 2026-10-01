@@ -1,6 +1,14 @@
 # Deployment checklist
 
-Status: no application deployed, no hosting resources provisioned, no paid API calls performed as part of repository setup.
+Status: a temporary anonymous Vercel deployment has been published and verified from the public URL in desktop/mobile browsers. It expires unless the owner claims it; it is not a permanent production URL. No paid model calls or paid hosting subscription were created. Current zero-cost execution is deterministic SQL/statistics plus local CPU embeddings, with live LLM disabled.
+
+Verified temporary URL: https://temporary-quick-fiddle-x0gi9g1.vercel.app
+
+The private claim link is delivered in chat and must never be committed here. Record the permanent project/domain after the owner claims it. Do not use this temporary URL as a long-term resume link until ownership/persistence is confirmed.
+
+Deployment configuration: static Next.js export plus same-origin Python function api/index.py. Python 3.12, NumPy 2.2.6 and uv.lock keep cross-platform packaging within the anonymous function limit. The initial Windows builder needed static export to avoid a symlink limitation. The embedding tokenizer is a small Python implementation validated against the upstream Rust tokenizer; no remote Hugging Face client is needed during inference.
+
+Browser verification: public health returned live_enabled=false; activation, funnel, SRM refusal and valid experiment uncertainty all rendered; SQL evidence expanded; 1440×1000 and 390×844 viewports had no page errors or horizontal overflow. A few manual requests do not prove restart durability or load capacity. Real-provider/Redis controls and Docker execution remain unverified.
 
 ## Target
 

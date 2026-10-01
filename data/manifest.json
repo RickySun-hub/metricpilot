@@ -1,0 +1,10 @@
+{
+  "hash": "42883552ad9e04da91fd6cc85e3327a2a1e5bfb74594c4a727fb9c9425cbd2c6",
+  "cutoff": "2026-09-30T00:00:00",
+  "seed": 20260930,
+  "label": "Synthetic interview-preparation SaaS",
+  "users": 12000,
+  "events": 50504,
+  "assignments": 12000,
+  "generator": "backend/data.py"
+}

@@ -1,0 +1,10 @@
+.git
+.venv
+node_modules
+.next
+.env*
+tests
+artifacts
+tsconfig.tsbuildinfo
+CLAUDE.md
+Dockerfile

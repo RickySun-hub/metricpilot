@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.gz binary
+*.onnx binary
+*.png binary
+*.webm binary
+evals/cases.json text eol=lf
+evals/cases.sha256 text eol=lf

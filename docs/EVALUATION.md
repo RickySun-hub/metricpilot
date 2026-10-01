@@ -1,6 +1,8 @@
 # Evaluation protocol
 
-Status: planned. Cases, runs and numerical results do not yet exist.
+Status: deterministic regression and development retrieval comparison executed. The 60-case manifest has 30 development/30 test scenarios; three test repetitions passed 30/30. This is not a live-model score or the full original release gate. 56 local tests pass. On ten development retrieval queries, semantic and lexical both achieved 9/10 top-1 and 10/10 top-3. Records: evals/results/.
+
+The protocol below preserves the original live benchmark goal. Real model/baseline runs remain unperformed under the zero-fee instruction. The CLI refuses live evaluation instead of fabricating a result.
 
 ## Cases and split
 

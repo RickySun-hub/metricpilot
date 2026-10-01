@@ -1,6 +1,6 @@
 # Data and metric contracts
 
-Status: specification only. No dataset has been generated.
+Status: implemented. The fixed-seed snapshot has 12,000 synthetic users, 50,504 events and 12,000 experiment assignments. Reproduce with `python -m backend.data`, seed 20260930. Hash/cutoff: data/manifest.json. Independent numerical and statistical-library checks: tests/.
 
 ## Synthetic data model
 

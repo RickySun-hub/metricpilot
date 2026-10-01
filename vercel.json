@@ -1,0 +1,12 @@
+{
+  "framework": "nextjs",
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "excludeFiles": "{node_modules/**,.next/**,.venv/**,.vercel/**,tests/**,.git/**,sympy/**,mpmath/**,huggingface_hub/**,hf_xet/**,.env*,Dockerfile,*.tsbuildinfo}"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index" }
+  ]
+}

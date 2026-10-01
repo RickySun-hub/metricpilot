@@ -1,96 +1,137 @@
 # MetricPilot
 
-**Product analytics investigations with verifiable evidence.**
+**Investigate product metrics. Inspect the evidence. Respect uncertainty.**
 
-MetricPilot is a planned analytical agent for answering three bounded questions about a synthetic interview-preparation SaaS: why a metric changed, where a funnel changed, and whether an A/B experiment supports a decision.
+MetricPilot is an implemented analytics application with a Next.js interface, FastAPI backend, DuckDB tools, local semantic retrieval, and a bounded LangGraph controller. It investigates activation changes, ordered funnels, and user-level A/B experiments on **12,000 synthetic users and 50,504 synthetic events**.
 
-**Status: design and build preparation. Application implementation has not started.** This repository currently contains specifications and a learning-oriented roadmap. It does not yet contain a runnable agent, generated dataset, measured evaluation results, or a deployed application.
+**Execution boundary:** this zero-cost release runs real SQL and statistical calculations with a deterministic controller. An optional OpenAI action selector is implemented and covered by mocked safety tests, but **no real LLM calls, model-quality benchmark, or LLM-baseline comparison have been performed**. Deterministic mode is visibly labeled; it is not presented as a live LLM agent.
 
-| Deliverable | Status |
-| --- | --- |
-| Product specification and architecture | Documented |
-| Synthetic data and SQL/statistical tools | Planned |
-| LangGraph agent and retrieval | Planned |
-| FastAPI backend and Next.js interface | Planned |
-| Frozen benchmark and measured results | Planned |
-| Live public demo and walkthrough video | Not deployed / not recorded |
+[Public demo — temporary, pending owner claim](https://temporary-quick-fiddle-x0gi9g1.vercel.app) · [Build issues](https://github.com/RickySun-hub/metricpilot/issues) · [Verification scope](docs/EVALUATION.md)
 
-## The problem
+The anonymous demo has been verified publicly, but expires unless the owner claims it. It is not yet a permanent resume/demo URL. No registration or API key is needed to use deterministic mode.
 
-A product manager asks: “Why did activation fall last week?” A useful answer needs the correct metric definition, complete observation windows, reproducible calculations, and a distinction between descriptive evidence and causal conclusions.
+## What it does
 
-MetricPilot is designed to retrieve metric contracts, select validated analytical tools, and produce a report whose numerical claims can be traced to SQL and tool results. When the data or question is insufficient, it should ask for clarification or abstain.
+| Question | Behavior | Evidence |
+| --- | --- | --- |
+| Why did activation change? | Compare mature signup cohorts and decompose channel/device mix versus within-group change | Counts, rates, exact decomposition, SQL and bound parameters |
+| Where did the practice funnel change? | Compare signup → start → completion with ordered, session-matched events | User-level step counts and conditional rates |
+| Is onboarding_srm trustworthy? | Detect sample ratio mismatch and withhold effect interpretation | Assignment counts, SRM p-value and validity status |
+| Should we ship onboarding_valid? | Report a Newcombe 95% score interval and constrain the recommendation | Intent-to-treat counts, effect and uncertainty |
 
-## Planned supported tasks
+The demo uses fixed September 1–8 and September 8–15, 2026 signup cohorts, fully observed by September 30. “The two weeks” means these demo cohorts, not the current calendar. Unsupported metrics/windows are rejected or clarified.
 
-1. **Metric investigation:** compare complete time windows and decompose a conversion-rate change by acquisition channel or device.
-2. **Funnel investigation:** identify changes across signup, practice start, and practice completion, with explicit user-level denominators.
-3. **Experiment review:** check one predeclared user-level binary outcome, including assignment validity, sample ratio mismatch, effect size, and confidence interval.
+On the default snapshot, activation falls from **56.2167% to 30.5%**. Inspect the exact mix/within-group contributions in the report. These are synthetic observations and an accounting identity, not real business impact or causal findings.
 
-The MVP supports one synthetic SaaS schema and one segmentation dimension per investigation. It will not execute arbitrary model-generated SQL, upload private user data, or make causal claims from observational segments.
-
-## Planned architecture
+## Architecture
 
 ```mermaid
 flowchart TD
-    UI[Next.js interface] --> API[FastAPI]
-    API --> R[Retrieve metric contracts]
-    R --> V{Clear and supported?}
-    V -->|No| C[Clarify or abstain]
-    V -->|Yes| A[LangGraph: select tool and arguments]
-    A --> G[Validate arguments and resource budget]
-    G --> T[Parameterized DuckDB SQL / Python statistics]
+    UI[Next.js interface] --> API[FastAPI validation]
+    API --> B{Supported question?}
+    B -->|No| C[Clarify or abstain]
+    B -->|Yes| R[Local MiniLM semantic retrieval]
+    R --> G[LangGraph controller]
+    G --> S{Execution mode}
+    S -->|Default: zero API cost| D[Deterministic action selection]
+    S -->|Optional: disabled publicly| L[OpenAI structured action selection]
+    D --> T[Validated DuckDB SQL / Python statistics]
+    L --> T
     T --> E[Evidence records]
-    E --> N{More checks needed and budget available?}
-    N -->|Yes| A
-    N -->|No| O[Structured report and claim validation]
-    O --> UI
+    E --> G
+    G --> V[Numeric validation and templated report]
+    V --> UI
 ```
 
-The LLM chooses permitted actions. Python owns validation, computation, access restrictions, and stopping conditions. A tool trace is an execution record, not a disclosure of private model reasoning.
+The optional model branch chooses approved actions; it never supplies executable SQL. Application code validates arguments, budgets and termination. Numerical claims come from tool evidence and are checked against result fields. Narrative uses deterministic templates, deliberately limiting flexibility and hallucination exposure.
 
-## Proposed stack
+Semantic retrieval uses a pinned, quantized **all-MiniLM-L6-v2** model with CPU ONNX Runtime, masked mean pooling and cosine similarity. There is no paid embedding endpoint or hosted vector database. Upstream weights are attributed in [models/README.md](models/README.md).
 
-- **Backend:** Python, FastAPI, Pydantic.
-- **Agent:** LangGraph and a model supporting tool calling and structured outputs.
-- **Analysis:** DuckDB, SQL, pandas, SciPy.
-- **Retrieval:** embeddings over a small versioned metric-contract collection; in-memory similarity search.
-- **Frontend:** Next.js and TypeScript.
-- **Verification and delivery:** pytest, Docker, GitHub Actions; add these when implementation exists.
+## Measured verification
 
-These are design choices, not an inventory of implemented features. Runtime/package versions and hosting prices will be checked when implementation begins. DuckDB and a small in-memory retrieval index keep the MVP understandable; a hosted vector database is not required.
+- **56 tests passed locally**: independent references for SQL, Wilson/Newcombe checks against statsmodels, SRM checks against SciPy, dataset integrity, API behavior, retrieval/tokenizer parity and mocked live safety.
+- **30/30 deterministic regression cases passed in each of three repeated runs.** The 60-case manifest has 30 development/30 test cases with distinct scenario seeds. This is bounded synthetic regression, not live LLM accuracy.
+- On **10 labeled development retrieval queries**, semantic and lexical retrieval both achieved **9/10 top-1 and 10/10 top-3** contract hits. This does not establish semantic superiority.
+- Desktop **1440×1000** and mobile **390×844** flows checked with Playwright: four scenarios, evidence expansion, no page errors or horizontal overflow.
 
-## Build it by hand
-
-The owner intends to implement and understand every component before presenting it as completed work. Start with the [first milestone](docs/BUILD_PLAN.md#m1--data-and-metric-contracts-3-days), then build deterministic tools before adding an LLM.
-
-- [Build plan and acceptance criteria](docs/BUILD_PLAN.md)
-- [Architecture and tool boundaries](docs/ARCHITECTURE.md)
-- [Data, metric, and statistical contracts](docs/DATA_AND_METRICS.md)
-- [Evaluation protocol](docs/EVALUATION.md)
-- [Deployment checklist](docs/DEPLOYMENT.md)
-- [60-second demo](docs/DEMO.md)
-- [Resume claims and evidence requirements](docs/RESUME_EVIDENCE.md)
-- [Working agreement](CONTRIBUTING.md)
+Measured records and omissions: [deterministic results](evals/results/deterministic.json), [retrieval comparison](evals/results/retrieval.json), [protocol](docs/EVALUATION.md). Local checks do not automatically establish GitHub CI or public deployment success.
 
 ## Run locally
 
-There is no application to run yet. Setup commands, dependency locks, environment examples, and service entry points will be documented after the corresponding components have been implemented and tested. Do not treat the roadmap as a working quickstart.
+Prerequisites: **Python 3.12**, **Node.js 22+**. Never put credentials in commands or tracked files.
 
-## Evaluation
+```bash
+git clone https://github.com/RickySun-hub/metricpilot.git
+cd metricpilot
+python -m venv .venv
+```
 
-Planned: 30 development cases and 30 frozen test cases, an explicitly defined single-pass baseline, deterministic numerical scoring, and repeated runs to measure instability. A proposed release gate is at least 24/30 whole-task passes on the frozen test set, with all predefined critical failures handled correctly. No benchmark has been executed and no accuracy, latency, or cost result is claimed.
+Activate `.venv` (`.venv\Scripts\Activate.ps1` on PowerShell; `source .venv/bin/activate` on macOS/Linux), then:
 
-See [the protocol](docs/EVALUATION.md) for failure definitions, split rules, scoring, and reporting requirements.
+```bash
+python -m pip install -r requirements.txt -r requirements-dev.txt
+npm ci
+python -m uvicorn api.index:app --host 127.0.0.1 --port 8000
+```
 
-## Limitations / what I would do next
+In a second terminal set `METRICPILOT_API_URL=http://127.0.0.1:8000` and run `npm run dev`. PowerShell:
 
-The initial implementation is scoped to synthetic SaaS data and a bounded set of analytical tasks. Results will not establish reliability on arbitrary business databases. SQL will be compiled from validated parameters rather than generated and executed freely. Segment decompositions will be descriptive, not causal. Experiment analysis will cover one predeclared user-level binary outcome at a fixed horizon; sequential testing and multiple-comparison correction are outside the MVP.
+```powershell
+$env:METRICPILOT_API_URL='http://127.0.0.1:8000'
+npm run dev -- --hostname 127.0.0.1
+```
 
-Automated checks can validate numerical claims and evidence references, but cannot guarantee that every narrative interpretation is correct. The eventual public demo will be rate-limited and will not establish enterprise-scale reliability.
+Open `http://127.0.0.1:3000`; API docs: `http://127.0.0.1:8000/api/docs`. The repo includes the compressed synthetic snapshot and pinned local embedding assets. Reproduce inputs:
 
-Next work should follow measured failures: improve the weakest supported task, expand contracts where needed, obtain independent review, and evaluate on explicitly permitted real data. More agents or frameworks are not a default next step.
+```bash
+python -m backend.data
+python -m backend.download_embedding_model
+```
 
-## Ownership and claims
+The second command downloads public pretrained assets, not paid inference. Run checks:
 
-The repository owner is responsible for implementation and verification. Planning materials were prepared with AI assistance; no application implementation is attributed to the owner yet. Future claims must identify the exact implementation version, data version, and measured result. Synthetic events must never be described as real users or production traffic.
+```bash
+python -m pytest -q
+python -m evals.run --mode deterministic --split test --repeats 3
+python -m evals.retrieval
+npm run typecheck
+npm run build
+```
+
+`npm run build` exports a static frontend to `out/`. Production also needs FastAPI; serving only `out/` does not provide analytics. A backend Dockerfile is included; Docker execution has not been verified locally.
+
+## Optional LLM integration
+
+The default/public configuration keeps `METRICPILOT_ENABLE_LIVE=0`. Live mode is not required for the working analytics demo. Later activation requires an approved server-side key, explicit budget and the [deployment controls](docs/DEPLOYMENT.md). Public live mode additionally requires shared durable quota storage.
+
+The code uses a fixed GPT-4.1-mini snapshot, structured actions, finite calls, duplicate-call rejection, conservative cost preflight and evidence-only reports. These have mocked tests, not real-provider verification. Hosted Redis accounting is also unverified. Live benchmark/baseline are future work; the evaluation CLI refuses to invent them.
+
+## Repository guide
+
+```text
+app/                Next.js input, reports, charts and evidence
+api/index.py        FastAPI health, analysis and evaluation
+backend/            Data, SQL tools, statistics, retrieval and graph
+contracts/          Versioned definitions
+data/               Synthetic snapshot and checksum manifest
+models/minilm/      Pinned ONNX weights, tokenizer and attribution
+tests/              Numerical, API, retrieval and mocked safety checks
+evals/              Independent references, case manifest and results
+docs/               Architecture, deployment, demo and claims guidance
+```
+
+## Limitations / next work
+
+- Synthetic data, fixed windows and narrow task vocabulary; not a general database copilot.
+- Deterministic public execution; real LLM selection and baseline remain unverified.
+- Validated SQL templates, not unrestricted text-to-SQL.
+- Descriptive decomposition, not causal inference.
+- One user-level binary outcome at a fixed horizon; no sequential testing or multiple-comparison adjustment.
+- No measured business uplift, time savings, real adoption or enterprise-scale reliability.
+- Constrained report templates; no open-ended narrative analysis.
+
+Next: separately authorize real-model evaluation, compare a baseline with disclosed information differences, obtain independent review, then expand scope based on failures.
+
+## Ownership
+
+Implemented with **AI assistance at the repository owner's request**. This does not imply the owner independently hand-authored every component or has already demonstrated understanding. Before interview claims, work through [the explanation guide](docs/INTERVIEW_GUIDE.md) and reproduce the checks. Pretrained weights belong to their upstream authors; no model training/fine-tuning is claimed.

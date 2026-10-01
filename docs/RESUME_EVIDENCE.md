@@ -1,6 +1,14 @@
 # Resume claims and evidence requirements
 
-**These are future templates, not current accomplishments. Do not copy them to a resume until the corresponding work is implemented, understood and verified.** Add verified facts to the canonical master resume before using them in tailored applications.
+**Implementation is now verified under a zero-cost deterministic scope.** Real LLM performance, baseline gains and permanent deployment remain unverified. The implementation used AI assistance; owner understanding must be demonstrated separately. Add verified facts to the current canonical master before tailoring; this file does not modify it.
+
+## Currently supported three-bullet version
+
+- Implemented a product analytics application covering activation, funnel and experiment review across 50,504 synthetic events, by integrating Next.js/FastAPI, validated DuckDB SQL and Python statistical tools.
+- Validated numerical and controller behavior on 30 synthetic regression cases with 30/30 passes in each of three runs, by comparing SQL outputs with independent record-level references and checking score intervals against statistical libraries.
+- Grounded analytical reports in ten versioned metric contracts and traceable tool outputs, by integrating local MiniLM semantic retrieval, a bounded LangGraph controller and numerical evidence validation.
+
+Do not call the 30/30 result LLM accuracy. Do not describe the public deterministic controller as a live autonomous model. A verified temporary deployment exists, but use a deployment bullet only after its persistent owner-controlled URL is confirmed. The original live-model templates below remain conditional future claims.
 
 ## Suggested project heading
 
@@ -22,15 +30,15 @@ If repeated runs differ, specify the aggregation and range or use an exact ident
 
 Define warm/cold conditions, sample size and cost basis. Do not substitute an unloaded local timing for hosted latency or API cost for total operating cost.
 
-## Evidence ledger to fill after implementation
+## Evidence ledger
 
 | Claim | Required record | Current status |
 | --- | --- | --- |
-| Built and deployed | Code SHA, public URL, successful live task traces | Not implemented |
-| N synthetic events | Generation command, row count, dataset hash | Not generated |
-| A/B benchmark passes | Frozen split/rubric hashes and actual run summary | Not evaluated |
+| Built and deployed | Code SHA, public URL, task traces | Implemented; temporary public deployment verified, permanent URL pending |
+| N synthetic events | Generation command, row count, dataset hash | 50,504 events; data/manifest.json |
+| A/B benchmark passes | Frozen split/rubric hashes and actual run summary | 3×30/30 deterministic checks; no model-quality score |
 | Baseline comparison | Same model/config record and disclosed differences | Not evaluated |
-| D/E invalid cases | Predefined cases and observed terminal statuses | Not evaluated |
+| D/E invalid cases | Predefined cases and observed terminal statuses | Synthetic validity/abstention checks recorded; no live model claim |
 | Latency and model cost | Hosted run records, timing definition and pricing basis | Not measured |
 
 ## Skills to add only after use and understanding

@@ -1,6 +1,6 @@
 # 60-second demo script
 
-Status: storyboard only. No demo/video exists yet. Use actual measured outputs when implemented; do not invent numbers for screenshots.
+Status: application and desktop/mobile walkthrough verified locally. Recording/public URL follows deployment verification. Current execution uses real deterministic SQL/statistics and explicitly says no live LLM is active. Never invent screenshot numbers.
 
 | Time | Visible action | Evidence |
 | --- | --- | --- |

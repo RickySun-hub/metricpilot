@@ -1,6 +1,6 @@
 # Build plan
 
-**All implementation milestones are open.** The design assumes approximately 12–15 hours per week over 4–5 weeks. Each workday below represents about 2–3 focused hours, not a promise that unfamiliar deployment work will fit a fixed duration. Total estimate: 23 workday blocks / 46–69 hours.
+**Original learning roadmap, followed by AI-assisted implementation at the owner's request.** The zero-cost scope implements data, tools, graph, local semantic retrieval, reports, evaluation and UI. Real LLM calls/baseline and owner interview-readiness remain unverified. Deployment status is in DEPLOYMENT.md. The original day estimates below are learning estimates, not actual implementation time or evidence of work done by hand.
 
 ## M1 — Data and metric contracts (3 days)
 

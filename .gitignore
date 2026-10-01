@@ -39,3 +39,7 @@ logs/
 Thumbs.db
 .idea/
 .vscode/
+*.tsbuildinfo
+_uv/
+
+.vercel

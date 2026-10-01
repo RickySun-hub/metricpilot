@@ -2,7 +2,7 @@
 
 ## Current scope
 
-This is a design-stage project. The owner will implement the application by hand and explain every retained component. Planning, scaffolding, mock checks, benchmark runs, and live deployment are different evidence levels.
+This is an implemented portfolio project. The owner subsequently authorized AI-assisted implementation, replacing the original hand-built plan. Planning, mocks, deterministic benchmarks, real-model runs and deployment are different evidence levels.
 
 For AI assistance: explain concepts and review bounded changes when requested. Do not turn a request for planning, hints, or a review into an unrequested complete implementation. Never describe generated code as personally authored by the owner without a truthful account of its use.
 
@@ -27,7 +27,7 @@ Preserve unrelated work. Do not commit credentials, private user records, browse
 
 ## Repository layout to add during implementation
 
-The following directories are proposed, not existing runnable components:
+The following directories are implemented:
 
 ```text
 backend/           FastAPI, schemas, agent graph, retrieval and analytical tools
