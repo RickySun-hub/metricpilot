@@ -1,18 +1,20 @@
 {
   "scope": "Deterministic controller and numerical synthetic regression. No LLM calls, no live model benchmark, no single-pass baseline comparison.",
-  "run_at_utc": "2026-10-01T01:23:41.720133+00:00",
+  "run_at_utc": "2026-10-01T08:06:59.323891+00:00",
   "mode": "deterministic",
   "split": "test",
   "manifest_sha256": "59dcf22cf989d64ef22be3c01b7d0d8b6dc4395671f953990222b140dff1e663",
-  "code_sha": "a1aab33054717033ddfc6df3a05bccea5960efec",
-  "working_tree_dirty": false,
+  "code_sha": "a7d03a559780c9fc2506284df3d1c533e3ab81d4",
+  "working_tree_dirty": true,
   "source_sha256": {
     "backend/__init__.py": "eb173961626a1638058344cd0bc23dd0c6447aae7046aa32b22d88fc92bffff7",
-    "backend/agent.py": "a241e5ec43a8fd3193314299450fb789c87d2bac20a298841b7c38cb24809675",
-    "backend/budget.py": "507eba854ce71b3e8492b9c3b025efb03050858819624aec3947f6bd97265de3",
+    "backend/agent.py": "736ec703b54ecff7a9efc0efa9365ee2ca42f972918b9d96ba30a6a06f77a14d",
+    "backend/budget.py": "f0c4d8cb68cb9fc207bd6734aec1bfd99ed3c4a072f3369bfb9b59a0e1e6e08b",
     "backend/data.py": "181c3c1f2aea6c443ba9cb3325efd8eae91b69219d07835d5c2561769a53cccc",
     "backend/download_embedding_model.py": "c84e6c41a22265c94ceea9ad71add7e20fb62e895641d53cd84567c9c2d78d4a",
+    "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
     "backend/provider.py": "a97dfbf244ed6beacf9fe65a2e31368d2a40c2a1c55b16fa89e43a5f8b88ca76",
+    "backend/retail.py": "bc64a36b115a3f8a543c4ecdd1f11da43a7632c7184b1cfe74b1effaa1964f90",
     "backend/retrieval.py": "1ab2f32baee5e97c2614891d53a74676efac5f8049aedfb2c790d0380d5cd2e1",
     "backend/statistics.py": "66fe39a9280c68ac8708c7e2f3c40bc72b0d2e8b9a0bc9bacf8fd72f1ed4c939",
     "backend/tools.py": "3c09ddecfef2474eb27ea46c6260b5cfe142441543ed29eb1a11931a660227e3",
@@ -20,6 +22,7 @@
     "evals/__init__.py": "598147b41534c45ed83128dfabd0bf1975bf3655e7bcc1c072004f7e0cf00b06",
     "evals/build_manifest.py": "b9df31dca43858f88dedfeaeb875163b673cd3cec4c2038e92f4a6059f6671cf",
     "evals/reference.py": "206b441a45356fea43aaa280206f92959264d9d624a753fc0c2c298d733b0374",
+    "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc",
     "evals/retrieval.py": "582889d1c355c21a536b5ef33a22f474c661c71679644de1596d6a4f0fcda561",
     "evals/run.py": "1800aee5444c6dd38e6f05fe2fd1d26822e961fb7c895ef7a93d6adfe0dcf6b5"
   },
@@ -41,7 +44,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 2365.1
+          "elapsed_ms": 563.2
         },
         {
           "id": "test-metric-02",
@@ -51,7 +54,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 617.03
+          "elapsed_ms": 212.63
         },
         {
           "id": "test-metric-03",
@@ -61,7 +64,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 683.25
+          "elapsed_ms": 223.74
         },
         {
           "id": "test-metric-04",
@@ -71,7 +74,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 810.06
+          "elapsed_ms": 306.21
         },
         {
           "id": "test-metric-05",
@@ -81,7 +84,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 709.31
+          "elapsed_ms": 263.66
         },
         {
           "id": "test-funnel-01",
@@ -91,7 +94,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 664.16
+          "elapsed_ms": 188.15
         },
         {
           "id": "test-funnel-02",
@@ -101,7 +104,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 567.87
+          "elapsed_ms": 259.37
         },
         {
           "id": "test-funnel-03",
@@ -111,7 +114,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 554.11
+          "elapsed_ms": 230.59
         },
         {
           "id": "test-funnel-04",
@@ -121,7 +124,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 591.64
+          "elapsed_ms": 217.77
         },
         {
           "id": "test-funnel-05",
@@ -131,7 +134,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 622.61
+          "elapsed_ms": 232.69
         },
         {
           "id": "test-decomposition-01",
@@ -141,7 +144,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 540.33
+          "elapsed_ms": 213.27
         },
         {
           "id": "test-decomposition-02",
@@ -151,7 +154,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 617.21
+          "elapsed_ms": 226.73
         },
         {
           "id": "test-decomposition-03",
@@ -161,7 +164,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 589.37
+          "elapsed_ms": 258.54
         },
         {
           "id": "test-decomposition-04",
@@ -171,7 +174,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 625.12
+          "elapsed_ms": 303.14
         },
         {
           "id": "test-decomposition-05",
@@ -181,7 +184,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 646.56
+          "elapsed_ms": 277.9
         },
         {
           "id": "test-experiment_valid-01",
@@ -191,7 +194,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 452.41
+          "elapsed_ms": 218.35
         },
         {
           "id": "test-experiment_valid-02",
@@ -201,7 +204,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 485.69
+          "elapsed_ms": 297.73
         },
         {
           "id": "test-experiment_valid-03",
@@ -211,7 +214,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 507.71
+          "elapsed_ms": 231.89
         },
         {
           "id": "test-experiment_valid-04",
@@ -221,7 +224,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 539.67
+          "elapsed_ms": 217.41
         },
         {
           "id": "test-experiment_valid-05",
@@ -231,7 +234,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 572.85
+          "elapsed_ms": 229.54
         },
         {
           "id": "test-experiment_srm-01",
@@ -241,7 +244,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 472.52
+          "elapsed_ms": 185.15
         },
         {
           "id": "test-experiment_srm-02",
@@ -251,7 +254,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 486.65
+          "elapsed_ms": 199.95
         },
         {
           "id": "test-experiment_srm-03",
@@ -261,7 +264,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 510.17
+          "elapsed_ms": 202.96
         },
         {
           "id": "test-experiment_srm-04",
@@ -271,7 +274,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 519.9
+          "elapsed_ms": 207.67
         },
         {
           "id": "test-experiment_srm-05",
@@ -281,7 +284,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 558.65
+          "elapsed_ms": 227.72
         },
         {
           "id": "test-boundary-01",
@@ -291,7 +294,7 @@
           "passed": true,
           "status": "needs_clarification",
           "tool_calls": 0,
-          "elapsed_ms": 41.01
+          "elapsed_ms": 26.24
         },
         {
           "id": "test-boundary-02",
@@ -301,7 +304,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 47.08
+          "elapsed_ms": 27.46
         },
         {
           "id": "test-boundary-03",
@@ -311,7 +314,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 45.54
+          "elapsed_ms": 29.85
         },
         {
           "id": "test-boundary-04",
@@ -321,7 +324,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 50.14
+          "elapsed_ms": 30.96
         },
         {
           "id": "test-boundary-05",
@@ -331,7 +334,7 @@
           "passed": true,
           "status": "needs_clarification",
           "tool_calls": 0,
-          "elapsed_ms": 57.3
+          "elapsed_ms": 33.84
         }
       ]
     },
@@ -348,7 +351,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 507.24
+          "elapsed_ms": 211.89
         },
         {
           "id": "test-metric-02",
@@ -358,7 +361,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 557.08
+          "elapsed_ms": 231.79
         },
         {
           "id": "test-metric-03",
@@ -368,7 +371,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 564.94
+          "elapsed_ms": 241.55
         },
         {
           "id": "test-metric-04",
@@ -378,7 +381,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 597.13
+          "elapsed_ms": 252.71
         },
         {
           "id": "test-metric-05",
@@ -388,7 +391,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 623.36
+          "elapsed_ms": 263.03
         },
         {
           "id": "test-funnel-01",
@@ -398,7 +401,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 503.93
+          "elapsed_ms": 196.54
         },
         {
           "id": "test-funnel-02",
@@ -408,7 +411,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 557.6
+          "elapsed_ms": 265.6
         },
         {
           "id": "test-funnel-03",
@@ -418,7 +421,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 537.7
+          "elapsed_ms": 208.35
         },
         {
           "id": "test-funnel-04",
@@ -428,7 +431,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 552.83
+          "elapsed_ms": 298.28
         },
         {
           "id": "test-funnel-05",
@@ -438,7 +441,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 575.66
+          "elapsed_ms": 244.52
         },
         {
           "id": "test-decomposition-01",
@@ -448,7 +451,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 543.42
+          "elapsed_ms": 225.41
         },
         {
           "id": "test-decomposition-02",
@@ -458,7 +461,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 570.85
+          "elapsed_ms": 243.47
         },
         {
           "id": "test-decomposition-03",
@@ -468,7 +471,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 574.1
+          "elapsed_ms": 247.3
         },
         {
           "id": "test-decomposition-04",
@@ -478,7 +481,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 626.67
+          "elapsed_ms": 266.85
         },
         {
           "id": "test-decomposition-05",
@@ -488,7 +491,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 640.4
+          "elapsed_ms": 260.47
         },
         {
           "id": "test-experiment_valid-01",
@@ -498,7 +501,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 451.86
+          "elapsed_ms": 188.8
         },
         {
           "id": "test-experiment_valid-02",
@@ -508,7 +511,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 478.45
+          "elapsed_ms": 194.46
         },
         {
           "id": "test-experiment_valid-03",
@@ -518,7 +521,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 520.46
+          "elapsed_ms": 205.38
         },
         {
           "id": "test-experiment_valid-04",
@@ -528,7 +531,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 544.18
+          "elapsed_ms": 210.22
         },
         {
           "id": "test-experiment_valid-05",
@@ -538,7 +541,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 561.34
+          "elapsed_ms": 248.25
         },
         {
           "id": "test-experiment_srm-01",
@@ -548,7 +551,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 463.98
+          "elapsed_ms": 192.49
         },
         {
           "id": "test-experiment_srm-02",
@@ -558,7 +561,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 478.9
+          "elapsed_ms": 202.08
         },
         {
           "id": "test-experiment_srm-03",
@@ -568,7 +571,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 506.48
+          "elapsed_ms": 219.38
         },
         {
           "id": "test-experiment_srm-04",
@@ -578,7 +581,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 515.11
+          "elapsed_ms": 206.18
         },
         {
           "id": "test-experiment_srm-05",
@@ -588,7 +591,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 592.27
+          "elapsed_ms": 221.17
         },
         {
           "id": "test-boundary-01",
@@ -598,7 +601,7 @@
           "passed": true,
           "status": "needs_clarification",
           "tool_calls": 0,
-          "elapsed_ms": 47.08
+          "elapsed_ms": 26.61
         },
         {
           "id": "test-boundary-02",
@@ -608,7 +611,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 46.21
+          "elapsed_ms": 28.17
         },
         {
           "id": "test-boundary-03",
@@ -618,7 +621,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 50.7
+          "elapsed_ms": 29.16
         },
         {
           "id": "test-boundary-04",
@@ -628,7 +631,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 50.17
+          "elapsed_ms": 32.53
         },
         {
           "id": "test-boundary-05",
@@ -638,7 +641,7 @@
           "passed": true,
           "status": "needs_clarification",
           "tool_calls": 0,
-          "elapsed_ms": 59.65
+          "elapsed_ms": 33.55
         }
       ]
     },
@@ -655,7 +658,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 522.6
+          "elapsed_ms": 229.95
         },
         {
           "id": "test-metric-02",
@@ -665,7 +668,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 608.92
+          "elapsed_ms": 220.62
         },
         {
           "id": "test-metric-03",
@@ -675,7 +678,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 572.39
+          "elapsed_ms": 249.38
         },
         {
           "id": "test-metric-04",
@@ -685,7 +688,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 575.72
+          "elapsed_ms": 284.98
         },
         {
           "id": "test-metric-05",
@@ -695,7 +698,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 608.31
+          "elapsed_ms": 266.6
         },
         {
           "id": "test-funnel-01",
@@ -705,7 +708,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 481.72
+          "elapsed_ms": 217.83
         },
         {
           "id": "test-funnel-02",
@@ -715,7 +718,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 511.43
+          "elapsed_ms": 233.7
         },
         {
           "id": "test-funnel-03",
@@ -725,7 +728,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 543.12
+          "elapsed_ms": 231.75
         },
         {
           "id": "test-funnel-04",
@@ -735,7 +738,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 568.01
+          "elapsed_ms": 242.85
         },
         {
           "id": "test-funnel-05",
@@ -745,7 +748,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 587.94
+          "elapsed_ms": 252.54
         },
         {
           "id": "test-decomposition-01",
@@ -755,7 +758,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 534.07
+          "elapsed_ms": 226.73
         },
         {
           "id": "test-decomposition-02",
@@ -765,7 +768,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 570.13
+          "elapsed_ms": 251.82
         },
         {
           "id": "test-decomposition-03",
@@ -775,7 +778,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 598.55
+          "elapsed_ms": 247.61
         },
         {
           "id": "test-decomposition-04",
@@ -785,7 +788,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 625.7
+          "elapsed_ms": 280.46
         },
         {
           "id": "test-decomposition-05",
@@ -795,7 +798,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 2,
-          "elapsed_ms": 668.05
+          "elapsed_ms": 276.87
         },
         {
           "id": "test-experiment_valid-01",
@@ -805,7 +808,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 457.74
+          "elapsed_ms": 190.44
         },
         {
           "id": "test-experiment_valid-02",
@@ -815,7 +818,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 496.69
+          "elapsed_ms": 186.79
         },
         {
           "id": "test-experiment_valid-03",
@@ -825,7 +828,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 506.8
+          "elapsed_ms": 191.2
         },
         {
           "id": "test-experiment_valid-04",
@@ -835,7 +838,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 536.79
+          "elapsed_ms": 202.06
         },
         {
           "id": "test-experiment_valid-05",
@@ -845,7 +848,7 @@
           "passed": true,
           "status": "completed",
           "tool_calls": 1,
-          "elapsed_ms": 575.13
+          "elapsed_ms": 213.79
         },
         {
           "id": "test-experiment_srm-01",
@@ -855,7 +858,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 462.37
+          "elapsed_ms": 172.96
         },
         {
           "id": "test-experiment_srm-02",
@@ -865,7 +868,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 524.93
+          "elapsed_ms": 181.72
         },
         {
           "id": "test-experiment_srm-03",
@@ -875,7 +878,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 508.08
+          "elapsed_ms": 217.2
         },
         {
           "id": "test-experiment_srm-04",
@@ -885,7 +888,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 535.33
+          "elapsed_ms": 279.53
         },
         {
           "id": "test-experiment_srm-05",
@@ -895,7 +898,7 @@
           "passed": true,
           "status": "invalid_data",
           "tool_calls": 1,
-          "elapsed_ms": 557.19
+          "elapsed_ms": 221.47
         },
         {
           "id": "test-boundary-01",
@@ -905,7 +908,7 @@
           "passed": true,
           "status": "needs_clarification",
           "tool_calls": 0,
-          "elapsed_ms": 42.78
+          "elapsed_ms": 26.5
         },
         {
           "id": "test-boundary-02",
@@ -915,7 +918,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 45.47
+          "elapsed_ms": 28.28
         },
         {
           "id": "test-boundary-03",
@@ -925,7 +928,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 47.83
+          "elapsed_ms": 33.1
         },
         {
           "id": "test-boundary-04",
@@ -935,7 +938,7 @@
           "passed": true,
           "status": "unsupported",
           "tool_calls": 0,
-          "elapsed_ms": 50.7
+          "elapsed_ms": 37.65
         },
         {
           "id": "test-boundary-05",
@@ -945,7 +948,7 @@
           "passed": true,
           "status": "needs_clarification",
           "tool_calls": 0,
-          "elapsed_ms": 55.82
+          "elapsed_ms": 37.4
         }
       ]
     }

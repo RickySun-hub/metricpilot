@@ -4,11 +4,13 @@
 
 MetricPilot is an implemented analytics application with a Next.js interface, FastAPI backend, DuckDB tools, local semantic retrieval, and a bounded LangGraph controller. It investigates activation changes, ordered funnels, and user-level A/B experiments on **12,000 synthetic users and 50,504 synthetic events**.
 
+It also includes a separate **real public-data case study** at `/retail`: **541,909 UCI Online Retail invoice lines** are audited and reduced to privacy-minimized month-country aggregates. A deterministic LangGraph workflow retrieves metric contracts, runs two parameterized DuckDB tools, and validates gross-positive-sales findings against their evidence. [Source, license, cleaning policy and independent numerical checks](docs/REAL_DATA.md).
+
 **Execution boundary:** this zero-cost release runs real SQL and statistical calculations with a deterministic controller. An optional OpenAI action selector is implemented and covered by mocked safety tests, but **no real LLM calls, model-quality benchmark, or LLM-baseline comparison have been performed**. Deterministic mode is visibly labeled; it is not presented as a live LLM agent.
 
 [Public demo — temporary, pending owner claim](https://temporary-quick-fiddle-x0gi9g1.vercel.app) · [Build issues](https://github.com/RickySun-hub/metricpilot/issues) · [Verification scope](docs/EVALUATION.md)
 
-The anonymous demo has been verified publicly, but expires unless the owner claims it. It is not yet a permanent resume/demo URL. No registration or API key is needed to use deterministic mode.
+The anonymous demo was verified publicly for the earlier implementation. Its recorded expiry was October 1, 2026 at 02:00:24 UTC unless claimed; continuing ownership and availability are unverified. It is not a permanent resume/demo URL, and the new real-data case has not been deployed. No registration or API key is needed to run deterministic mode locally.
 
 [Recorded public walkthrough (47 seconds, WebM)](docs/assets/demo.webm) — fresh activation analysis, executed SQL, SRM rejection, and an inconclusive experiment result. The recording preserves waiting time and uses deterministic mode throughout.
 
@@ -53,10 +55,12 @@ Semantic retrieval uses a pinned, quantized **all-MiniLM-L6-v2** model with CPU 
 
 ## Measured verification
 
-- **56 tests passed locally**: independent references for SQL, Wilson/Newcombe checks against statsmodels, SRM checks against SciPy, dataset integrity, API behavior, retrieval/tokenizer parity and mocked live safety.
+- **149 tests passed locally**: independent numerical references, public-data import and SQL checks, safe API failures, deadline boundaries, restart/concurrent quota accounting, retrieval/tokenizer parity and mocked live safety.
 - **30/30 deterministic regression cases passed in each of three repeated runs.** The 60-case manifest has 30 development/30 test cases with distinct scenario seeds. This is bounded synthetic regression, not live LLM accuracy.
 - On **10 labeled development retrieval queries**, semantic and lexical retrieval both achieved **9/10 top-1 and 10/10 top-3** contract hits. This does not establish semantic superiority.
 - Desktop **1440×1000** and mobile **390×844** flows checked with Playwright: four scenarios, evidence expansion, no page errors or horizontal overflow.
+
+The desktop/mobile record above covers the earlier synthetic release. The new `/retail` page passes TypeScript and production build checks; its browser interactions and public deployment remain unverified. A local 40-request/8-thread API smoke and process restart passed, which does not establish hosted load capacity. [Current verification scope](docs/EVALUATION.md).
 
 Measured records and omissions: [deterministic results](evals/results/deterministic.json), [retrieval comparison](evals/results/retrieval.json), [protocol](docs/EVALUATION.md). [GitHub CI passed for the implementation commit](https://github.com/RickySun-hub/metricpilot/actions/runs/36800913164); the public walkthrough and [browser checks](docs/assets/public-qa.json) were verified separately.
 
@@ -98,11 +102,24 @@ The second command downloads public pretrained assets, not paid inference. Run c
 python -m pytest -q
 python -m evals.run --mode deterministic --split test --repeats 3
 python -m evals.retrieval
+python -m evals.retail
 npm run typecheck
 npm run build
 ```
 
 `npm run build` exports a static frontend to `out/`. Production also needs FastAPI; serving only `out/` does not provide analytics. A backend Dockerfile is included; Docker execution has not been verified locally.
+
+Open `/retail` for the real-data case. It uses the bundled aggregate snapshot, so no workbook download, customer records, or additional runtime dependency is needed. To reproduce the optional offline import, follow [REAL_DATA.md](docs/REAL_DATA.md).
+
+## Real public-data case study
+
+- Audited all **541,909** historical source lines; retained **530,104** positive-quantity, positive-price, non-cancelled lines and excluded **11,805**
+- Counted **135,080 missing customer IDs** and **5,268 repeated exact rows**; missing IDs and duplicates are explicitly retained for this non-customer-level metric
+- Compared complete October and November 2011: **GBP 1,154,979.30 → GBP 1,509,496.33**, a **GBP 354,517.03** observed difference
+- Reconciled all **29** comparison-country contributions and monthly totals against separate Python/Decimal source-row accumulators
+- Kept this historical descriptive analysis separate from the frozen synthetic test suite, SaaS conversion/funnel claims, randomized experiments, and any live-model benchmark
+
+The underlying data is Chen (2015), UCI Online Retail, [DOI 10.24432/C5BW33](https://doi.org/10.24432/C5BW33), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). These are gross positive sales under the documented exclusion policy, not net revenue, profit, or business uplift. [Executed public-data check](evals/results/retail.json).
 
 ## Optional LLM integration
 

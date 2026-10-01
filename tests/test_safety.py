@@ -65,3 +65,55 @@ def test_tool_failure_cannot_produce_success(sandbox, monkeypatch):
 def test_unverifiable_numeric_findings_rejected(finding):
     with pytest.raises(ToolError):
         agent.validate_findings([finding], [{'id': 'real', 'result': {'rate': .5}}])
+
+
+@pytest.mark.parametrize('late_action', ['finish', 'analyze_funnel'])
+def test_late_provider_response_cannot_finish_or_execute_tools(sandbox, monkeypatch, late_action):
+    clock = {'now': 0.0}
+    actions = [action('compare_metric'), action('decompose_change'),
+               action('decompose_change', segment='signup_device'), action(late_action)]
+    def choose(state):
+        # Four individually sub-12-second responses exhaust the whole-request deadline.
+        clock['now'] += 11.6
+        return actions[state['metrics']['model_calls']]
+    monkeypatch.setattr(agent.time, 'perf_counter', lambda: clock['now'])
+    monkeypatch.setattr(agent, 'choose_action', choose)
+    report = agent.run_analysis('Investigate activation', mode='live', dataset=sandbox)
+    assert report['status'] == 'timed_out'
+    assert report['findings'] == []
+    assert report['metrics']['model_calls'] == 4
+    assert report['metrics']['tool_calls'] == 3
+    assert len(report['evidence']) == 3
+
+
+def test_expired_tool_lock_wait_cannot_execute(sandbox, monkeypatch):
+    clock = {'now': 0.0}
+    class ExpiringLock:
+        def __enter__(self):
+            clock['now'] = 46.0
+            return self
+        def __exit__(self, *args):
+            pass
+        def acquire(self, *, timeout):
+            assert 0 < timeout <= 45
+            clock['now'] = 46.0
+            return False
+    monkeypatch.setattr(agent.time, 'perf_counter', lambda: clock['now'])
+    monkeypatch.setattr(agent, 'TOOLS_LOCK', ExpiringLock())
+    report = agent.run_analysis('Investigate activation', dataset=sandbox)
+    assert report['status'] == 'timed_out'
+    assert report['metrics']['tool_calls'] == 0
+    assert report['evidence'] == []
+
+
+def test_deadline_reached_during_report_is_not_success(sandbox, monkeypatch):
+    clock = {'now': 0.0}
+    original = agent.validate_findings
+    def slow_verify(findings, evidence):
+        original(findings, evidence)
+        clock['now'] = 46.0
+    monkeypatch.setattr(agent.time, 'perf_counter', lambda: clock['now'])
+    monkeypatch.setattr(agent, 'validate_findings', slow_verify)
+    report = agent.run_analysis('Investigate activation', dataset=sandbox)
+    assert report['status'] == 'timed_out'
+    assert report['findings'] == []

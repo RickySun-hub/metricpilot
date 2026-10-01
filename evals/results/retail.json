@@ -1,0 +1,642 @@
+{
+  "scope": "Fixed public-data numerical cross-check, not a held-out model benchmark or causal estimate.",
+  "run_at_utc": "2026-10-01T08:06:21.676736+00:00",
+  "source": {
+    "citation": "Chen, D. (2015). Online Retail [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33.",
+    "doi": "10.24432/C5BW33",
+    "download_url": "https://archive.ics.uci.edu/static/public/352/online+retail.zip",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "name": "UCI Online Retail",
+    "source_rows": 541909,
+    "source_sha256": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+    "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+    "workbook_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+  },
+  "audit": {
+    "cancellation_lines": 9288,
+    "country_count": 38,
+    "exact_duplicate_rows": 5268,
+    "excluded_lines": 11805,
+    "included_lines": 530104,
+    "invalid_lines": 0,
+    "missing_customer_id_lines": 135080,
+    "missing_description_lines": 1454,
+    "nonpositive_price_lines": 2517,
+    "nonpositive_quantity_lines": 10624,
+    "source_date_max": "2011-12-09T12:50:00",
+    "source_date_min": "2010-12-01T08:26:00",
+    "total_rows": 541909
+  },
+  "snapshot_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+  "reference_method": "Separate Python Decimal accumulators over accepted workbook rows; shares the documented filter, which is also hand-fixture tested.",
+  "checks": [
+    {
+      "field": "before.gross_sales_gbp",
+      "actual": "1154979.3",
+      "expected": "1154979.3",
+      "passed": true
+    },
+    {
+      "field": "before.orders",
+      "actual": "2040",
+      "expected": "2040",
+      "passed": true
+    },
+    {
+      "field": "before.lines",
+      "actual": "59304",
+      "expected": "59304",
+      "passed": true
+    },
+    {
+      "field": "before.units",
+      "actual": "623401",
+      "expected": "623401",
+      "passed": true
+    },
+    {
+      "field": "after.gross_sales_gbp",
+      "actual": "1509496.33",
+      "expected": "1509496.33",
+      "passed": true
+    },
+    {
+      "field": "after.orders",
+      "actual": "2769",
+      "expected": "2769",
+      "passed": true
+    },
+    {
+      "field": "after.lines",
+      "actual": "83369",
+      "expected": "83369",
+      "passed": true
+    },
+    {
+      "field": "after.units",
+      "actual": "754507",
+      "expected": "754507",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Australia",
+      "actual": "-9907.81",
+      "expected": "-9907.81",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Austria",
+      "actual": "286.0",
+      "expected": "286",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Belgium",
+      "actual": "630.38",
+      "expected": "630.38",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Channel Islands",
+      "actual": "-1108.55",
+      "expected": "-1108.55",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Cyprus",
+      "actual": "-3951.98",
+      "expected": "-3951.98",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Czech Republic",
+      "actual": "-277.48",
+      "expected": "-277.48",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Denmark",
+      "actual": "1208.81",
+      "expected": "1208.81",
+      "passed": true
+    },
+    {
+      "field": "country_delta.EIRE",
+      "actual": "6420.51",
+      "expected": "6420.51",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Finland",
+      "actual": "248.12",
+      "expected": "248.12",
+      "passed": true
+    },
+    {
+      "field": "country_delta.France",
+      "actual": "-1726.74",
+      "expected": "-1726.74",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Germany",
+      "actual": "-3613.4",
+      "expected": "-3613.4",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Hong Kong",
+      "actual": "-408.42",
+      "expected": "-408.42",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Iceland",
+      "actual": "-1294.32",
+      "expected": "-1294.32",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Israel",
+      "actual": "-138.03",
+      "expected": "-138.03",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Italy",
+      "actual": "1081.39",
+      "expected": "1081.39",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Japan",
+      "actual": "6512.04",
+      "expected": "6512.04",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Malta",
+      "actual": "743.43",
+      "expected": "743.43",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Netherlands",
+      "actual": "-14834.64",
+      "expected": "-14834.64",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Norway",
+      "actual": "2840.27",
+      "expected": "2840.27",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Poland",
+      "actual": "1361.23",
+      "expected": "1361.23",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Portugal",
+      "actual": "-3561.77",
+      "expected": "-3561.77",
+      "passed": true
+    },
+    {
+      "field": "country_delta.RSA",
+      "actual": "-1002.31",
+      "expected": "-1002.31",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Singapore",
+      "actual": "-7067.32",
+      "expected": "-7067.32",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Spain",
+      "actual": "42.02",
+      "expected": "42.02",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Sweden",
+      "actual": "-3043.93",
+      "expected": "-3043.93",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Switzerland",
+      "actual": "53.78",
+      "expected": "53.78",
+      "passed": true
+    },
+    {
+      "field": "country_delta.USA",
+      "actual": "-2311.2",
+      "expected": "-2311.2",
+      "passed": true
+    },
+    {
+      "field": "country_delta.United Kingdom",
+      "actual": "386371.2",
+      "expected": "386371.2",
+      "passed": true
+    },
+    {
+      "field": "country_delta.Unspecified",
+      "actual": "965.75",
+      "expected": "965.75",
+      "passed": true
+    },
+    {
+      "field": "comparison_delta",
+      "actual": "354517.03",
+      "expected": "354517.03",
+      "passed": true
+    },
+    {
+      "field": "country_total_delta",
+      "actual": "354517.03",
+      "expected": "354517.03",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "check_count": 39,
+  "source_sha256": {
+    "backend/retail.py": "bc64a36b115a3f8a543c4ecdd1f11da43a7632c7184b1cfe74b1effaa1964f90",
+    "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
+    "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc"
+  },
+  "execution": {
+    "question": "Which countries contributed to gross sales change from October to November 2011?",
+    "mode": "deterministic",
+    "status": "completed",
+    "summary": "Gross positive sales changed from \u00a31,154,979.30 in October 2011 to \u00a31,509,496.33 in November 2011, a change of \u00a3+354,517.03. Country contributions reconcile to this total; the records do not establish why demand changed.",
+    "retrieval": [
+      {
+        "id": "retail_country",
+        "title": "Country contribution to sales change",
+        "text": "Subtract October 2011 gross positive sales from November 2011 for each country. Country contributions sum to the total change. Countries absent in one month contribute zero in that month. This is an accounting decomposition, not causal attribution.",
+        "score": 0.8121,
+        "version": "1.0",
+        "method": "minilm_cosine_similarity"
+      },
+      {
+        "id": "retail_quality",
+        "title": "Source and quality boundaries",
+        "text": "UCI Online Retail by Daqing Chen (2015), DOI 10.24432/C5BW33, CC BY 4.0. Public historical UK retailer transactions from December 2010 to December 2011. Exact duplicate rows are retained and counted because no source line ID proves which repeated lines are erroneous. Only complete October and November 2011 are compared.",
+        "score": 0.4227,
+        "version": "1.0",
+        "method": "minilm_cosine_similarity"
+      },
+      {
+        "id": "retail_gross_sales",
+        "title": "Gross positive sales in GBP",
+        "text": "Sum Quantity times UnitPrice for invoice lines with positive quantity and price, excluding cancellation invoices starting C. This is gross positive sales, not net revenue, profit, or causal uplift. Missing customer identifiers do not exclude a valid sales line.",
+        "score": 0.3431,
+        "version": "1.0",
+        "method": "minilm_cosine_similarity"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "ev_9df4775dc2",
+        "tool": "compare_retail_sales",
+        "args": {
+          "before_month": "2011-10",
+          "after_month": "2011-11"
+        },
+        "sql": "SELECT month, SUM(gross_sales_gbp), SUM(orders), SUM(lines), SUM(units)\nFROM retail WHERE month IN (?, ?) GROUP BY month ORDER BY month",
+        "sql_parameters": [
+          "2011-10",
+          "2011-11"
+        ],
+        "result": {
+          "before": {
+            "gross_sales_gbp": 1154979.3,
+            "orders": 2040,
+            "lines": 59304,
+            "units": 623401
+          },
+          "after": {
+            "gross_sales_gbp": 1509496.33,
+            "orders": 2769,
+            "lines": 83369,
+            "units": 754507
+          },
+          "delta_gbp": 354517.03,
+          "change_pct": 30.6946652636978
+        },
+        "elapsed_ms": 2.2,
+        "warnings": [],
+        "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+        "contract_version": "retail-1.0"
+      },
+      {
+        "id": "ev_2fcca82c57",
+        "tool": "retail_country_contributions",
+        "args": {
+          "before_month": "2011-10",
+          "after_month": "2011-11"
+        },
+        "sql": "SELECT country,\nSUM(CASE WHEN month=? THEN gross_sales_gbp ELSE 0 END) AS before_gbp,\nSUM(CASE WHEN month=? THEN gross_sales_gbp ELSE 0 END) AS after_gbp\nFROM retail WHERE month IN (?, ?) GROUP BY country ORDER BY country",
+        "sql_parameters": [
+          "2011-10",
+          "2011-11",
+          "2011-10",
+          "2011-11"
+        ],
+        "result": {
+          "countries": [
+            {
+              "country": "Australia",
+              "before_gbp": 17150.53,
+              "after_gbp": 7242.72,
+              "delta_gbp": -9907.81
+            },
+            {
+              "country": "Austria",
+              "before_gbp": 1043.78,
+              "after_gbp": 1329.78,
+              "delta_gbp": 286.0
+            },
+            {
+              "country": "Belgium",
+              "before_gbp": 5685.38,
+              "after_gbp": 6315.76,
+              "delta_gbp": 630.38
+            },
+            {
+              "country": "Channel Islands",
+              "before_gbp": 2623.32,
+              "after_gbp": 1514.77,
+              "delta_gbp": -1108.55
+            },
+            {
+              "country": "Cyprus",
+              "before_gbp": 4412.87,
+              "after_gbp": 460.89,
+              "delta_gbp": -3951.98
+            },
+            {
+              "country": "Czech Republic",
+              "before_gbp": 277.48,
+              "after_gbp": 0.0,
+              "delta_gbp": -277.48
+            },
+            {
+              "country": "Denmark",
+              "before_gbp": 1490.76,
+              "after_gbp": 2699.57,
+              "delta_gbp": 1208.81
+            },
+            {
+              "country": "EIRE",
+              "before_gbp": 24317.92,
+              "after_gbp": 30738.43,
+              "delta_gbp": 6420.51
+            },
+            {
+              "country": "Finland",
+              "before_gbp": 2822.12,
+              "after_gbp": 3070.24,
+              "delta_gbp": 248.12
+            },
+            {
+              "country": "France",
+              "before_gbp": 33485.45,
+              "after_gbp": 31758.71,
+              "delta_gbp": -1726.74
+            },
+            {
+              "country": "Germany",
+              "before_gbp": 31638.42,
+              "after_gbp": 28025.02,
+              "delta_gbp": -3613.4
+            },
+            {
+              "country": "Hong Kong",
+              "before_gbp": 734.52,
+              "after_gbp": 326.1,
+              "delta_gbp": -408.42
+            },
+            {
+              "country": "Iceland",
+              "before_gbp": 1294.32,
+              "after_gbp": 0.0,
+              "delta_gbp": -1294.32
+            },
+            {
+              "country": "Israel",
+              "before_gbp": 138.03,
+              "after_gbp": 0.0,
+              "delta_gbp": -138.03
+            },
+            {
+              "country": "Italy",
+              "before_gbp": 3489.69,
+              "after_gbp": 4571.08,
+              "delta_gbp": 1081.39
+            },
+            {
+              "country": "Japan",
+              "before_gbp": 1948.04,
+              "after_gbp": 8460.08,
+              "delta_gbp": 6512.04
+            },
+            {
+              "country": "Malta",
+              "before_gbp": 0.0,
+              "after_gbp": 743.43,
+              "delta_gbp": 743.43
+            },
+            {
+              "country": "Netherlands",
+              "before_gbp": 40708.65,
+              "after_gbp": 25874.01,
+              "delta_gbp": -14834.64
+            },
+            {
+              "country": "Norway",
+              "before_gbp": 3687.23,
+              "after_gbp": 6527.5,
+              "delta_gbp": 2840.27
+            },
+            {
+              "country": "Poland",
+              "before_gbp": 0.0,
+              "after_gbp": 1361.23,
+              "delta_gbp": 1361.23
+            },
+            {
+              "country": "Portugal",
+              "before_gbp": 6206.67,
+              "after_gbp": 2644.9,
+              "delta_gbp": -3561.77
+            },
+            {
+              "country": "RSA",
+              "before_gbp": 1002.31,
+              "after_gbp": 0.0,
+              "delta_gbp": -1002.31
+            },
+            {
+              "country": "Singapore",
+              "before_gbp": 7067.32,
+              "after_gbp": 0.0,
+              "delta_gbp": -7067.32
+            },
+            {
+              "country": "Spain",
+              "before_gbp": 8636.94,
+              "after_gbp": 8678.96,
+              "delta_gbp": 42.02
+            },
+            {
+              "country": "Sweden",
+              "before_gbp": 5766.16,
+              "after_gbp": 2722.23,
+              "delta_gbp": -3043.93
+            },
+            {
+              "country": "Switzerland",
+              "before_gbp": 8065.18,
+              "after_gbp": 8118.96,
+              "delta_gbp": 53.78
+            },
+            {
+              "country": "USA",
+              "before_gbp": 2311.2,
+              "after_gbp": 0.0,
+              "delta_gbp": -2311.2
+            },
+            {
+              "country": "United Kingdom",
+              "before_gbp": 938975.01,
+              "after_gbp": 1325346.21,
+              "delta_gbp": 386371.2
+            },
+            {
+              "country": "Unspecified",
+              "before_gbp": 0.0,
+              "after_gbp": 965.75,
+              "delta_gbp": 965.75
+            }
+          ],
+          "delta_gbp": 354517.03
+        },
+        "elapsed_ms": 1.14,
+        "warnings": [],
+        "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+        "contract_version": "retail-1.0"
+      }
+    ],
+    "trace": [
+      {
+        "step": "retrieve",
+        "detail": "Retrieved versioned public-retail metric and source contracts."
+      },
+      {
+        "step": "execute",
+        "detail": "Compared gross positive sales with parameterized SQL."
+      },
+      {
+        "step": "execute",
+        "detail": "Reconciled country contributions to the observed sales change."
+      },
+      {
+        "step": "verify",
+        "detail": "Checked numerical findings against SQL evidence and country totals."
+      }
+    ],
+    "findings": [
+      {
+        "label": "October gross positive sales",
+        "field_path": "before.gross_sales_gbp",
+        "value": 1154979.3,
+        "unit": "GBP",
+        "scale": 1,
+        "evidence_id": "ev_9df4775dc2"
+      },
+      {
+        "label": "November gross positive sales",
+        "field_path": "after.gross_sales_gbp",
+        "value": 1509496.33,
+        "unit": "GBP",
+        "scale": 1,
+        "evidence_id": "ev_9df4775dc2"
+      },
+      {
+        "label": "Sales change",
+        "field_path": "delta_gbp",
+        "value": 354517.03,
+        "unit": "GBP",
+        "scale": 1,
+        "evidence_id": "ev_9df4775dc2"
+      }
+    ],
+    "warnings": [
+      "Country contributions describe arithmetic change, not a causal explanation.",
+      "Gross positive sales exclude cancellations/nonpositive lines and are not net revenue or profit.",
+      "Transaction records contain no visits, SaaS activation, funnel events, or randomized assignments.",
+      "Exact duplicate rows are retained; missing customer identifiers do not exclude valid sales."
+    ],
+    "metrics": {
+      "elapsed_ms": 515.52,
+      "tool_calls": 2,
+      "model_calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0
+    },
+    "request_id": "8f87df58dfe2421aa7ce3a3a9b0a9b88",
+    "model": null,
+    "dataset": {
+      "hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+      "label": "UCI Online Retail",
+      "source_type": "real_public_transactions",
+      "source_rows": 541909,
+      "source": {
+        "citation": "Chen, D. (2015). Online Retail [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33.",
+        "doi": "10.24432/C5BW33",
+        "download_url": "https://archive.ics.uci.edu/static/public/352/online+retail.zip",
+        "license": "CC BY 4.0",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "name": "UCI Online Retail",
+        "source_rows": 541909,
+        "source_sha256": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+        "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+        "workbook_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+      },
+      "audit": {
+        "cancellation_lines": 9288,
+        "country_count": 38,
+        "exact_duplicate_rows": 5268,
+        "excluded_lines": 11805,
+        "included_lines": 530104,
+        "invalid_lines": 0,
+        "missing_customer_id_lines": 135080,
+        "missing_description_lines": 1454,
+        "nonpositive_price_lines": 2517,
+        "nonpositive_quantity_lines": 10624,
+        "source_date_max": "2011-12-09T12:50:00",
+        "source_date_min": "2010-12-01T08:26:00",
+        "total_rows": 541909
+      },
+      "before_month": "2011-10",
+      "after_month": "2011-11"
+    }
+  },
+  "omitted_checks": [
+    "Live model action selection and model baseline",
+    "Public deployment validation",
+    "Causal attribution",
+    "Browser interaction verification for the new retail page"
+  ]
+}

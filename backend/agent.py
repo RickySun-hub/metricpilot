@@ -16,6 +16,15 @@ from .retrieval import retrieve
 from .tools import Analytics, ToolError, default_analytics
 
 TOOLS_LOCK = Lock()
+REQUEST_TIMEOUT_SECONDS = 45
+
+
+class DatasetUnavailableError(RuntimeError):
+    """Bundled data could not be loaded; expose only a safe API message."""
+
+
+def _timeout():
+    return {"status": "timed_out", "summary": "Request deadline reached.", "findings": []}
 
 
 class State(TypedDict, total=False):
@@ -109,10 +118,14 @@ def validate_findings(findings, evidence):
 
 def run_analysis(question: str, mode: str = "deterministic", dataset: dict | None = None, client: str = "local") -> dict:
     begun = time.perf_counter()
+    deadline = begun + REQUEST_TIMEOUT_SECONDS
     metrics = {"elapsed_ms": 0, "model_calls": 0, "tool_calls": 0, "input_tokens": 0, "output_tokens": 0, "estimated_cost_usd": 0}
     state = {"question": question, "mode": mode, "status": "running", "summary": "", "evidence": [], "retrieval": [],
              "trace": [], "findings": [], "warnings": [], "metrics": metrics, "started": begun}
-    data = dataset if dataset is not None else default_dataset()
+    try:
+        data = dataset if dataset is not None else default_dataset()
+    except Exception as exc:
+        raise DatasetUnavailableError("The synthetic dataset is unavailable. Please try again later.") from exc
     engine = None
     try:
         if not isinstance(question, str) or not 3 <= len(question) <= 1000:
@@ -133,8 +146,8 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                 method = documents[0]["method"] if documents else "none"
                 return {"retrieval": documents, "trace": s["trace"] + [{"step": "retrieve", "detail": "Retrieved versioned metric contracts using "+method+"."}]}
             def decide(s):
-                if time.perf_counter()-begun > 45:
-                    return {"status": "timed_out", "summary": "Request deadline reached."}
+                if time.perf_counter() >= deadline:
+                    return _timeout()
                 if s["mode"] == "live":
                     if s["metrics"]["model_calls"] >= 6:
                         return {"status": "budget_exceeded", "summary": "Model-call limit reached."}
@@ -148,6 +161,10 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                         return {"metrics": updated, "status": "budget_exceeded", "summary": "Per-request model cost limit reached."}
                 else:
                     action, updated = _deterministic_action(s), s["metrics"]
+                # A provider response may arrive after the request deadline. Keep its
+                # usage accounting, but never execute the late action or report success.
+                if time.perf_counter() >= deadline:
+                    return {**_timeout(), "metrics": updated}
                 if action["action"] in ("clarify", "unsupported"):
                     return {"metrics": updated, "status": "needs_clarification" if action["action"] == "clarify" else "unsupported", "summary": "The model could not resolve a supported analytical task."}
                 if action["action"] != "finish" and len(s["evidence"]) >= 5:
@@ -161,16 +178,27 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                 args = {"segment": action["segment"]} if name == "decompose_change" else {"experiment_id": action["experiment_id"]} if name == "check_experiment" else {}
                 if any(e["tool"] == name and all(e["args"].get(k) == v for k,v in args.items()) for e in s["evidence"]):
                     raise ToolError("Repeated identical tool call rejected")
-                with TOOLS_LOCK:
+                remaining = deadline - time.perf_counter()
+                if remaining <= 0 or not TOOLS_LOCK.acquire(timeout=remaining):
+                    return _timeout()
+                try:
+                    if time.perf_counter() >= deadline:
+                        return _timeout()
                     evidence = getattr(engine, name)(**args)
+                finally:
+                    TOOLS_LOCK.release()
                 updated = {**s["metrics"], "tool_calls": s["metrics"]["tool_calls"]+1}
                 return {"evidence": s["evidence"]+[evidence], "metrics": updated,
                         "trace": s["trace"]+[{"step": "execute", "detail": name+" completed; evidence "+evidence["id"]}]}
             def report(s):
+                if time.perf_counter() >= deadline:
+                    return _timeout()
                 if not s["evidence"]:
                     return {"status": "verification_failed", "summary": "No analytical evidence was produced."}
                 findings = _findings(s["evidence"])
                 validate_findings(findings, s["evidence"])
+                if time.perf_counter() >= deadline:
+                    return _timeout()
                 warnings = [w for e in s["evidence"] for w in e["warnings"]]
                 last = s["evidence"][-1]
                 if last["tool"] == "check_experiment":
@@ -207,7 +235,10 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
     finally:
         if dataset is not None and engine is not None:
             engine.close()
-    state["metrics"]["elapsed_ms"] = round((time.perf_counter()-begun)*1000, 2)
+    finished = time.perf_counter()
+    if state["status"] == "completed" and finished >= deadline:
+        state.update(_timeout())
+    state["metrics"]["elapsed_ms"] = round((finished-begun)*1000, 2)
     state.pop("started", None)
     state.pop("action", None)
     return {**state, "request_id": uuid.uuid4().hex, "model": MODEL if mode == "live" else None,

@@ -1,6 +1,35 @@
 # Evaluation protocol
 
-Status: deterministic regression and development retrieval comparison executed. The 60-case manifest has 30 development/30 test scenarios; three test repetitions passed 30/30. This is not a live-model score or the full original release gate. 56 local tests pass. On ten development retrieval queries, semantic and lexical both achieved 9/10 top-1 and 10/10 top-3. Records: evals/results/.
+Status: deterministic regression and development retrieval comparison executed. The 60-case manifest has 30 development/30 test scenarios; three test repetitions passed 30/30. This is not a live-model score or the full original release gate. 149 local tests pass. On ten development retrieval queries, semantic and lexical both achieved 9/10 top-1 and 10/10 top-3. Records: evals/results/.
+
+## Public-data and reliability update (October 1, 2026)
+
+The separate UCI Online Retail track processes 541,909 source invoice lines into
+302 month-country aggregates. `python -m evals.retail` passes 39 numerical checks:
+eight October/November measures, 29 country deltas and two total-delta
+reconciliations against separate Python/Decimal source-row references. This is
+an exposed fixed-data engineering check, not a new frozen model benchmark.
+Source, licensing, missingness, duplicate policy and limitations are documented
+in [REAL_DATA.md](REAL_DATA.md). Synthetic benchmark inputs remain unchanged.
+
+Regression tests now cover safe dataset-loading JSON 503 responses, stopping
+after expired model/retrieval/tool boundaries, non-finite budget input rejection,
+SQLite quota persistence across separate processes, atomic concurrent quota
+reservations, and mocked shared-quota outages. No paid provider or real Redis
+service was used. Deadlines are cooperative: an in-flight model request, local
+embedding call or SQL query is not forcibly interrupted, but the graph does not
+start a later stage or return a verified success after expiration.
+
+Additional local smoke checks exercised 40 mixed synthetic/retail API requests
+with eight client threads and verified identical retail results after restarting
+the API process. All 40 requests matched their expected terminal statuses and
+had distinct request IDs; model calls and API cost were zero. These checks
+cover one local process and do not establish public deployment/load capacity.
+
+The new retail route passes frontend typecheck and production build. Browser
+interaction verification was blocked by the cloud browser's local-URL access;
+the earlier synthetic browser record does not validate the new page. Public
+deployment, real-model action selection and baseline comparison remain omitted.
 
 The protocol below preserves the original live benchmark goal. Real model/baseline runs remain unperformed under the zero-fee instruction. The CLI refuses live evaluation instead of fabricating a result.
 
