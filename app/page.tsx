@@ -18,7 +18,7 @@ const examples = [
   {name: 'Experiment validity', question: 'Is experiment onboarding_srm trustworthy?', detail: 'Check assignment before interpreting effects.'},
   {name: 'Experiment effect', question: 'Should we ship onboarding_valid?', detail: 'Inspect effect size and uncertainty.'},
 ];
-const statusLabels: Record<string,string> = { completed: 'Investigation complete', needs_clarification: 'More detail needed', unsupported: 'Outside supported scope', invalid_data: 'Data validity check failed', budget_exceeded: 'Request budget reached', provider_error: 'Model provider unavailable' };
+const statusLabels: Record<string,string> = { completed: 'Investigation complete', needs_clarification: 'More detail needed', unsupported: 'Outside supported scope', invalid_data: 'Data validity check failed', budget_exceeded: 'Request budget reached', provider_error: 'Model provider unavailable', timed_out: 'Request deadline reached' };
 const stringify = (value: unknown) => JSON.stringify(value, null, 2);
 
 function Findings({ findings }: {findings: Report['findings']}) {
@@ -66,7 +66,7 @@ export default function Home() {
     finally {clearTimeout(timer);setLoading(false);}
   }
   return <main>
-    <header className="site-header"><a className="wordmark" href="/">MetricPilot<span className="brand-square" /></a><div className="header-links"><a href="#how-it-works">How it works</a><a href="https://github.com/RickySun-hub/metricpilot" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a></div></header>
+    <header className="site-header"><a className="wordmark" href="/">MetricPilot<span className="brand-square" /></a><div className="header-links"><a href="/retail">Real transactions</a><a href="#how-it-works">How it works</a><a href="https://github.com/RickySun-hub/metricpilot" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a></div></header>
     <section className="hero"><div className="hero-heading"><div className="eyebrow">Product analytics investigation</div><h1>Ask a question.<br/>Inspect the evidence.</h1><p>Investigate metric changes, funnel drop-offs, and experiment validity with SQL and statistical tools you can verify.</p></div><aside className="hero-aside"><span className="aside-number">01—03</span><p>Metrics.<br/>Funnels.<br/>Experiments.</p><div className="dataset-tag">Synthetic SaaS dataset</div><small>No real user data. Findings describe this dataset, not a real business.</small></aside></section>
     <section className="workspace" aria-labelledby="investigate-heading"><div className="section-heading"><h2 id="investigate-heading">Start an investigation</h2><span>01</span></div>
       <form onSubmit={analyze}><label className="question-label" htmlFor="question">Your question</label><textarea id="question" maxLength={1200} value={question} onChange={e=>setQuestion(e.target.value)} disabled={loading} rows={3} />

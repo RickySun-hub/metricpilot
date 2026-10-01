@@ -1,6 +1,7 @@
 """Reserve cost before calls. Local SQLite or atomic shared Redis for public live mode."""
 from __future__ import annotations
 
+import math
 import os
 import sqlite3
 import tempfile
@@ -22,12 +23,20 @@ def live_available() -> bool:
 
 def reserve(amount: float = 0.02, client: str = "local") -> None:
     """Conservative per-request reservation; no refund avoids concurrent overspend."""
-    if amount <= 0 or amount > 0.02:
+    if not math.isfinite(amount) or amount <= 0 or amount > 0.02:
         raise BudgetError("Invalid reservation")
     day = datetime.now(timezone.utc).date().isoformat()
+    try:
+        total_cap = float(os.getenv("METRICPILOT_TOTAL_CAP_USD", "30"))
+        daily_cap = float(os.getenv("METRICPILOT_DAILY_CAP_USD", "1"))
+    except ValueError:
+        raise BudgetError("Invalid budget configuration") from None
+    # Validate before clamping: NaN defeats comparisons and infinity is not approval.
+    if not math.isfinite(total_cap) or not math.isfinite(daily_cap):
+        raise BudgetError("Invalid budget configuration")
     # The configured cap can be lower, never silently higher than the approved $30 ceiling.
-    total_cap = min(float(os.getenv("METRICPILOT_TOTAL_CAP_USD", "30")), 30)
-    daily_cap = min(float(os.getenv("METRICPILOT_DAILY_CAP_USD", "1")), total_cap)
+    total_cap = min(total_cap, 30)
+    daily_cap = min(daily_cap, total_cap)
     url, token = os.getenv("UPSTASH_REDIS_REST_URL"), os.getenv("UPSTASH_REDIS_REST_TOKEN")
     if os.getenv("VERCEL"):
         if not url or not token:

@@ -5,13 +5,13 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Literal
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env.local", override=False)
 
-from backend.agent import run_analysis
+from backend.agent import DatasetUnavailableError, run_analysis
 from backend.budget import live_available
 
 app = FastAPI(title="MetricPilot", version="0.1.0", docs_url="/api/docs", openapi_url="/api/openapi.json")
@@ -22,6 +22,11 @@ class AnalysisRequest(BaseModel):
     question: str = Field(min_length=3, max_length=1000)
     mode: Literal["deterministic", "live"] = "deterministic"
     dataset: Literal["demo"] = "demo"
+
+
+class RetailAnalysisRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    question: str = Field(min_length=3, max_length=1000)
 
 
 @app.get("/api/health")
@@ -36,7 +41,19 @@ def analyze(body: AnalysisRequest, request: Request):
     forwarded = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
     client = forwarded if os.getenv("VERCEL") else request.client.host if request.client else "unknown"
     client_hash = hashlib.sha256((os.getenv("METRICPILOT_CLIENT_SALT", "metricpilot-demo")+client).encode()).hexdigest()[:20]
-    return run_analysis(body.question, body.mode, client=client_hash)
+    try:
+        return run_analysis(body.question, body.mode, client=client_hash)
+    except DatasetUnavailableError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+
+@app.post("/api/retail/analyze")
+def analyze_retail(body: RetailAnalysisRequest):
+    from backend.retail import run_retail_analysis
+    try:
+        return run_retail_analysis(body.question)
+    except DatasetUnavailableError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 @app.get("/api/evaluation")
