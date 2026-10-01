@@ -11,6 +11,6 @@ The owner requested AI-assisted implementation after the original design-only st
 | M5 UI/evidence | Desktop/mobile, charts, SQL/results, validated numerical fields | Independent narrative/user review |
 | M6 evaluation | 60-case manifest, 3×30/30 deterministic checks, library references | Real-model baseline/repeats; full original release gate |
 | M7 deployment | Verified temporary public Vercel application; live LLM off | Owner claim and persistent URL; load/restart tests |
-| M8 delivery | Runnable documentation, source, actual results and explanation guide | Owner interview readiness; video linked after recording |
+| M8 delivery | Runnable documentation, source, actual results, recorded public walkthrough and explanation guide | Owner interview readiness |
 
 Completing code does not automatically complete the owner's understanding or the original live-model release gate. Keep partially satisfied original issues open with exact evidence and remaining items.

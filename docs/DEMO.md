@@ -1,6 +1,8 @@
 # 60-second demo script
 
-Status: application and desktop/mobile walkthrough verified locally. Recording/public URL follows deployment verification. Current execution uses real deterministic SQL/statistics and explicitly says no live LLM is active. Never invent screenshot numbers.
+Status: the public application and desktop/mobile walkthrough have been verified. [Watch the actual public recording](assets/demo.webm). It shows fresh activation analysis, executed SQL, SRM rejection and an inconclusive valid experiment; waiting time is retained. Current execution uses real deterministic SQL/statistics and explicitly says no live LLM is active. The public URL is temporary until claimed by the owner.
+
+The table below is a suggested narrated 60-second interview flow, not a timestamp transcript of the silent recording.
 
 | Time | Visible action | Evidence |
 | --- | --- | --- |
@@ -15,13 +17,11 @@ If live calls exceed one minute, clearly label edited waiting time in the video.
 
 ## Interview pitch
 
-After completion and verification:
+Current scope, after the owner can explain and reproduce the implementation:
 
-> I built and deployed an analytical agent that investigates product metrics, runs validated SQL and statistical tools, and distinguishes supported conclusions from insufficient evidence.
+> I implemented an AI-assisted product analytics application with bounded LangGraph workflows, local semantic retrieval and validated SQL/statistical tools. The public demo runs deterministic analysis on synthetic data. The optional LLM action selector is implemented but has not been verified against a real provider.
 
-Until then:
-
-> I am building a product analytics agent with explicit metric contracts, bounded analytical tools, and a held-out evaluation protocol.
+Do not describe the temporary deployment as permanent, or deterministic regression scores as LLM accuracy. Implementation assistance does not establish independent hand-authorship or interview readiness.
 
 ## Interview questions to answer without notes
 

@@ -4,6 +4,8 @@ Status: a temporary anonymous Vercel deployment has been published and verified 
 
 Verified temporary URL: https://temporary-quick-fiddle-x0gi9g1.vercel.app
 
+Verified deployment ID: `dpl_6Qnp6eZQ9B1fy1Q5WdFm7HEoDy8N`. Implementation source: `a1aab33054717033ddfc6df3a05bccea5960efec`. Anonymous expiry: **2026-10-01 02:00:24 UTC** (September 30, 19:00:24 America/Los_Angeles), unless claimed. [Browser record](assets/public-qa.json) and [recorded walkthrough](assets/demo.webm) retain the observed behavior.
+
 The private claim link is delivered in chat and must never be committed here. Record the permanent project/domain after the owner claims it. Do not use this temporary URL as a long-term resume link until ownership/persistence is confirmed.
 
 Deployment configuration: static Next.js export plus same-origin Python function api/index.py. Python 3.12, NumPy 2.2.6 and uv.lock keep cross-platform packaging within the anonymous function limit. The initial Windows builder needed static export to avoid a symlink limitation. The embedding tokenizer is a small Python implementation validated against the upstream Rust tokenizer; no remote Hugging Face client is needed during inference.

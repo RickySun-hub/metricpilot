@@ -1,0 +1,30 @@
+{
+  "url": "https://temporary-quick-fiddle-x0gi9g1.vercel.app/",
+  "desktop": [
+    1440,
+    1000
+  ],
+  "mobile": [
+    390,
+    844
+  ],
+  "overflow": false,
+  "errors": [],
+  "outcomes": [
+    {
+      "name": "Funnel",
+      "heading": "Investigation complete",
+      "summary": "Compared mature signup cohorts using ordered, session-matched practice events. Inspect both signup-to-step and conditional completion rates."
+    },
+    {
+      "name": "Experiment validity",
+      "heading": "Data validity check failed",
+      "summary": "Assignment imbalance: investigate before interpreting effect."
+    },
+    {
+      "name": "Experiment effect",
+      "heading": "Investigation complete",
+      "summary": "Inconclusive: the interval includes zero; this is not proof of no effect."
+    }
+  ]
+}

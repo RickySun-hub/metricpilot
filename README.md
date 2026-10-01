@@ -10,6 +10,10 @@ MetricPilot is an implemented analytics application with a Next.js interface, Fa
 
 The anonymous demo has been verified publicly, but expires unless the owner claims it. It is not yet a permanent resume/demo URL. No registration or API key is needed to use deterministic mode.
 
+[Recorded public walkthrough (47 seconds, WebM)](docs/assets/demo.webm) — fresh activation analysis, executed SQL, SRM rejection, and an inconclusive experiment result. The recording preserves waiting time and uses deterministic mode throughout.
+
+![Activation investigation from the verified public application](docs/assets/activation.png)
+
 ## What it does
 
 | Question | Behavior | Evidence |
@@ -54,7 +58,7 @@ Semantic retrieval uses a pinned, quantized **all-MiniLM-L6-v2** model with CPU 
 - On **10 labeled development retrieval queries**, semantic and lexical retrieval both achieved **9/10 top-1 and 10/10 top-3** contract hits. This does not establish semantic superiority.
 - Desktop **1440×1000** and mobile **390×844** flows checked with Playwright: four scenarios, evidence expansion, no page errors or horizontal overflow.
 
-Measured records and omissions: [deterministic results](evals/results/deterministic.json), [retrieval comparison](evals/results/retrieval.json), [protocol](docs/EVALUATION.md). Local checks do not automatically establish GitHub CI or public deployment success.
+Measured records and omissions: [deterministic results](evals/results/deterministic.json), [retrieval comparison](evals/results/retrieval.json), [protocol](docs/EVALUATION.md). [GitHub CI passed for the implementation commit](https://github.com/RickySun-hub/metricpilot/actions/runs/36800913164); the public walkthrough and [browser checks](docs/assets/public-qa.json) were verified separately.
 
 ## Run locally
 
