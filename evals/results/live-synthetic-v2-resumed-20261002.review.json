@@ -1,0 +1,636 @@
+{
+  "instructions": "Human semantic review. Complete every rubric item, name reviewer, and preserve response hashes. This template is not a scored result.",
+  "rubric": [
+    "The answer uses the requested metric, cohort/window, population, and units.",
+    "Every substantive numerical claim is supported by the cited executed evidence.",
+    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+  ],
+  "reviews": [
+    {
+      "repeat": 1,
+      "case_id": "test-metric-01",
+      "system": "agent",
+      "response_sha256": "d32bc99bed3d180a1babc89283c69bd8c041a5272562cfff7be23926abdaf8fa",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-01",
+      "system": "baseline",
+      "response_sha256": "4f942076c7b9f4057ae003c0026f18c3499f95e8dd8d168ea53bf3ab2513ba47",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-02",
+      "system": "baseline",
+      "response_sha256": "cf4046fb03ec5f86d10b0e826d2a35b87b8d79ce1298e14bc866b1de972ede12",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-02",
+      "system": "agent",
+      "response_sha256": "e4e16a9169c88cc0b98d0db2d15559ea4465fc5cd2db88dc31f6881cc8b5be13",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-03",
+      "system": "baseline",
+      "response_sha256": "14da579671b8ca517b432eb4d9c5194ab1beac664fc5bb3228d28f314da89a96",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-04",
+      "system": "agent",
+      "response_sha256": "669bc9fa536d45d696bad7ac2e40ed42d9d31ee595e2e8d0b2dac919ccbe93b1",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-05",
+      "system": "agent",
+      "response_sha256": "9a176f248ca94472587015f8b1c237ce6a8235fa78960ec8234cd110a84645ff",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-05",
+      "system": "baseline",
+      "response_sha256": "1458f544f4294cb2b9ebaeb2b981755ee74657790bf959694b96a9c68c5997dd",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-01",
+      "system": "baseline",
+      "response_sha256": "13e9fb9f20258665d534abe7bd762f072ba558f95ea5940357cd1e9c20042017",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-01",
+      "system": "agent",
+      "response_sha256": "352c840504aefa38901b13e1d2fd89c507a58c1eb403b5cf3ffbb3fc4d604fbc",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-02",
+      "system": "agent",
+      "response_sha256": "2e3910a2566b409ee817b3932d24f6da4481fab24436e0478bc265db0d0b0d4a",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-02",
+      "system": "baseline",
+      "response_sha256": "9454c5d849a57341e14b922301b15e7e7ca3a2c691fc156aa4ca7a623f28a0a3",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-03",
+      "system": "baseline",
+      "response_sha256": "8d8adb2f60900ff1cd4d4213bf1e6a1f1104001239ca82eeed8acd85a8f38eee",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-03",
+      "system": "agent",
+      "response_sha256": "177cce50cc8587619c76289c9ab23e96a5b5604d036e9c6162ecfb5fd3714b63",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-04",
+      "system": "agent",
+      "response_sha256": "d54ee970299af5a162ded2af7523bde2de32f931b305584f56628aaa459b8c64",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-04",
+      "system": "baseline",
+      "response_sha256": "d05dc8f5c57925fb0011945f5f309172932efb4783fd0671af10d12330e1ef3d",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-05",
+      "system": "baseline",
+      "response_sha256": "aaea53db733a0b420a8ac80d6ed666c5c114ac38639dc12154b11c28647b121f",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-funnel-05",
+      "system": "agent",
+      "response_sha256": "de35fa8f6edfdc365125a5c917ed0d4849847ce66abb81fe6b67471081e7f57e",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-01",
+      "system": "agent",
+      "response_sha256": "66c10e3f95140a489a23420a5fe4a5b94e568bde588fe815483e1565a10d9799",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-01",
+      "system": "baseline",
+      "response_sha256": "2fcd2da6fba19ccd172032d49a2cfffabd943d9450d20444356c257bd8f650bb",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-02",
+      "system": "baseline",
+      "response_sha256": "d085804910fde4035b95bffd848406c1896c9d18b04f4f3244d9643bc21a30ff",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-02",
+      "system": "agent",
+      "response_sha256": "91bb7bfb79e303b7584fb8a2252e27fe5df0f78a4a58d4cf3deb813648975238",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-03",
+      "system": "agent",
+      "response_sha256": "2df391e0a0c9c7e74fcbbbe024722bd4e3fa25b2fb6ea5a376b72dfec87b7f06",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-03",
+      "system": "baseline",
+      "response_sha256": "ff336e34fdf2881be6526df54a0e43b911e71b6a4187d9311e3c90971c7a3a4a",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-04",
+      "system": "baseline",
+      "response_sha256": "0fd6fcce0669b799346d2aeeea5b2bea57ede9f644131fd63fc2f95d8b2254c3",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-04",
+      "system": "agent",
+      "response_sha256": "95c2c2dfe37541725d4059931f8921e152962702fece2e04a1b2252a20515e64",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-05",
+      "system": "agent",
+      "response_sha256": "45960fcce5fe8ae46ed564389166979a49762d39ecfbb0a83188f81871ad9b37",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-decomposition-05",
+      "system": "baseline",
+      "response_sha256": "7d18ae3304cf1746f700a68fe4248edb984d3ddbd732ac3f1a08ae9bcffc4ccd",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-01",
+      "system": "baseline",
+      "response_sha256": "a421f831b62c20e574dbc1f3f576ac45d348e1040f3b877e4b6f5f4eb7ede3f3",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-01",
+      "system": "agent",
+      "response_sha256": "904a7f2dba7ea2b304c465d5282cff25af959270f82b7ea0ab6245e97e2eb6c7",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-02",
+      "system": "agent",
+      "response_sha256": "936210d14e529209ccafa7e69b6ee94b786e8d457a198e13e7e798275ca6996f",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-02",
+      "system": "baseline",
+      "response_sha256": "240fe43d97ef97cbe04398b41c0662bc580421dde4a8659ce71d50355eb41a44",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-03",
+      "system": "baseline",
+      "response_sha256": "9f860fc2010810a219e9ca0de3bed33189a241c92569ccfef1dde4722b74a14f",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-03",
+      "system": "agent",
+      "response_sha256": "2e399cc6c4d925d3578cb57c40145a9b39f91c412baa3cecfca10d3e4e420521",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-04",
+      "system": "agent",
+      "response_sha256": "17c8f16b86f02a486a8e63b1ae18c5e907a431ef4e5ccd50f049f35980970c9b",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-04",
+      "system": "baseline",
+      "response_sha256": "be16541af226fd65d14e70e91124b1c848f65536538e1200a486a10e2d0ea6c7",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-05",
+      "system": "baseline",
+      "response_sha256": "f5261022d0ccd2d326db976208e3d79df1f5c4c1e7663041afe9ed22eac063eb",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_valid-05",
+      "system": "agent",
+      "response_sha256": "4876f165f3badd0b26919c8eb2ae678955fa7e25cdb4eabad865f97d6a0ca0ae",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-experiment_srm-01",
+      "system": "baseline",
+      "response_sha256": "b9989dff093763b4ea275564fccddf1e21350870a4c1d51d3b42c57c3bf78b00",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    }
+  ]
+}

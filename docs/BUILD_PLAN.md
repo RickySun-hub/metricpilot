@@ -1,6 +1,6 @@
 # Build plan
 
-**Original learning roadmap, followed by AI-assisted implementation at the owner's request.** The zero-cost scope implements data, tools, graph, local semantic retrieval, reports, evaluation and UI. Real LLM calls/baseline and owner interview-readiness remain unverified. Deployment status is in DEPLOYMENT.md. The original day estimates below are learning estimates, not actual implementation time or evidence of work done by hand.
+**Original learning roadmap, followed by AI-assisted implementation at the owner's request.** The initial zero-cost scope implemented data, tools, graph, local semantic retrieval, reports, evaluation and UI. The October 2 extension adds verified actual model calls, cited grounded generation and a paired evaluator under a $5 API ceiling. The final versioned synthetic benchmark stopped after 10/180 planned responses, and supplements were execution-blocked; see IMPLEMENTATION_STATUS.md and EVALUATION.md. Owner interview-readiness remains unverified. Deployment status is in DEPLOYMENT.md. The original day estimates below are learning estimates, not actual implementation time or evidence of work done by hand.
 
 ## M1 — Data and metric contracts (3 days)
 

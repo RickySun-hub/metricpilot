@@ -13,6 +13,9 @@ import duckdb
 from langgraph.graph import END, START, StateGraph
 
 from .agent import DatasetUnavailableError, REQUEST_TIMEOUT_SECONDS, State, validate_findings
+from .budget import BudgetError, live_available, reserve
+from .generation import generate_report
+from .provider import MODEL
 from .retrieval import embedder
 from .tools import ToolError
 
@@ -173,29 +176,82 @@ def _unsupported(question):
     return not any(word in q for word in ('sales','revenue','country','countries','invoice','transaction','quality','missing','october','november'))
 
 
-def run_retail_analysis(question: str, snapshot: dict | None = None) -> dict:
+def retail_findings(evidence: list[dict], include_countries: bool = False) -> list[dict]:
+    """Build totals by default, or the shared live count/country fact vocabulary."""
+    comparison, countries = evidence
+    result = comparison['result']
+    findings = []
+    for label, path in [('October gross positive sales','before.gross_sales_gbp'),
+                        ('November gross positive sales','after.gross_sales_gbp'),
+                        ('Sales change','delta_gbp')]:
+        value = result
+        for key in path.split('.'):
+            value = value[key]
+        findings.append({'label':label,'field_path':path,'value':value,'unit':'GBP',
+                         'scale':1,'evidence_id':comparison['id']})
+    if include_countries:
+        for period, side in [('October','before'),('November','after')]:
+            for field, label, unit in [('orders','invoice count','invoices'),
+                                       ('lines','invoice line count','lines'),
+                                       ('units','unit volume','units')]:
+                findings.append({'label':f'{period} {label}','field_path':f'{side}.{field}',
+                                 'value':result[side][field],'unit':unit,'scale':1,
+                                 'evidence_id':comparison['id']})
+        # Country deltas provide the complete decomposition without repeating every
+        # before/after amount in the bounded model context. Raw evidence retains all.
+        for index, country in enumerate(countries['result']['countries']):
+            findings.append({'label':f"{country['country']}: Sales change contribution",
+                             'field_path':f'countries.{index}.delta_gbp',
+                             'value':country['delta_gbp'],'unit':'GBP','scale':1,
+                             'evidence_id':countries['id']})
+    return findings
+
+
+def run_retail_analysis(question: str, snapshot: dict | None = None, mode: str = "deterministic", client: str = "local") -> dict:
     begun = time.perf_counter()
     deadline = begun + REQUEST_TIMEOUT_SECONDS
     data = snapshot if snapshot is not None else load_snapshot()
-    state = {'question':question,'mode':'deterministic','status':'running','summary':'',
+    state = {'question':question,'mode':mode,'status':'running','summary':'','started':begun,
              'evidence':[],'findings':[],'retrieval':[],'trace':[],
+             'claims':[],'citations':[],'generation':{'method':'deterministic_template' if mode == 'deterministic' else 'not_started'},
              'warnings':['Country contributions describe arithmetic change, not a causal explanation.',
                          'Gross positive sales exclude cancellations/nonpositive lines and are not net revenue or profit.',
                          'Transaction records contain no visits, SaaS activation, funnel events, or randomized assignments.',
                          'Exact duplicate rows are retained; missing customer identifiers do not exclude valid sales.'],
              'metrics':{'elapsed_ms':0,'tool_calls':0,'model_calls':0,'input_tokens':0,'output_tokens':0,'estimated_cost_usd':0}}
-    if not isinstance(question,str) or not 3 <= len(question) <= 1000 or _unsupported(question):
+    if mode not in ('deterministic','live'):
+        state.update(status='invalid_data',summary='Unknown execution mode.')
+    elif not isinstance(question,str) or not 3 <= len(question) <= 1000 or _unsupported(question):
         state.update(status='unsupported',summary='This real-data case supports gross positive sales and country contributions for October versus November 2011 only. It cannot establish activation, funnels, A/B effects, net revenue or causality.')
     else:
         try:
+            if mode == 'live':
+                if not live_available():
+                    raise BudgetError('Live mode is not enabled or lacks durable public quota accounting')
+                reserve(client=client)
+                state['reservation_usd'] = .02
+                state['metrics']['reserved_request_usd'] = .02
             with RetailAnalytics(data) as tools:
                 def guarded(fn):
                     def execute(s):
                         if time.perf_counter() >= deadline:
-                            return {'status':'timed_out','summary':'Request deadline reached.','findings':[]}
-                        result = fn(s)
+                            return {'status':'timed_out','summary':'Request deadline reached.','findings':[],'claims':[],'citations':[],
+                                    'generation':{'status':'timed_out' if mode == 'live' else 'not_requested'}}
+                        try:
+                            result = fn(s)
+                        except BudgetError as exc:
+                            result = {'status':'budget_exceeded','summary':str(exc),'findings':[],
+                                      'claims':[],'citations':[],'metrics':s['metrics']}
+                        except ToolError:
+                            result = {'status':'invalid_data','summary':'The public-data investigation failed; no verified report is available.',
+                                      'findings':[],'claims':[],'citations':[],'metrics':s['metrics']}
+                        except Exception:
+                            result = {'status':'provider_error' if mode == 'live' else 'invalid_data',
+                                      'summary':'Execution failed; no verified report is available.',
+                                      'findings':[],'claims':[],'citations':[],'metrics':s['metrics']}
                         if time.perf_counter() >= deadline:
-                            result.update(status='timed_out',summary='Request deadline reached.',findings=[])
+                            result.update(status='timed_out',summary='Request deadline reached.',findings=[],claims=[],citations=[],
+                                          generation={'status':'timed_out' if mode == 'live' else 'not_requested'})
                         return result
                     return execute
                 def retrieve(s):
@@ -212,12 +268,17 @@ def run_retail_analysis(question: str, snapshot: dict | None = None) -> dict:
                     comparison = s['evidence'][0]; result = comparison['result']
                     if abs(result['delta_gbp']-s['evidence'][1]['result']['delta_gbp']) > 1e-6:
                         raise ToolError('Country contributions do not reconcile')
-                    findings=[]
-                    for label,path in [('October gross positive sales','before.gross_sales_gbp'),('November gross positive sales','after.gross_sales_gbp'),('Sales change','delta_gbp')]:
-                        value=result
-                        for key in path.split('.'): value=value[key]
-                        findings.append({'label':label,'field_path':path,'value':value,'unit':'GBP','scale':1,'evidence_id':comparison['id']})
+                    findings = retail_findings(s['evidence'],include_countries=mode == 'live')
                     validate_findings(findings,s['evidence'])
+                    if mode == 'live':
+                        try:
+                            return generate_report(s,findings)
+                        except BudgetError as exc:
+                            return {'status':'budget_exceeded','summary':str(exc),'findings':[],'claims':[],
+                                    'citations':[],'generation':{'status':'budget_exceeded'}}
+                        except Exception:
+                            return {'status':'provider_error','summary':'Report generation failed; no verified narrative is available.',
+                                    'findings':[],'claims':[],'citations':[],'generation':{'status':'failed'}}
                     return {'status':'completed','findings':findings,
                             'summary':f"Gross positive sales changed from £{result['before']['gross_sales_gbp']:,.2f} in October 2011 to £{result['after']['gross_sales_gbp']:,.2f} in November 2011, a change of £{result['delta_gbp']:+,.2f}. Country contributions reconcile to this total; the records do not establish why demand changed.",
                             'trace':s['trace']+[{'step':'verify','detail':'Checked numerical findings against SQL evidence and country totals.'}]}
@@ -228,13 +289,17 @@ def run_retail_analysis(question: str, snapshot: dict | None = None) -> dict:
                     graph.add_conditional_edges(source,lambda s,target=target:target if s['status']=='running' else END)
                 graph.add_edge('report',END)
                 state=dict(graph.compile().invoke(state,{'recursion_limit':8}))
+        except BudgetError as exc:
+            state.update(status='budget_exceeded',summary=str(exc),findings=[])
         except Exception:
             state.update(status='invalid_data',summary='The public-data investigation failed; no verified report is available.',findings=[])
     elapsed=time.perf_counter()-begun
     if state['status']=='completed' and elapsed>=REQUEST_TIMEOUT_SECONDS:
-        state.update(status='timed_out',summary='Request deadline reached.',findings=[])
+        state.update(status='timed_out',summary='Request deadline reached.',findings=[],claims=[],citations=[],
+                     generation={'status':'timed_out' if mode == 'live' else 'not_requested'})
     state['metrics']['elapsed_ms']=round(elapsed*1000,2)
-    return {**state,'request_id':uuid.uuid4().hex,'model':None,
+    state.pop('started',None)
+    return {**state,'request_id':uuid.uuid4().hex,'model':MODEL if mode == 'live' else None,
             'dataset':{'hash':data['hash'],'label':data['source']['name'],'source_type':'real_public_transactions',
                        'source_rows':data['source']['source_rows'],'source':data['source'],'audit':data['audit'],
                        'before_month':BEFORE_MONTH,'after_month':AFTER_MONTH}}

@@ -1,0 +1,3065 @@
+{
+  "scope": "Targeted development-only schema-v3.1 smoke: activation, valid experiment and public-retail question after explicit guard repairs.",
+  "mode": "live",
+  "execution_status": "completed",
+  "track": "development",
+  "split": "dev",
+  "repeats": 1,
+  "budget_stop": false,
+  "provider_stop": false,
+  "stop_reason": null,
+  "guardrails": {
+    "consecutive_grounding_failure_stop": 3,
+    "grounding_failure_streak": 0
+  },
+  "benchmark_scope": "development_supplement",
+  "run_at_utc": "2026-10-02T06:32:12.579904+00:00",
+  "manifest_sha256": "59dcf22cf989d64ef22be3c01b7d0d8b6dc4395671f953990222b140dff1e663",
+  "selected_cases_sha256": "3e98cbb4729a3d8786004274512da1d162adbfa80d33ed2b343baba87ca5369d",
+  "selected_case_ids": [
+    "dev-metric-01",
+    "dev-experiment_valid-01",
+    "retail-live-02"
+  ],
+  "test_exposure": {
+    "status": "exposed",
+    "note": "Constructed adversarial safety probes, not a held-out distribution of attacks."
+  },
+  "model": "gpt-4.1-mini-2025-04-14",
+  "provider_configuration": {
+    "temperature": 0,
+    "pricing_basis_usd_per_million_tokens": {
+      "input": 0.4,
+      "output": 1.6
+    }
+  },
+  "baseline_conditions": {
+    "name": "fixed_sql_single_pass",
+    "same_model": "gpt-4.1-mini-2025-04-14",
+    "answer_calls_per_answerable_request": 1,
+    "dynamic_action_selection": false,
+    "information_access": "Same retrieved contracts and relevant precomputed allowlisted SQL/tool summaries.",
+    "preprocessing_advantage": "A deterministic controller selects and executes the relevant analytical tools before the one answer call. This gives the baseline correct tool selection and precomputed arithmetic; it is not a raw-data, unaided LLM baseline.",
+    "boundary_policy": "Deterministic unsupported/clarification cases use zero model calls in both arms.",
+    "comparison_scope": "Complete analytical system versus fixed-preprocessing single-pass summarizer; does not isolate LangGraph or dynamic planning.",
+    "budget": "Both arms use the same per-request provider limit and conservative request reservation. The agent can spend several calls selecting tools; the baseline spends one answer call."
+  },
+  "raw_response_scope": "Complete backend-returned structured responses, credential-shaped fields redacted. No request headers, keys, or environment dump. Provider payloads are present only if returned by the backend.",
+  "planned_response_count": 6,
+  "maximum_planned_reservations_usd": 0.12,
+  "reservation_note": "Conservative upper bound before deterministic zero-call boundaries; the persistent shared budget remains authoritative. Reservations are not actual provider charges.",
+  "execution_order": "Agent then baseline on even pair indices; baseline then agent on odd indices.",
+  "release_gate": {
+    "status": "not_evaluated",
+    "target": "At least 24/30 whole-task passes in each full frozen-test repeat, zero predefined critical failures, and separate deployment validation.",
+    "reason": "Automatic checks do not settle semantic review or deployment validation."
+  },
+  "manual_review": {
+    "status": "required",
+    "rubric": [
+      "The answer uses the requested metric, cohort/window, population, and units.",
+      "Every substantive numerical claim is supported by the cited executed evidence.",
+      "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+      "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+      "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+    ]
+  },
+  "omitted_checks": [
+    "Independent manual narrative/causal review",
+    "Public deployment validation",
+    "Fresh held-out generalization"
+  ],
+  "code_sha": "a7d03a559780c9fc2506284df3d1c533e3ab81d4",
+  "working_tree_dirty": true,
+  "source_sha256": {
+    "backend/__init__.py": "eb173961626a1638058344cd0bc23dd0c6447aae7046aa32b22d88fc92bffff7",
+    "backend/agent.py": "968a6f8a86a3e3be7c674c7d7126725bf0987c5ca0fdca092c4bb72bc0563f5c",
+    "backend/budget.py": "602092aecd30e7c2ec46653611aa66d8bd7aeff61d3a70051e0be4b9969bca82",
+    "backend/data.py": "181c3c1f2aea6c443ba9cb3325efd8eae91b69219d07835d5c2561769a53cccc",
+    "backend/download_embedding_model.py": "c84e6c41a22265c94ceea9ad71add7e20fb62e895641d53cd84567c9c2d78d4a",
+    "backend/generation.py": "e3134dc74840bb59ad11f19dcd33374c9141198e9fd7529c624cd99f9a6be13b",
+    "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
+    "backend/provider.py": "2b34c1c66e9b368faa6428bf2afc0a2f20fe37328dd058ddc8b6b9fd15fc251c",
+    "backend/retail.py": "8537968537f7113c6fd02d3a481c4d23b1f3a4903963e5616aa3bf9505bec304",
+    "backend/retrieval.py": "1ab2f32baee5e97c2614891d53a74676efac5f8049aedfb2c790d0380d5cd2e1",
+    "backend/statistics.py": "66fe39a9280c68ac8708c7e2f3c40bc72b0d2e8b9a0bc9bacf8fd72f1ed4c939",
+    "backend/tools.py": "3c09ddecfef2474eb27ea46c6260b5cfe142441543ed29eb1a11931a660227e3",
+    "backend/wordpiece.py": "c8f7a411c6acba31a103a1e6987a9782899acd77e0ba4acb2232f6424cf40297",
+    "contracts/metrics.json": "f485e6312de9b932074007edff830b79fe0684c71708f6e4d54195c08ea3bffb",
+    "docs/EVALUATION.md": "9e49a956c6122064f343ed3a84f9f6dfc58ae2d9180dfeb41726fe99fcd74cbb",
+    "evals/__init__.py": "598147b41534c45ed83128dfabd0bf1975bf3655e7bcc1c072004f7e0cf00b06",
+    "evals/build_manifest.py": "b9df31dca43858f88dedfeaeb875163b673cd3cec4c2038e92f4a6059f6671cf",
+    "evals/live.py": "b7d7cd72bc8db770f59ee177f5794b1bec314ed7a432ba324582bf0d7eb1d06b",
+    "evals/reference.py": "206b441a45356fea43aaa280206f92959264d9d624a753fc0c2c298d733b0374",
+    "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc",
+    "evals/retrieval.py": "582889d1c355c21a536b5ef33a22f474c661c71679644de1596d6a4f0fcda561",
+    "evals/run.py": "3fb75dd4fa7f547a88a4dbd3d16350c70325f68708e506209e7d242015ef918d"
+  },
+  "runs": [
+    {
+      "repeat": 1,
+      "cases": [
+        {
+          "id": "dev-metric-01",
+          "family": "metric",
+          "question": "Why did activation fall last week?",
+          "dataset_sha256": "db1b85176f746df56f221a92a1b63d88fe3c00c4a5ee6783bc28b00d8f63bb3c",
+          "case": {
+            "id": "dev-metric-01",
+            "split": "dev",
+            "family": "metric",
+            "seed": 31000,
+            "users": 1200,
+            "question": "Why did activation fall last week?",
+            "boundary_index": null
+          },
+          "systems": {
+            "agent": {
+              "status": "completed",
+              "elapsed_ms": 31239.31,
+              "automatic_pass": true,
+              "checks": {
+                "numerical_evidence": {
+                  "passed": true
+                },
+                "citation_integrity": {
+                  "passed": true
+                },
+                "critical_checks": {
+                  "invalid_assignment_accepted": false,
+                  "boundary_executed_tools": false,
+                  "disallowed_tool_executed": false,
+                  "unsupported_claim_accepted": false
+                },
+                "automatic_pass": true,
+                "manual_semantic_review": {
+                  "status": "required",
+                  "rubric": [
+                    "The answer uses the requested metric, cohort/window, population, and units.",
+                    "Every substantive numerical claim is supported by the cited executed evidence.",
+                    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+                    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+                    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+                  ]
+                },
+                "whole_task_pass": null
+              },
+              "response_sha256": "698378a25cc09f3bf36bd29cea55f6943864633ec6b0a2b5e0aee9b226cac7bc",
+              "response": {
+                "question": "Why did activation fall last week?",
+                "mode": "live",
+                "status": "completed",
+                "summary": "Activation fell substantially between the two documented signup cohorts. Before activation: 54.8333 %; After activation: 33 %; Activation change: -21.8333 pp. The activation decline is arithmetically accounted for mainly by a shift in acquisition channel mix toward lower-activating channels. Activation change: -21.8333 pp; Mix contribution: -26.625 pp; Within-group contribution: 4.7917 pp. Within-group activation rates actually increased slightly in both acquisition channels, partially offsetting the overall decline. Mix contribution: -26.625 pp; Within-group contribution: 4.7917 pp.",
+                "retrieval": [
+                  {
+                    "id": "activation",
+                    "title": "Seven-day activation",
+                    "text": "Activation is the fraction of unique signed-up users completing a practice within seven days of signup. Compare signup cohorts only after the complete seven-day observation window. Denominator: eligible signed-up users. Numerator: distinct completed users.",
+                    "score": 0.5822,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "windows",
+                    "title": "Complete observation windows",
+                    "text": "Compare non-overlapping half-open signup periods: September 1 to 8 and September 8 to 15, 2026 UTC. Dataset cutoff is September 30, so both cohorts have complete seven-day observation. Reject immature cohorts.",
+                    "score": 0.296,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "experiment",
+                    "title": "Fixed-horizon experiment",
+                    "text": "Experiments randomize at the user level, use intent-to-treat denominators and one predeclared binary outcome: completion within seven days of assignment. Evaluate only mature assignments after the fixed horizon.",
+                    "score": 0.1789,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  }
+                ],
+                "evidence": [
+                  {
+                    "id": "ev_1dfef36d7e",
+                    "tool": "compare_metric",
+                    "args": {
+                      "metric": "activation",
+                      "before": [
+                        "2026-09-01",
+                        "2026-09-08"
+                      ],
+                      "after": [
+                        "2026-09-08",
+                        "2026-09-15"
+                      ],
+                      "cutoff": "2026-09-30T00:00:00"
+                    },
+                    "sql": "WITH starts AS (\n  SELECT e.user_id, e.practice_session_id, MIN(e.event_at) AS started_at\n  FROM events e JOIN users u USING(user_id)\n  WHERE e.event_type='practice_start' AND e.practice_session_id <> ''\n    AND e.event_at >= u.signup_at AND e.event_at < u.signup_at + INTERVAL 7 DAY\n  GROUP BY e.user_id, e.practice_session_id\n), completions AS (\n  SELECT DISTINCT e.user_id FROM events e\n  JOIN starts s ON e.user_id=s.user_id AND e.practice_session_id=s.practice_session_id\n  JOIN users u ON e.user_id=u.user_id\n  WHERE e.event_type='practice_complete' AND e.event_at >= s.started_at\n    AND e.event_at < u.signup_at + INTERVAL 7 DAY\n), cohort AS (\n  SELECT u.*, CASE WHEN EXISTS(SELECT 1 FROM starts s WHERE s.user_id=u.user_id) THEN 1 ELSE 0 END AS started,\n    CASE WHEN c.user_id IS NOT NULL THEN 1 ELSE 0 END AS completed\n  FROM users u LEFT JOIN completions c USING(user_id)\n  WHERE u.signup_at >= CAST(? AS TIMESTAMP) AND u.signup_at < CAST(? AS TIMESTAMP)\n    AND u.signup_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n) SELECT COUNT(*) denominator, COALESCE(SUM(started),0) started, COALESCE(SUM(completed),0) numerator FROM cohort",
+                    "result": {
+                      "before": {
+                        "numerator": 329,
+                        "denominator": 600,
+                        "rate": 0.5483333333333333,
+                        "started": 515
+                      },
+                      "after": {
+                        "numerator": 198,
+                        "denominator": 600,
+                        "rate": 0.33,
+                        "started": 442
+                      },
+                      "delta_pp": -21.833333333333332
+                    },
+                    "warnings": [],
+                    "elapsed_ms": 11.68,
+                    "dataset_hash": "34051d3aa488009603942b5a45e6102460d70975d4566b28fdc28c631f6264df",
+                    "contract_version": "1.0"
+                  },
+                  {
+                    "id": "ev_d0248861bc",
+                    "tool": "decompose_change",
+                    "args": {
+                      "segment": "acquisition_channel",
+                      "before": [
+                        "2026-09-01",
+                        "2026-09-08"
+                      ],
+                      "after": [
+                        "2026-09-08",
+                        "2026-09-15"
+                      ],
+                      "cutoff": "2026-09-30T00:00:00"
+                    },
+                    "sql": "WITH starts AS (\n  SELECT e.user_id, e.practice_session_id, MIN(e.event_at) AS started_at\n  FROM events e JOIN users u USING(user_id)\n  WHERE e.event_type='practice_start' AND e.practice_session_id <> ''\n    AND e.event_at >= u.signup_at AND e.event_at < u.signup_at + INTERVAL 7 DAY\n  GROUP BY e.user_id, e.practice_session_id\n), completions AS (\n  SELECT DISTINCT e.user_id FROM events e\n  JOIN starts s ON e.user_id=s.user_id AND e.practice_session_id=s.practice_session_id\n  JOIN users u ON e.user_id=u.user_id\n  WHERE e.event_type='practice_complete' AND e.event_at >= s.started_at\n    AND e.event_at < u.signup_at + INTERVAL 7 DAY\n), cohort AS (\n  SELECT u.*, CASE WHEN EXISTS(SELECT 1 FROM starts s WHERE s.user_id=u.user_id) THEN 1 ELSE 0 END AS started,\n    CASE WHEN c.user_id IS NOT NULL THEN 1 ELSE 0 END AS completed\n  FROM users u LEFT JOIN completions c USING(user_id)\n  WHERE u.signup_at >= CAST(? AS TIMESTAMP) AND u.signup_at < CAST(? AS TIMESTAMP)\n    AND u.signup_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n) SELECT acquisition_channel, COUNT(*), COALESCE(SUM(completed),0) FROM cohort GROUP BY acquisition_channel ORDER BY acquisition_channel",
+                    "result": {
+                      "segments": [
+                        {
+                          "segment": "organic",
+                          "before_rate": 0.6354166666666666,
+                          "after_rate": 0.6916666666666667,
+                          "before_weight": 0.8,
+                          "after_weight": 0.2,
+                          "mix_pp": -39.81250000000001,
+                          "within_pp": 2.812500000000001
+                        },
+                        {
+                          "segment": "paid",
+                          "before_rate": 0.2,
+                          "after_rate": 0.23958333333333334,
+                          "before_weight": 0.2,
+                          "after_weight": 0.8,
+                          "mix_pp": 13.187500000000002,
+                          "within_pp": 1.9791666666666665
+                        }
+                      ],
+                      "mix_pp": -26.625000000000007,
+                      "within_pp": 4.791666666666668,
+                      "delta_pp": -21.83333333333334
+                    },
+                    "warnings": [
+                      "Descriptive accounting decomposition; not a causal estimate."
+                    ],
+                    "elapsed_ms": 16.71,
+                    "dataset_hash": "34051d3aa488009603942b5a45e6102460d70975d4566b28fdc28c631f6264df",
+                    "contract_version": "1.0"
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": "retrieve",
+                    "detail": "Retrieved versioned metric contracts using minilm_cosine_similarity."
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: compare_metric."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "compare_metric completed; evidence ev_1dfef36d7e"
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: decompose_change."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "decompose_change completed; evidence ev_d0248861bc"
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: finish."
+                  },
+                  {
+                    "step": "generate",
+                    "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+                  }
+                ],
+                "findings": [
+                  {
+                    "label": "Before activation",
+                    "value": 54.833333333333336,
+                    "unit": "%",
+                    "evidence_id": "ev_1dfef36d7e",
+                    "field_path": "before.rate",
+                    "scale": 100
+                  },
+                  {
+                    "label": "After activation",
+                    "value": 33.0,
+                    "unit": "%",
+                    "evidence_id": "ev_1dfef36d7e",
+                    "field_path": "after.rate",
+                    "scale": 100
+                  },
+                  {
+                    "label": "Activation change",
+                    "value": -21.833333333333332,
+                    "unit": "pp",
+                    "evidence_id": "ev_1dfef36d7e",
+                    "field_path": "delta_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "Mix contribution",
+                    "value": -26.625000000000007,
+                    "unit": "pp",
+                    "evidence_id": "ev_d0248861bc",
+                    "field_path": "mix_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "Within-group contribution",
+                    "value": 4.791666666666668,
+                    "unit": "pp",
+                    "evidence_id": "ev_d0248861bc",
+                    "field_path": "within_pp",
+                    "scale": 1
+                  }
+                ],
+                "warnings": [
+                  "Descriptive accounting decomposition; not a causal estimate."
+                ],
+                "metrics": {
+                  "elapsed_ms": 30829.44,
+                  "model_calls": 4,
+                  "tool_calls": 2,
+                  "input_tokens": 4474,
+                  "output_tokens": 300,
+                  "estimated_cost_usd": 0.0022696,
+                  "reserved_request_usd": 0.02,
+                  "reserved_model_cost_usd": 0.0145756,
+                  "uncertain_usage_calls": 0,
+                  "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+                  "last_provider_http_status": 200
+                },
+                "claims": [
+                  {
+                    "text": "Activation fell substantially between the two documented signup cohorts. Before activation: 54.8333 %; After activation: 33 %; Activation change: -21.8333 pp.",
+                    "fact_ids": [
+                      "f0",
+                      "f1",
+                      "f2"
+                    ],
+                    "evidence_ids": [
+                      "ev_1dfef36d7e"
+                    ],
+                    "contract_ids": [
+                      "activation",
+                      "windows"
+                    ]
+                  },
+                  {
+                    "text": "The activation decline is arithmetically accounted for mainly by a shift in acquisition channel mix toward lower-activating channels. Activation change: -21.8333 pp; Mix contribution: -26.625 pp; Within-group contribution: 4.7917 pp.",
+                    "fact_ids": [
+                      "f2",
+                      "f3",
+                      "f4"
+                    ],
+                    "evidence_ids": [
+                      "ev_d0248861bc",
+                      "ev_1dfef36d7e"
+                    ],
+                    "contract_ids": [
+                      "activation",
+                      "windows"
+                    ]
+                  },
+                  {
+                    "text": "Within-group activation rates actually increased slightly in both acquisition channels, partially offsetting the overall decline. Mix contribution: -26.625 pp; Within-group contribution: 4.7917 pp.",
+                    "fact_ids": [
+                      "f3",
+                      "f4"
+                    ],
+                    "evidence_ids": [
+                      "ev_d0248861bc"
+                    ],
+                    "contract_ids": [
+                      "activation",
+                      "windows"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "id": "ev_1dfef36d7e",
+                    "kind": "evidence",
+                    "title": "compare_metric"
+                  },
+                  {
+                    "id": "activation",
+                    "kind": "contract",
+                    "title": "Seven-day activation"
+                  },
+                  {
+                    "id": "windows",
+                    "kind": "contract",
+                    "title": "Complete observation windows"
+                  },
+                  {
+                    "id": "ev_d0248861bc",
+                    "kind": "evidence",
+                    "title": "decompose_change"
+                  }
+                ],
+                "generation": {
+                  "method": "llm_grounded",
+                  "schema_version": "3.1",
+                  "model": "gpt-4.1-mini-2025-04-14",
+                  "numeric_validation": "passed",
+                  "citation_validation": "passed",
+                  "numeric_validation_scope": "Server-rendered fact values and explicit quantity checks; narrative entailment needs review.",
+                  "semantic_validation": "not_automated"
+                },
+                "reservation_usd": 0.02,
+                "request_id": "cbba55d3fef940168291ded1549cf249",
+                "model": "gpt-4.1-mini-2025-04-14",
+                "dataset": {
+                  "hash": "34051d3aa488009603942b5a45e6102460d70975d4566b28fdc28c631f6264df",
+                  "users": 1200,
+                  "events": 5084,
+                  "label": "Synthetic interview-preparation SaaS",
+                  "cutoff": "2026-09-30T00:00:00"
+                }
+              }
+            },
+            "baseline": {
+              "status": "completed",
+              "elapsed_ms": 8313.49,
+              "automatic_pass": true,
+              "checks": {
+                "numerical_evidence": {
+                  "passed": true
+                },
+                "citation_integrity": {
+                  "passed": true
+                },
+                "critical_checks": {
+                  "invalid_assignment_accepted": false,
+                  "boundary_executed_tools": false,
+                  "disallowed_tool_executed": false,
+                  "unsupported_claim_accepted": false
+                },
+                "automatic_pass": true,
+                "manual_semantic_review": {
+                  "status": "required",
+                  "rubric": [
+                    "The answer uses the requested metric, cohort/window, population, and units.",
+                    "Every substantive numerical claim is supported by the cited executed evidence.",
+                    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+                    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+                    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+                  ]
+                },
+                "whole_task_pass": null
+              },
+              "response_sha256": "7cbccbf72ab5c0298a3b80650e9ee8a5260c6f4b2ac5013a558ae8f43ad06605",
+              "response": {
+                "question": "Why did activation fall last week?",
+                "mode": "live",
+                "status": "completed",
+                "summary": "Activation fell substantially between the two documented signup cohorts. Before activation: 54.8333 %; After activation: 33 %; Activation change: -21.8333 pp. The fall in activation is arithmetically accounted for mainly by a shift in the mix of acquisition channels toward lower-activation segments. Activation change: -21.8333 pp; Mix contribution: -26.625 pp; Within-group contribution: 4.7917 pp.",
+                "retrieval": [
+                  {
+                    "id": "activation",
+                    "title": "Seven-day activation",
+                    "text": "Activation is the fraction of unique signed-up users completing a practice within seven days of signup. Compare signup cohorts only after the complete seven-day observation window. Denominator: eligible signed-up users. Numerator: distinct completed users.",
+                    "score": 0.5822,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "windows",
+                    "title": "Complete observation windows",
+                    "text": "Compare non-overlapping half-open signup periods: September 1 to 8 and September 8 to 15, 2026 UTC. Dataset cutoff is September 30, so both cohorts have complete seven-day observation. Reject immature cohorts.",
+                    "score": 0.296,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "experiment",
+                    "title": "Fixed-horizon experiment",
+                    "text": "Experiments randomize at the user level, use intent-to-treat denominators and one predeclared binary outcome: completion within seven days of assignment. Evaluate only mature assignments after the fixed horizon.",
+                    "score": 0.1789,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  }
+                ],
+                "evidence": [
+                  {
+                    "id": "ev_4c9cb91686",
+                    "tool": "compare_metric",
+                    "args": {
+                      "metric": "activation",
+                      "before": [
+                        "2026-09-01",
+                        "2026-09-08"
+                      ],
+                      "after": [
+                        "2026-09-08",
+                        "2026-09-15"
+                      ],
+                      "cutoff": "2026-09-30T00:00:00"
+                    },
+                    "sql": "WITH starts AS (\n  SELECT e.user_id, e.practice_session_id, MIN(e.event_at) AS started_at\n  FROM events e JOIN users u USING(user_id)\n  WHERE e.event_type='practice_start' AND e.practice_session_id <> ''\n    AND e.event_at >= u.signup_at AND e.event_at < u.signup_at + INTERVAL 7 DAY\n  GROUP BY e.user_id, e.practice_session_id\n), completions AS (\n  SELECT DISTINCT e.user_id FROM events e\n  JOIN starts s ON e.user_id=s.user_id AND e.practice_session_id=s.practice_session_id\n  JOIN users u ON e.user_id=u.user_id\n  WHERE e.event_type='practice_complete' AND e.event_at >= s.started_at\n    AND e.event_at < u.signup_at + INTERVAL 7 DAY\n), cohort AS (\n  SELECT u.*, CASE WHEN EXISTS(SELECT 1 FROM starts s WHERE s.user_id=u.user_id) THEN 1 ELSE 0 END AS started,\n    CASE WHEN c.user_id IS NOT NULL THEN 1 ELSE 0 END AS completed\n  FROM users u LEFT JOIN completions c USING(user_id)\n  WHERE u.signup_at >= CAST(? AS TIMESTAMP) AND u.signup_at < CAST(? AS TIMESTAMP)\n    AND u.signup_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n) SELECT COUNT(*) denominator, COALESCE(SUM(started),0) started, COALESCE(SUM(completed),0) numerator FROM cohort",
+                    "result": {
+                      "before": {
+                        "numerator": 329,
+                        "denominator": 600,
+                        "rate": 0.5483333333333333,
+                        "started": 515
+                      },
+                      "after": {
+                        "numerator": 198,
+                        "denominator": 600,
+                        "rate": 0.33,
+                        "started": 442
+                      },
+                      "delta_pp": -21.833333333333332
+                    },
+                    "warnings": [],
+                    "elapsed_ms": 8.88,
+                    "dataset_hash": "34051d3aa488009603942b5a45e6102460d70975d4566b28fdc28c631f6264df",
+                    "contract_version": "1.0"
+                  },
+                  {
+                    "id": "ev_51092f30d4",
+                    "tool": "decompose_change",
+                    "args": {
+                      "segment": "acquisition_channel",
+                      "before": [
+                        "2026-09-01",
+                        "2026-09-08"
+                      ],
+                      "after": [
+                        "2026-09-08",
+                        "2026-09-15"
+                      ],
+                      "cutoff": "2026-09-30T00:00:00"
+                    },
+                    "sql": "WITH starts AS (\n  SELECT e.user_id, e.practice_session_id, MIN(e.event_at) AS started_at\n  FROM events e JOIN users u USING(user_id)\n  WHERE e.event_type='practice_start' AND e.practice_session_id <> ''\n    AND e.event_at >= u.signup_at AND e.event_at < u.signup_at + INTERVAL 7 DAY\n  GROUP BY e.user_id, e.practice_session_id\n), completions AS (\n  SELECT DISTINCT e.user_id FROM events e\n  JOIN starts s ON e.user_id=s.user_id AND e.practice_session_id=s.practice_session_id\n  JOIN users u ON e.user_id=u.user_id\n  WHERE e.event_type='practice_complete' AND e.event_at >= s.started_at\n    AND e.event_at < u.signup_at + INTERVAL 7 DAY\n), cohort AS (\n  SELECT u.*, CASE WHEN EXISTS(SELECT 1 FROM starts s WHERE s.user_id=u.user_id) THEN 1 ELSE 0 END AS started,\n    CASE WHEN c.user_id IS NOT NULL THEN 1 ELSE 0 END AS completed\n  FROM users u LEFT JOIN completions c USING(user_id)\n  WHERE u.signup_at >= CAST(? AS TIMESTAMP) AND u.signup_at < CAST(? AS TIMESTAMP)\n    AND u.signup_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n) SELECT acquisition_channel, COUNT(*), COALESCE(SUM(completed),0) FROM cohort GROUP BY acquisition_channel ORDER BY acquisition_channel",
+                    "result": {
+                      "segments": [
+                        {
+                          "segment": "organic",
+                          "before_rate": 0.6354166666666666,
+                          "after_rate": 0.6916666666666667,
+                          "before_weight": 0.8,
+                          "after_weight": 0.2,
+                          "mix_pp": -39.81250000000001,
+                          "within_pp": 2.812500000000001
+                        },
+                        {
+                          "segment": "paid",
+                          "before_rate": 0.2,
+                          "after_rate": 0.23958333333333334,
+                          "before_weight": 0.2,
+                          "after_weight": 0.8,
+                          "mix_pp": 13.187500000000002,
+                          "within_pp": 1.9791666666666665
+                        }
+                      ],
+                      "mix_pp": -26.625000000000007,
+                      "within_pp": 4.791666666666668,
+                      "delta_pp": -21.83333333333334
+                    },
+                    "warnings": [
+                      "Descriptive accounting decomposition; not a causal estimate."
+                    ],
+                    "elapsed_ms": 9.48,
+                    "dataset_hash": "34051d3aa488009603942b5a45e6102460d70975d4566b28fdc28c631f6264df",
+                    "contract_version": "1.0"
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": "retrieve",
+                    "detail": "Retrieved versioned metric contracts using minilm_cosine_similarity."
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: compare_metric."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "compare_metric completed; evidence ev_4c9cb91686"
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: decompose_change."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "decompose_change completed; evidence ev_51092f30d4"
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: finish."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Numeric claims match evidence fields. Narrative is generated from deterministic templates."
+                  },
+                  {
+                    "step": "generate",
+                    "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+                  }
+                ],
+                "findings": [
+                  {
+                    "label": "Before activation",
+                    "value": 54.833333333333336,
+                    "unit": "%",
+                    "evidence_id": "ev_4c9cb91686",
+                    "field_path": "before.rate",
+                    "scale": 100
+                  },
+                  {
+                    "label": "After activation",
+                    "value": 33.0,
+                    "unit": "%",
+                    "evidence_id": "ev_4c9cb91686",
+                    "field_path": "after.rate",
+                    "scale": 100
+                  },
+                  {
+                    "label": "Activation change",
+                    "value": -21.833333333333332,
+                    "unit": "pp",
+                    "evidence_id": "ev_4c9cb91686",
+                    "field_path": "delta_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "Mix contribution",
+                    "value": -26.625000000000007,
+                    "unit": "pp",
+                    "evidence_id": "ev_51092f30d4",
+                    "field_path": "mix_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "Within-group contribution",
+                    "value": 4.791666666666668,
+                    "unit": "pp",
+                    "evidence_id": "ev_51092f30d4",
+                    "field_path": "within_pp",
+                    "scale": 1
+                  }
+                ],
+                "warnings": [
+                  "Descriptive accounting decomposition; not a causal estimate."
+                ],
+                "metrics": {
+                  "elapsed_ms": 8313.47,
+                  "model_calls": 1,
+                  "tool_calls": 2,
+                  "input_tokens": 2138,
+                  "output_tokens": 125,
+                  "estimated_cost_usd": 0.0010552,
+                  "reserved_request_usd": 0.02,
+                  "reserved_model_cost_usd": 0.0060891999999999995,
+                  "uncertain_usage_calls": 0,
+                  "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+                  "last_provider_http_status": 200
+                },
+                "claims": [
+                  {
+                    "text": "Activation fell substantially between the two documented signup cohorts. Before activation: 54.8333 %; After activation: 33 %; Activation change: -21.8333 pp.",
+                    "fact_ids": [
+                      "f0",
+                      "f1",
+                      "f2"
+                    ],
+                    "evidence_ids": [
+                      "ev_4c9cb91686"
+                    ],
+                    "contract_ids": [
+                      "activation",
+                      "windows"
+                    ]
+                  },
+                  {
+                    "text": "The fall in activation is arithmetically accounted for mainly by a shift in the mix of acquisition channels toward lower-activation segments. Activation change: -21.8333 pp; Mix contribution: -26.625 pp; Within-group contribution: 4.7917 pp.",
+                    "fact_ids": [
+                      "f2",
+                      "f3",
+                      "f4"
+                    ],
+                    "evidence_ids": [
+                      "ev_51092f30d4",
+                      "ev_4c9cb91686"
+                    ],
+                    "contract_ids": [
+                      "activation",
+                      "windows"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "id": "ev_4c9cb91686",
+                    "kind": "evidence",
+                    "title": "compare_metric"
+                  },
+                  {
+                    "id": "activation",
+                    "kind": "contract",
+                    "title": "Seven-day activation"
+                  },
+                  {
+                    "id": "windows",
+                    "kind": "contract",
+                    "title": "Complete observation windows"
+                  },
+                  {
+                    "id": "ev_51092f30d4",
+                    "kind": "evidence",
+                    "title": "decompose_change"
+                  }
+                ],
+                "generation": {
+                  "method": "llm_grounded",
+                  "schema_version": "3.1",
+                  "model": "gpt-4.1-mini-2025-04-14",
+                  "numeric_validation": "passed",
+                  "citation_validation": "passed",
+                  "numeric_validation_scope": "Server-rendered fact values and explicit quantity checks; narrative entailment needs review.",
+                  "semantic_validation": "not_automated"
+                },
+                "request_id": "748bd2da7f954fd38a70517434ea7078",
+                "model": "gpt-4.1-mini-2025-04-14",
+                "dataset": {
+                  "hash": "34051d3aa488009603942b5a45e6102460d70975d4566b28fdc28c631f6264df",
+                  "users": 1200,
+                  "events": 5084,
+                  "label": "Synthetic interview-preparation SaaS",
+                  "cutoff": "2026-09-30T00:00:00"
+                },
+                "baseline": {
+                  "name": "fixed_sql_single_pass",
+                  "same_model": "gpt-4.1-mini-2025-04-14",
+                  "answer_calls_per_answerable_request": 1,
+                  "dynamic_action_selection": false,
+                  "information_access": "Same retrieved contracts and relevant precomputed allowlisted SQL/tool summaries.",
+                  "preprocessing_advantage": "A deterministic controller selects and executes the relevant analytical tools before the one answer call. This gives the baseline correct tool selection and precomputed arithmetic; it is not a raw-data, unaided LLM baseline.",
+                  "boundary_policy": "Deterministic unsupported/clarification cases use zero model calls in both arms.",
+                  "comparison_scope": "Complete analytical system versus fixed-preprocessing single-pass summarizer; does not isolate LangGraph or dynamic planning.",
+                  "budget": "Both arms use the same per-request provider limit and conservative request reservation. The agent can spend several calls selecting tools; the baseline spends one answer call.",
+                  "sql_preprocessing_calls": 2,
+                  "preprocessing_ms": 167.03
+                },
+                "reservation_usd": 0.02
+              }
+            }
+          }
+        },
+        {
+          "id": "dev-experiment_valid-01",
+          "family": "experiment_valid",
+          "question": "Evaluate the onboarding_valid A/B experiment.",
+          "dataset_sha256": "cd4d33f4a0cfc1273d1e5433d1449a2a00717ef715c5a5f0029eddadef732606",
+          "case": {
+            "id": "dev-experiment_valid-01",
+            "split": "dev",
+            "family": "experiment_valid",
+            "seed": 31300,
+            "users": 1200,
+            "question": "Evaluate the onboarding_valid A/B experiment.",
+            "boundary_index": null
+          },
+          "systems": {
+            "baseline": {
+              "status": "completed",
+              "elapsed_ms": 7745.07,
+              "automatic_pass": true,
+              "checks": {
+                "numerical_evidence": {
+                  "passed": true
+                },
+                "citation_integrity": {
+                  "passed": true
+                },
+                "critical_checks": {
+                  "invalid_assignment_accepted": false,
+                  "boundary_executed_tools": false,
+                  "disallowed_tool_executed": false,
+                  "unsupported_claim_accepted": false
+                },
+                "automatic_pass": true,
+                "manual_semantic_review": {
+                  "status": "required",
+                  "rubric": [
+                    "The answer uses the requested metric, cohort/window, population, and units.",
+                    "Every substantive numerical claim is supported by the cited executed evidence.",
+                    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+                    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+                    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+                  ]
+                },
+                "whole_task_pass": null
+              },
+              "response_sha256": "0ba5f42ad82b3a6e34ecb3d7962184b777a95689e4fcc781dafd832c7d4b5ce2",
+              "response": {
+                "question": "Evaluate the onboarding_valid A/B experiment.",
+                "mode": "live",
+                "status": "completed",
+                "summary": "No allocation imbalance was detected in the onboarding valid experiment as the sample ratio mismatch p-value is well above the threshold. SRM p-value: 1 p. The observed difference in completion rates between treatment and control is very small and the confidence interval includes zero, indicating inconclusive evidence of an effect. Treatment \u2212 control: 1 pp; interval lower: -6.8714 pp; interval upper: 8.854 pp.",
+                "retrieval": [
+                  {
+                    "id": "scope",
+                    "title": "Supported analytical scope",
+                    "text": "Only activation, ordered funnel and onboarding_valid/onboarding_srm experiments are defined. Segment by acquisition channel or signup device. Engagement, revenue, retention and arbitrary custom metrics are not defined; clarify or abstain.",
+                    "score": 0.4471,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "experiment",
+                    "title": "Fixed-horizon experiment",
+                    "text": "Experiments randomize at the user level, use intent-to-treat denominators and one predeclared binary outcome: completion within seven days of assignment. Evaluate only mature assignments after the fixed horizon.",
+                    "score": 0.4147,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "srm",
+                    "title": "Sample ratio mismatch",
+                    "text": "Sample ratio mismatch (SRM) checks assigned user counts against the expected 50:50 allocation using a chi-square test with one degree of freedom. p below 0.001 blocks interpretation and rollout recommendations.",
+                    "score": 0.365,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  }
+                ],
+                "evidence": [
+                  {
+                    "id": "ev_d1fecee718",
+                    "tool": "check_experiment",
+                    "args": {
+                      "experiment_id": "onboarding_valid",
+                      "cutoff": "2026-09-30T00:00:00"
+                    },
+                    "sql": "WITH eligible AS (\n SELECT a.* FROM experiment_assignments a WHERE experiment_id=?\n AND assigned_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n), outcomes AS (\n SELECT a.user_id, a.variant, MAX(CASE WHEN e.event_type='practice_complete'\n AND e.event_at >= a.assigned_at AND e.event_at < a.assigned_at + INTERVAL 7 DAY THEN 1 ELSE 0 END) success\n FROM eligible a LEFT JOIN events e ON e.user_id=a.user_id GROUP BY a.user_id,a.variant\n) SELECT variant,COUNT(*),SUM(success) FROM outcomes GROUP BY variant",
+                    "result": {
+                      "experiment_id": "onboarding_valid",
+                      "status": "valid",
+                      "control": {
+                        "n": 300,
+                        "successes": 171,
+                        "rate": 0.57
+                      },
+                      "treatment": {
+                        "n": 300,
+                        "successes": 174,
+                        "rate": 0.58
+                      },
+                      "srm_pvalue": 1.0,
+                      "srm_threshold": 0.001,
+                      "effect_pp": 1.0000000000000009,
+                      "ci_low_pp": -6.871448081864884,
+                      "ci_high_pp": 8.853977059890383,
+                      "conclusion": "Inconclusive: the interval includes zero; this is not proof of no effect."
+                    },
+                    "warnings": [
+                      "Fixed-horizon, one binary outcome; unmeasured guardrails prevent an automatic ship decision."
+                    ],
+                    "elapsed_ms": 3.22,
+                    "dataset_hash": "b59f31f6c334cb98231bbde505aae755865d36ec38f6219e0db8771be8ebd18a",
+                    "contract_version": "1.0"
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": "retrieve",
+                    "detail": "Retrieved versioned metric contracts using minilm_cosine_similarity."
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: check_experiment."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "check_experiment completed; evidence ev_d1fecee718"
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: finish."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Numeric claims match evidence fields. Narrative is generated from deterministic templates."
+                  },
+                  {
+                    "step": "generate",
+                    "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+                  }
+                ],
+                "findings": [
+                  {
+                    "label": "SRM p-value",
+                    "value": 1.0,
+                    "unit": "p",
+                    "evidence_id": "ev_d1fecee718",
+                    "field_path": "srm_pvalue",
+                    "scale": 1
+                  },
+                  {
+                    "label": "Treatment \u2212 control",
+                    "value": 1.0000000000000009,
+                    "unit": "pp",
+                    "evidence_id": "ev_d1fecee718",
+                    "field_path": "effect_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "95% interval lower",
+                    "value": -6.871448081864884,
+                    "unit": "pp",
+                    "evidence_id": "ev_d1fecee718",
+                    "field_path": "ci_low_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "95% interval upper",
+                    "value": 8.853977059890383,
+                    "unit": "pp",
+                    "evidence_id": "ev_d1fecee718",
+                    "field_path": "ci_high_pp",
+                    "scale": 1
+                  }
+                ],
+                "warnings": [
+                  "Fixed-horizon, one binary outcome; unmeasured guardrails prevent an automatic ship decision."
+                ],
+                "metrics": {
+                  "elapsed_ms": 7745.04,
+                  "model_calls": 1,
+                  "tool_calls": 1,
+                  "input_tokens": 1367,
+                  "output_tokens": 126,
+                  "estimated_cost_usd": 0.0007484000000000001,
+                  "reserved_request_usd": 0.02,
+                  "reserved_model_cost_usd": 0.0050288,
+                  "uncertain_usage_calls": 0,
+                  "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+                  "last_provider_http_status": 200
+                },
+                "claims": [
+                  {
+                    "text": "No allocation imbalance was detected in the onboarding valid experiment as the sample ratio mismatch p-value is well above the threshold. SRM p-value: 1 p.",
+                    "fact_ids": [
+                      "f0"
+                    ],
+                    "evidence_ids": [
+                      "ev_d1fecee718"
+                    ],
+                    "contract_ids": [
+                      "srm"
+                    ]
+                  },
+                  {
+                    "text": "The observed difference in completion rates between treatment and control is very small and the confidence interval includes zero, indicating inconclusive evidence of an effect. Treatment \u2212 control: 1 pp; interval lower: -6.8714 pp; interval upper: 8.854 pp.",
+                    "fact_ids": [
+                      "f1",
+                      "f2",
+                      "f3"
+                    ],
+                    "evidence_ids": [
+                      "ev_d1fecee718"
+                    ],
+                    "contract_ids": [
+                      "experiment"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "id": "ev_d1fecee718",
+                    "kind": "evidence",
+                    "title": "check_experiment"
+                  },
+                  {
+                    "id": "srm",
+                    "kind": "contract",
+                    "title": "Sample ratio mismatch"
+                  },
+                  {
+                    "id": "experiment",
+                    "kind": "contract",
+                    "title": "Fixed-horizon experiment"
+                  }
+                ],
+                "generation": {
+                  "method": "llm_grounded",
+                  "schema_version": "3.1",
+                  "model": "gpt-4.1-mini-2025-04-14",
+                  "numeric_validation": "passed",
+                  "citation_validation": "passed",
+                  "numeric_validation_scope": "Server-rendered fact values and explicit quantity checks; narrative entailment needs review.",
+                  "semantic_validation": "not_automated"
+                },
+                "request_id": "5b0d30701edd4aef8a0d8bea8c4f2889",
+                "model": "gpt-4.1-mini-2025-04-14",
+                "dataset": {
+                  "hash": "b59f31f6c334cb98231bbde505aae755865d36ec38f6219e0db8771be8ebd18a",
+                  "users": 1200,
+                  "events": 5076,
+                  "label": "Synthetic interview-preparation SaaS",
+                  "cutoff": "2026-09-30T00:00:00"
+                },
+                "baseline": {
+                  "name": "fixed_sql_single_pass",
+                  "same_model": "gpt-4.1-mini-2025-04-14",
+                  "answer_calls_per_answerable_request": 1,
+                  "dynamic_action_selection": false,
+                  "information_access": "Same retrieved contracts and relevant precomputed allowlisted SQL/tool summaries.",
+                  "preprocessing_advantage": "A deterministic controller selects and executes the relevant analytical tools before the one answer call. This gives the baseline correct tool selection and precomputed arithmetic; it is not a raw-data, unaided LLM baseline.",
+                  "boundary_policy": "Deterministic unsupported/clarification cases use zero model calls in both arms.",
+                  "comparison_scope": "Complete analytical system versus fixed-preprocessing single-pass summarizer; does not isolate LangGraph or dynamic planning.",
+                  "budget": "Both arms use the same per-request provider limit and conservative request reservation. The agent can spend several calls selecting tools; the baseline spends one answer call.",
+                  "sql_preprocessing_calls": 1,
+                  "preprocessing_ms": 146.78
+                },
+                "reservation_usd": 0.02
+              }
+            },
+            "agent": {
+              "status": "completed",
+              "elapsed_ms": 21008.84,
+              "automatic_pass": true,
+              "checks": {
+                "numerical_evidence": {
+                  "passed": true
+                },
+                "citation_integrity": {
+                  "passed": true
+                },
+                "critical_checks": {
+                  "invalid_assignment_accepted": false,
+                  "boundary_executed_tools": false,
+                  "disallowed_tool_executed": false,
+                  "unsupported_claim_accepted": false
+                },
+                "automatic_pass": true,
+                "manual_semantic_review": {
+                  "status": "required",
+                  "rubric": [
+                    "The answer uses the requested metric, cohort/window, population, and units.",
+                    "Every substantive numerical claim is supported by the cited executed evidence.",
+                    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+                    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+                    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+                  ]
+                },
+                "whole_task_pass": null
+              },
+              "response_sha256": "c66fef2cf1c615bce0e855708faa455fd5148f8f4c4c9ccedc723c521bb1407a",
+              "response": {
+                "question": "Evaluate the onboarding_valid A/B experiment.",
+                "mode": "live",
+                "status": "completed",
+                "summary": "No allocation imbalance was detected in the onboarding valid experiment as the sample ratio mismatch p-value is well above the threshold. SRM p-value: 1 p. The observed difference in completion rates between treatment and control is very small and the confidence interval includes zero, indicating inconclusive evidence of an effect. Treatment \u2212 control: 1 pp; interval lower: -6.8714 pp; interval upper: 8.854 pp.",
+                "retrieval": [
+                  {
+                    "id": "scope",
+                    "title": "Supported analytical scope",
+                    "text": "Only activation, ordered funnel and onboarding_valid/onboarding_srm experiments are defined. Segment by acquisition channel or signup device. Engagement, revenue, retention and arbitrary custom metrics are not defined; clarify or abstain.",
+                    "score": 0.4471,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "experiment",
+                    "title": "Fixed-horizon experiment",
+                    "text": "Experiments randomize at the user level, use intent-to-treat denominators and one predeclared binary outcome: completion within seven days of assignment. Evaluate only mature assignments after the fixed horizon.",
+                    "score": 0.4147,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "srm",
+                    "title": "Sample ratio mismatch",
+                    "text": "Sample ratio mismatch (SRM) checks assigned user counts against the expected 50:50 allocation using a chi-square test with one degree of freedom. p below 0.001 blocks interpretation and rollout recommendations.",
+                    "score": 0.365,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  }
+                ],
+                "evidence": [
+                  {
+                    "id": "ev_1b0a6a1240",
+                    "tool": "check_experiment",
+                    "args": {
+                      "experiment_id": "onboarding_valid",
+                      "cutoff": "2026-09-30T00:00:00"
+                    },
+                    "sql": "WITH eligible AS (\n SELECT a.* FROM experiment_assignments a WHERE experiment_id=?\n AND assigned_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n), outcomes AS (\n SELECT a.user_id, a.variant, MAX(CASE WHEN e.event_type='practice_complete'\n AND e.event_at >= a.assigned_at AND e.event_at < a.assigned_at + INTERVAL 7 DAY THEN 1 ELSE 0 END) success\n FROM eligible a LEFT JOIN events e ON e.user_id=a.user_id GROUP BY a.user_id,a.variant\n) SELECT variant,COUNT(*),SUM(success) FROM outcomes GROUP BY variant",
+                    "result": {
+                      "experiment_id": "onboarding_valid",
+                      "status": "valid",
+                      "control": {
+                        "n": 300,
+                        "successes": 171,
+                        "rate": 0.57
+                      },
+                      "treatment": {
+                        "n": 300,
+                        "successes": 174,
+                        "rate": 0.58
+                      },
+                      "srm_pvalue": 1.0,
+                      "srm_threshold": 0.001,
+                      "effect_pp": 1.0000000000000009,
+                      "ci_low_pp": -6.871448081864884,
+                      "ci_high_pp": 8.853977059890383,
+                      "conclusion": "Inconclusive: the interval includes zero; this is not proof of no effect."
+                    },
+                    "warnings": [
+                      "Fixed-horizon, one binary outcome; unmeasured guardrails prevent an automatic ship decision."
+                    ],
+                    "elapsed_ms": 4.25,
+                    "dataset_hash": "b59f31f6c334cb98231bbde505aae755865d36ec38f6219e0db8771be8ebd18a",
+                    "contract_version": "1.0"
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": "retrieve",
+                    "detail": "Retrieved versioned metric contracts using minilm_cosine_similarity."
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: check_experiment."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "check_experiment completed; evidence ev_1b0a6a1240"
+                  },
+                  {
+                    "step": "select",
+                    "detail": "Selected approved action: finish."
+                  },
+                  {
+                    "step": "generate",
+                    "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+                  }
+                ],
+                "findings": [
+                  {
+                    "label": "SRM p-value",
+                    "value": 1.0,
+                    "unit": "p",
+                    "evidence_id": "ev_1b0a6a1240",
+                    "field_path": "srm_pvalue",
+                    "scale": 1
+                  },
+                  {
+                    "label": "Treatment \u2212 control",
+                    "value": 1.0000000000000009,
+                    "unit": "pp",
+                    "evidence_id": "ev_1b0a6a1240",
+                    "field_path": "effect_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "95% interval lower",
+                    "value": -6.871448081864884,
+                    "unit": "pp",
+                    "evidence_id": "ev_1b0a6a1240",
+                    "field_path": "ci_low_pp",
+                    "scale": 1
+                  },
+                  {
+                    "label": "95% interval upper",
+                    "value": 8.853977059890383,
+                    "unit": "pp",
+                    "evidence_id": "ev_1b0a6a1240",
+                    "field_path": "ci_high_pp",
+                    "scale": 1
+                  }
+                ],
+                "warnings": [
+                  "Fixed-horizon, one binary outcome; unmeasured guardrails prevent an automatic ship decision."
+                ],
+                "metrics": {
+                  "elapsed_ms": 21008.74,
+                  "model_calls": 3,
+                  "tool_calls": 1,
+                  "input_tokens": 2777,
+                  "output_tokens": 216,
+                  "estimated_cost_usd": 0.0014564,
+                  "reserved_request_usd": 0.02,
+                  "reserved_model_cost_usd": 0.0105076,
+                  "uncertain_usage_calls": 0,
+                  "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+                  "last_provider_http_status": 200
+                },
+                "claims": [
+                  {
+                    "text": "No allocation imbalance was detected in the onboarding valid experiment as the sample ratio mismatch p-value is well above the threshold. SRM p-value: 1 p.",
+                    "fact_ids": [
+                      "f0"
+                    ],
+                    "evidence_ids": [
+                      "ev_1b0a6a1240"
+                    ],
+                    "contract_ids": [
+                      "srm"
+                    ]
+                  },
+                  {
+                    "text": "The observed difference in completion rates between treatment and control is very small and the confidence interval includes zero, indicating inconclusive evidence of an effect. Treatment \u2212 control: 1 pp; interval lower: -6.8714 pp; interval upper: 8.854 pp.",
+                    "fact_ids": [
+                      "f1",
+                      "f2",
+                      "f3"
+                    ],
+                    "evidence_ids": [
+                      "ev_1b0a6a1240"
+                    ],
+                    "contract_ids": [
+                      "experiment"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "id": "ev_1b0a6a1240",
+                    "kind": "evidence",
+                    "title": "check_experiment"
+                  },
+                  {
+                    "id": "srm",
+                    "kind": "contract",
+                    "title": "Sample ratio mismatch"
+                  },
+                  {
+                    "id": "experiment",
+                    "kind": "contract",
+                    "title": "Fixed-horizon experiment"
+                  }
+                ],
+                "generation": {
+                  "method": "llm_grounded",
+                  "schema_version": "3.1",
+                  "model": "gpt-4.1-mini-2025-04-14",
+                  "numeric_validation": "passed",
+                  "citation_validation": "passed",
+                  "numeric_validation_scope": "Server-rendered fact values and explicit quantity checks; narrative entailment needs review.",
+                  "semantic_validation": "not_automated"
+                },
+                "reservation_usd": 0.02,
+                "request_id": "67b4e3f823614ecb8743709176a02300",
+                "model": "gpt-4.1-mini-2025-04-14",
+                "dataset": {
+                  "hash": "b59f31f6c334cb98231bbde505aae755865d36ec38f6219e0db8771be8ebd18a",
+                  "users": 1200,
+                  "events": 5076,
+                  "label": "Synthetic interview-preparation SaaS",
+                  "cutoff": "2026-09-30T00:00:00"
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "retail-live-02",
+          "family": "retail",
+          "question": "Which countries contributed to the sales change?",
+          "dataset_sha256": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+          "case": {
+            "id": "retail-live-02",
+            "split": "retail",
+            "family": "retail",
+            "data_track": "public_retail",
+            "question": "Which countries contributed to the sales change?"
+          },
+          "systems": {
+            "agent": {
+              "status": "completed",
+              "elapsed_ms": 7151.8,
+              "automatic_pass": true,
+              "checks": {
+                "numerical_evidence": {
+                  "passed": true
+                },
+                "citation_integrity": {
+                  "passed": true
+                },
+                "critical_checks": {
+                  "invalid_assignment_accepted": false,
+                  "boundary_executed_tools": false,
+                  "disallowed_tool_executed": false,
+                  "unsupported_claim_accepted": false
+                },
+                "automatic_pass": true,
+                "manual_semantic_review": {
+                  "status": "required",
+                  "rubric": [
+                    "The answer uses the requested metric, cohort/window, population, and units.",
+                    "Every substantive numerical claim is supported by the cited executed evidence.",
+                    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+                    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+                    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+                  ]
+                },
+                "whole_task_pass": null
+              },
+              "response_sha256": "df2ae809e72e425a471baf923dfefbb6c4b391cf57c2f018e2a91b0214ada549",
+              "response": {
+                "question": "Which countries contributed to the sales change?",
+                "mode": "live",
+                "status": "completed",
+                "summary": "The United Kingdom was the largest contributor to the sales increase between the two months. United Kingdom: Sales change contribution: 386,371.2 GBP. Several countries including Japan, EIRE, and Norway also contributed positively to the sales change. Japan: Sales change contribution: 6,512.04 GBP; EIRE: Sales change contribution: 6,420.51 GBP; Norway: Sales change contribution: 2,840.27 GBP. Some countries such as the Netherlands, Australia, and Singapore contributed negatively to the sales change. Netherlands: Sales change contribution: -14,834.64 GBP; Australia: Sales change contribution: -9,907.81 GBP; Singapore: Sales change contribution: -7,067.32 GBP. The total sales change is the sum of all country contributions, confirming an accounting decomposition rather than causal attribution. Sales change: 354,517.03 GBP.",
+                "retrieval": [
+                  {
+                    "id": "retail_country",
+                    "title": "Country contribution to sales change",
+                    "text": "Subtract October 2011 gross positive sales from November 2011 for each country. Country contributions sum to the total change. Countries absent in one month contribute zero in that month. This is an accounting decomposition, not causal attribution.",
+                    "score": 0.6413,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "retail_quality",
+                    "title": "Source and quality boundaries",
+                    "text": "UCI Online Retail by Daqing Chen (2015), DOI 10.24432/C5BW33, CC BY 4.0. Public historical UK retailer transactions from December 2010 to December 2011. Exact duplicate rows are retained and counted because no source line ID proves which repeated lines are erroneous. Only complete October and November 2011 are compared.",
+                    "score": 0.3818,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "retail_gross_sales",
+                    "title": "Gross positive sales in GBP",
+                    "text": "Sum Quantity times UnitPrice for invoice lines with positive quantity and price, excluding cancellation invoices starting C. This is gross positive sales, not net revenue, profit, or causal uplift. Missing customer identifiers do not exclude a valid sales line.",
+                    "score": 0.302,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  }
+                ],
+                "evidence": [
+                  {
+                    "id": "ev_f1dc65b996",
+                    "tool": "compare_retail_sales",
+                    "args": {
+                      "before_month": "2011-10",
+                      "after_month": "2011-11"
+                    },
+                    "sql": "SELECT month, SUM(gross_sales_gbp), SUM(orders), SUM(lines), SUM(units)\nFROM retail WHERE month IN (?, ?) GROUP BY month ORDER BY month",
+                    "sql_parameters": [
+                      "2011-10",
+                      "2011-11"
+                    ],
+                    "result": {
+                      "before": {
+                        "gross_sales_gbp": 1154979.3,
+                        "orders": 2040,
+                        "lines": 59304,
+                        "units": 623401
+                      },
+                      "after": {
+                        "gross_sales_gbp": 1509496.33,
+                        "orders": 2769,
+                        "lines": 83369,
+                        "units": 754507
+                      },
+                      "delta_gbp": 354517.03,
+                      "change_pct": 30.6946652636978
+                    },
+                    "elapsed_ms": 2.67,
+                    "warnings": [],
+                    "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+                    "contract_version": "retail-1.0"
+                  },
+                  {
+                    "id": "ev_58193eca74",
+                    "tool": "retail_country_contributions",
+                    "args": {
+                      "before_month": "2011-10",
+                      "after_month": "2011-11"
+                    },
+                    "sql": "SELECT country,\nSUM(CASE WHEN month=? THEN gross_sales_gbp ELSE 0 END) AS before_gbp,\nSUM(CASE WHEN month=? THEN gross_sales_gbp ELSE 0 END) AS after_gbp\nFROM retail WHERE month IN (?, ?) GROUP BY country ORDER BY country",
+                    "sql_parameters": [
+                      "2011-10",
+                      "2011-11",
+                      "2011-10",
+                      "2011-11"
+                    ],
+                    "result": {
+                      "countries": [
+                        {
+                          "country": "Australia",
+                          "before_gbp": 17150.53,
+                          "after_gbp": 7242.72,
+                          "delta_gbp": -9907.81
+                        },
+                        {
+                          "country": "Austria",
+                          "before_gbp": 1043.78,
+                          "after_gbp": 1329.78,
+                          "delta_gbp": 286.0
+                        },
+                        {
+                          "country": "Belgium",
+                          "before_gbp": 5685.38,
+                          "after_gbp": 6315.76,
+                          "delta_gbp": 630.38
+                        },
+                        {
+                          "country": "Channel Islands",
+                          "before_gbp": 2623.32,
+                          "after_gbp": 1514.77,
+                          "delta_gbp": -1108.55
+                        },
+                        {
+                          "country": "Cyprus",
+                          "before_gbp": 4412.87,
+                          "after_gbp": 460.89,
+                          "delta_gbp": -3951.98
+                        },
+                        {
+                          "country": "Czech Republic",
+                          "before_gbp": 277.48,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -277.48
+                        },
+                        {
+                          "country": "Denmark",
+                          "before_gbp": 1490.76,
+                          "after_gbp": 2699.57,
+                          "delta_gbp": 1208.81
+                        },
+                        {
+                          "country": "EIRE",
+                          "before_gbp": 24317.92,
+                          "after_gbp": 30738.43,
+                          "delta_gbp": 6420.51
+                        },
+                        {
+                          "country": "Finland",
+                          "before_gbp": 2822.12,
+                          "after_gbp": 3070.24,
+                          "delta_gbp": 248.12
+                        },
+                        {
+                          "country": "France",
+                          "before_gbp": 33485.45,
+                          "after_gbp": 31758.71,
+                          "delta_gbp": -1726.74
+                        },
+                        {
+                          "country": "Germany",
+                          "before_gbp": 31638.42,
+                          "after_gbp": 28025.02,
+                          "delta_gbp": -3613.4
+                        },
+                        {
+                          "country": "Hong Kong",
+                          "before_gbp": 734.52,
+                          "after_gbp": 326.1,
+                          "delta_gbp": -408.42
+                        },
+                        {
+                          "country": "Iceland",
+                          "before_gbp": 1294.32,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -1294.32
+                        },
+                        {
+                          "country": "Israel",
+                          "before_gbp": 138.03,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -138.03
+                        },
+                        {
+                          "country": "Italy",
+                          "before_gbp": 3489.69,
+                          "after_gbp": 4571.08,
+                          "delta_gbp": 1081.39
+                        },
+                        {
+                          "country": "Japan",
+                          "before_gbp": 1948.04,
+                          "after_gbp": 8460.08,
+                          "delta_gbp": 6512.04
+                        },
+                        {
+                          "country": "Malta",
+                          "before_gbp": 0.0,
+                          "after_gbp": 743.43,
+                          "delta_gbp": 743.43
+                        },
+                        {
+                          "country": "Netherlands",
+                          "before_gbp": 40708.65,
+                          "after_gbp": 25874.01,
+                          "delta_gbp": -14834.64
+                        },
+                        {
+                          "country": "Norway",
+                          "before_gbp": 3687.23,
+                          "after_gbp": 6527.5,
+                          "delta_gbp": 2840.27
+                        },
+                        {
+                          "country": "Poland",
+                          "before_gbp": 0.0,
+                          "after_gbp": 1361.23,
+                          "delta_gbp": 1361.23
+                        },
+                        {
+                          "country": "Portugal",
+                          "before_gbp": 6206.67,
+                          "after_gbp": 2644.9,
+                          "delta_gbp": -3561.77
+                        },
+                        {
+                          "country": "RSA",
+                          "before_gbp": 1002.31,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -1002.31
+                        },
+                        {
+                          "country": "Singapore",
+                          "before_gbp": 7067.32,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -7067.32
+                        },
+                        {
+                          "country": "Spain",
+                          "before_gbp": 8636.94,
+                          "after_gbp": 8678.96,
+                          "delta_gbp": 42.02
+                        },
+                        {
+                          "country": "Sweden",
+                          "before_gbp": 5766.16,
+                          "after_gbp": 2722.23,
+                          "delta_gbp": -3043.93
+                        },
+                        {
+                          "country": "Switzerland",
+                          "before_gbp": 8065.18,
+                          "after_gbp": 8118.96,
+                          "delta_gbp": 53.78
+                        },
+                        {
+                          "country": "USA",
+                          "before_gbp": 2311.2,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -2311.2
+                        },
+                        {
+                          "country": "United Kingdom",
+                          "before_gbp": 938975.01,
+                          "after_gbp": 1325346.21,
+                          "delta_gbp": 386371.2
+                        },
+                        {
+                          "country": "Unspecified",
+                          "before_gbp": 0.0,
+                          "after_gbp": 965.75,
+                          "delta_gbp": 965.75
+                        }
+                      ],
+                      "delta_gbp": 354517.03
+                    },
+                    "elapsed_ms": 1.27,
+                    "warnings": [],
+                    "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+                    "contract_version": "retail-1.0"
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": "retrieve",
+                    "detail": "Retrieved versioned public-retail metric and source contracts."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "Compared gross positive sales with parameterized SQL."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "Reconciled country contributions to the observed sales change."
+                  },
+                  {
+                    "step": "generate",
+                    "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+                  }
+                ],
+                "findings": [
+                  {
+                    "label": "October gross positive sales",
+                    "field_path": "before.gross_sales_gbp",
+                    "value": 1154979.3,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "November gross positive sales",
+                    "field_path": "after.gross_sales_gbp",
+                    "value": 1509496.33,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "Sales change",
+                    "field_path": "delta_gbp",
+                    "value": 354517.03,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "October invoice count",
+                    "field_path": "before.orders",
+                    "value": 2040,
+                    "unit": "invoices",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "October invoice line count",
+                    "field_path": "before.lines",
+                    "value": 59304,
+                    "unit": "lines",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "October unit volume",
+                    "field_path": "before.units",
+                    "value": 623401,
+                    "unit": "units",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "November invoice count",
+                    "field_path": "after.orders",
+                    "value": 2769,
+                    "unit": "invoices",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "November invoice line count",
+                    "field_path": "after.lines",
+                    "value": 83369,
+                    "unit": "lines",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "November unit volume",
+                    "field_path": "after.units",
+                    "value": 754507,
+                    "unit": "units",
+                    "scale": 1,
+                    "evidence_id": "ev_f1dc65b996"
+                  },
+                  {
+                    "label": "Australia: Sales change contribution",
+                    "field_path": "countries.0.delta_gbp",
+                    "value": -9907.81,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Austria: Sales change contribution",
+                    "field_path": "countries.1.delta_gbp",
+                    "value": 286.0,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Belgium: Sales change contribution",
+                    "field_path": "countries.2.delta_gbp",
+                    "value": 630.38,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Channel Islands: Sales change contribution",
+                    "field_path": "countries.3.delta_gbp",
+                    "value": -1108.55,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Cyprus: Sales change contribution",
+                    "field_path": "countries.4.delta_gbp",
+                    "value": -3951.98,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Czech Republic: Sales change contribution",
+                    "field_path": "countries.5.delta_gbp",
+                    "value": -277.48,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Denmark: Sales change contribution",
+                    "field_path": "countries.6.delta_gbp",
+                    "value": 1208.81,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "EIRE: Sales change contribution",
+                    "field_path": "countries.7.delta_gbp",
+                    "value": 6420.51,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Finland: Sales change contribution",
+                    "field_path": "countries.8.delta_gbp",
+                    "value": 248.12,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "France: Sales change contribution",
+                    "field_path": "countries.9.delta_gbp",
+                    "value": -1726.74,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Germany: Sales change contribution",
+                    "field_path": "countries.10.delta_gbp",
+                    "value": -3613.4,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Hong Kong: Sales change contribution",
+                    "field_path": "countries.11.delta_gbp",
+                    "value": -408.42,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Iceland: Sales change contribution",
+                    "field_path": "countries.12.delta_gbp",
+                    "value": -1294.32,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Israel: Sales change contribution",
+                    "field_path": "countries.13.delta_gbp",
+                    "value": -138.03,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Italy: Sales change contribution",
+                    "field_path": "countries.14.delta_gbp",
+                    "value": 1081.39,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Japan: Sales change contribution",
+                    "field_path": "countries.15.delta_gbp",
+                    "value": 6512.04,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Malta: Sales change contribution",
+                    "field_path": "countries.16.delta_gbp",
+                    "value": 743.43,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Netherlands: Sales change contribution",
+                    "field_path": "countries.17.delta_gbp",
+                    "value": -14834.64,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Norway: Sales change contribution",
+                    "field_path": "countries.18.delta_gbp",
+                    "value": 2840.27,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Poland: Sales change contribution",
+                    "field_path": "countries.19.delta_gbp",
+                    "value": 1361.23,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Portugal: Sales change contribution",
+                    "field_path": "countries.20.delta_gbp",
+                    "value": -3561.77,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "RSA: Sales change contribution",
+                    "field_path": "countries.21.delta_gbp",
+                    "value": -1002.31,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Singapore: Sales change contribution",
+                    "field_path": "countries.22.delta_gbp",
+                    "value": -7067.32,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Spain: Sales change contribution",
+                    "field_path": "countries.23.delta_gbp",
+                    "value": 42.02,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Sweden: Sales change contribution",
+                    "field_path": "countries.24.delta_gbp",
+                    "value": -3043.93,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Switzerland: Sales change contribution",
+                    "field_path": "countries.25.delta_gbp",
+                    "value": 53.78,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "USA: Sales change contribution",
+                    "field_path": "countries.26.delta_gbp",
+                    "value": -2311.2,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "United Kingdom: Sales change contribution",
+                    "field_path": "countries.27.delta_gbp",
+                    "value": 386371.2,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  },
+                  {
+                    "label": "Unspecified: Sales change contribution",
+                    "field_path": "countries.28.delta_gbp",
+                    "value": 965.75,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_58193eca74"
+                  }
+                ],
+                "warnings": [
+                  "Country contributions describe arithmetic change, not a causal explanation.",
+                  "Gross positive sales exclude cancellations/nonpositive lines and are not net revenue or profit.",
+                  "Transaction records contain no visits, SaaS activation, funnel events, or randomized assignments.",
+                  "Exact duplicate rows are retained; missing customer identifiers do not exclude valid sales."
+                ],
+                "metrics": {
+                  "elapsed_ms": 7151.63,
+                  "tool_calls": 2,
+                  "model_calls": 1,
+                  "input_tokens": 4096,
+                  "output_tokens": 215,
+                  "estimated_cost_usd": 0.0019824,
+                  "reserved_request_usd": 0.02,
+                  "reserved_model_cost_usd": 0.00886,
+                  "uncertain_usage_calls": 0,
+                  "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+                  "last_provider_http_status": 200
+                },
+                "claims": [
+                  {
+                    "text": "The United Kingdom was the largest contributor to the sales increase between the two months. United Kingdom: Sales change contribution: 386,371.2 GBP.",
+                    "fact_ids": [
+                      "f36"
+                    ],
+                    "evidence_ids": [
+                      "ev_58193eca74"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  },
+                  {
+                    "text": "Several countries including Japan, EIRE, and Norway also contributed positively to the sales change. Japan: Sales change contribution: 6,512.04 GBP; EIRE: Sales change contribution: 6,420.51 GBP; Norway: Sales change contribution: 2,840.27 GBP.",
+                    "fact_ids": [
+                      "f24",
+                      "f16",
+                      "f27"
+                    ],
+                    "evidence_ids": [
+                      "ev_58193eca74"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  },
+                  {
+                    "text": "Some countries such as the Netherlands, Australia, and Singapore contributed negatively to the sales change. Netherlands: Sales change contribution: -14,834.64 GBP; Australia: Sales change contribution: -9,907.81 GBP; Singapore: Sales change contribution: -7,067.32 GBP.",
+                    "fact_ids": [
+                      "f26",
+                      "f9",
+                      "f31"
+                    ],
+                    "evidence_ids": [
+                      "ev_58193eca74"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  },
+                  {
+                    "text": "The total sales change is the sum of all country contributions, confirming an accounting decomposition rather than causal attribution. Sales change: 354,517.03 GBP.",
+                    "fact_ids": [
+                      "f2"
+                    ],
+                    "evidence_ids": [
+                      "ev_58193eca74",
+                      "ev_f1dc65b996"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "id": "ev_58193eca74",
+                    "kind": "evidence",
+                    "title": "retail_country_contributions"
+                  },
+                  {
+                    "id": "retail_country",
+                    "kind": "contract",
+                    "title": "Country contribution to sales change"
+                  },
+                  {
+                    "id": "ev_f1dc65b996",
+                    "kind": "evidence",
+                    "title": "compare_retail_sales"
+                  }
+                ],
+                "generation": {
+                  "method": "llm_grounded",
+                  "schema_version": "3.1",
+                  "model": "gpt-4.1-mini-2025-04-14",
+                  "numeric_validation": "passed",
+                  "citation_validation": "passed",
+                  "numeric_validation_scope": "Server-rendered fact values and explicit quantity checks; narrative entailment needs review.",
+                  "semantic_validation": "not_automated"
+                },
+                "reservation_usd": 0.02,
+                "request_id": "c1c62cd91b3649bfa8d388da62d7c548",
+                "model": "gpt-4.1-mini-2025-04-14",
+                "dataset": {
+                  "hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+                  "label": "UCI Online Retail",
+                  "source_type": "real_public_transactions",
+                  "source_rows": 541909,
+                  "source": {
+                    "citation": "Chen, D. (2015). Online Retail [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33.",
+                    "doi": "10.24432/C5BW33",
+                    "download_url": "https://archive.ics.uci.edu/static/public/352/online+retail.zip",
+                    "license": "CC BY 4.0",
+                    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+                    "name": "UCI Online Retail",
+                    "source_rows": 541909,
+                    "source_sha256": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+                    "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+                    "workbook_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+                  },
+                  "audit": {
+                    "cancellation_lines": 9288,
+                    "country_count": 38,
+                    "exact_duplicate_rows": 5268,
+                    "excluded_lines": 11805,
+                    "included_lines": 530104,
+                    "invalid_lines": 0,
+                    "missing_customer_id_lines": 135080,
+                    "missing_description_lines": 1454,
+                    "nonpositive_price_lines": 2517,
+                    "nonpositive_quantity_lines": 10624,
+                    "source_date_max": "2011-12-09T12:50:00",
+                    "source_date_min": "2010-12-01T08:26:00",
+                    "total_rows": 541909
+                  },
+                  "before_month": "2011-10",
+                  "after_month": "2011-11"
+                }
+              }
+            },
+            "baseline": {
+              "status": "completed",
+              "elapsed_ms": 7216.69,
+              "automatic_pass": true,
+              "checks": {
+                "numerical_evidence": {
+                  "passed": true
+                },
+                "citation_integrity": {
+                  "passed": true
+                },
+                "critical_checks": {
+                  "invalid_assignment_accepted": false,
+                  "boundary_executed_tools": false,
+                  "disallowed_tool_executed": false,
+                  "unsupported_claim_accepted": false
+                },
+                "automatic_pass": true,
+                "manual_semantic_review": {
+                  "status": "required",
+                  "rubric": [
+                    "The answer uses the requested metric, cohort/window, population, and units.",
+                    "Every substantive numerical claim is supported by the cited executed evidence.",
+                    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+                    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+                    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+                  ]
+                },
+                "whole_task_pass": null
+              },
+              "response_sha256": "503b5da1d90cf2fbfd46e964ef7ce56eeed2b0f02e976c075b0897407b6e3b2f",
+              "response": {
+                "question": "Which countries contributed to the sales change?",
+                "mode": "live",
+                "status": "completed",
+                "summary": "The United Kingdom was the largest positive contributor to the sales increase between the two months. United Kingdom: Sales change contribution: 386,371.2 GBP. Several countries including the Netherlands, Australia, and Singapore contributed negatively to the overall sales change. Netherlands: Sales change contribution: -14,834.64 GBP; Australia: Sales change contribution: -9,907.81 GBP; Singapore: Sales change contribution: -7,067.32 GBP. Countries such as Japan, EIRE, and Norway also contributed positively to the sales change but to a lesser extent than the United Kingdom. Japan: Sales change contribution: 6,512.04 GBP; EIRE: Sales change contribution: 6,420.51 GBP; Norway: Sales change contribution: 2,840.27 GBP. The total sales change is the sum of all country contributions, confirming the accounting decomposition approach. Sales change: 354,517.03 GBP.",
+                "retrieval": [
+                  {
+                    "id": "retail_country",
+                    "title": "Country contribution to sales change",
+                    "text": "Subtract October 2011 gross positive sales from November 2011 for each country. Country contributions sum to the total change. Countries absent in one month contribute zero in that month. This is an accounting decomposition, not causal attribution.",
+                    "score": 0.6413,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "retail_quality",
+                    "title": "Source and quality boundaries",
+                    "text": "UCI Online Retail by Daqing Chen (2015), DOI 10.24432/C5BW33, CC BY 4.0. Public historical UK retailer transactions from December 2010 to December 2011. Exact duplicate rows are retained and counted because no source line ID proves which repeated lines are erroneous. Only complete October and November 2011 are compared.",
+                    "score": 0.3818,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  },
+                  {
+                    "id": "retail_gross_sales",
+                    "title": "Gross positive sales in GBP",
+                    "text": "Sum Quantity times UnitPrice for invoice lines with positive quantity and price, excluding cancellation invoices starting C. This is gross positive sales, not net revenue, profit, or causal uplift. Missing customer identifiers do not exclude a valid sales line.",
+                    "score": 0.302,
+                    "version": "1.0",
+                    "method": "minilm_cosine_similarity"
+                  }
+                ],
+                "evidence": [
+                  {
+                    "id": "ev_4977640466",
+                    "tool": "compare_retail_sales",
+                    "args": {
+                      "before_month": "2011-10",
+                      "after_month": "2011-11"
+                    },
+                    "sql": "SELECT month, SUM(gross_sales_gbp), SUM(orders), SUM(lines), SUM(units)\nFROM retail WHERE month IN (?, ?) GROUP BY month ORDER BY month",
+                    "sql_parameters": [
+                      "2011-10",
+                      "2011-11"
+                    ],
+                    "result": {
+                      "before": {
+                        "gross_sales_gbp": 1154979.3,
+                        "orders": 2040,
+                        "lines": 59304,
+                        "units": 623401
+                      },
+                      "after": {
+                        "gross_sales_gbp": 1509496.33,
+                        "orders": 2769,
+                        "lines": 83369,
+                        "units": 754507
+                      },
+                      "delta_gbp": 354517.03,
+                      "change_pct": 30.6946652636978
+                    },
+                    "elapsed_ms": 2.61,
+                    "warnings": [],
+                    "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+                    "contract_version": "retail-1.0"
+                  },
+                  {
+                    "id": "ev_2e700320f5",
+                    "tool": "retail_country_contributions",
+                    "args": {
+                      "before_month": "2011-10",
+                      "after_month": "2011-11"
+                    },
+                    "sql": "SELECT country,\nSUM(CASE WHEN month=? THEN gross_sales_gbp ELSE 0 END) AS before_gbp,\nSUM(CASE WHEN month=? THEN gross_sales_gbp ELSE 0 END) AS after_gbp\nFROM retail WHERE month IN (?, ?) GROUP BY country ORDER BY country",
+                    "sql_parameters": [
+                      "2011-10",
+                      "2011-11",
+                      "2011-10",
+                      "2011-11"
+                    ],
+                    "result": {
+                      "countries": [
+                        {
+                          "country": "Australia",
+                          "before_gbp": 17150.53,
+                          "after_gbp": 7242.72,
+                          "delta_gbp": -9907.81
+                        },
+                        {
+                          "country": "Austria",
+                          "before_gbp": 1043.78,
+                          "after_gbp": 1329.78,
+                          "delta_gbp": 286.0
+                        },
+                        {
+                          "country": "Belgium",
+                          "before_gbp": 5685.38,
+                          "after_gbp": 6315.76,
+                          "delta_gbp": 630.38
+                        },
+                        {
+                          "country": "Channel Islands",
+                          "before_gbp": 2623.32,
+                          "after_gbp": 1514.77,
+                          "delta_gbp": -1108.55
+                        },
+                        {
+                          "country": "Cyprus",
+                          "before_gbp": 4412.87,
+                          "after_gbp": 460.89,
+                          "delta_gbp": -3951.98
+                        },
+                        {
+                          "country": "Czech Republic",
+                          "before_gbp": 277.48,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -277.48
+                        },
+                        {
+                          "country": "Denmark",
+                          "before_gbp": 1490.76,
+                          "after_gbp": 2699.57,
+                          "delta_gbp": 1208.81
+                        },
+                        {
+                          "country": "EIRE",
+                          "before_gbp": 24317.92,
+                          "after_gbp": 30738.43,
+                          "delta_gbp": 6420.51
+                        },
+                        {
+                          "country": "Finland",
+                          "before_gbp": 2822.12,
+                          "after_gbp": 3070.24,
+                          "delta_gbp": 248.12
+                        },
+                        {
+                          "country": "France",
+                          "before_gbp": 33485.45,
+                          "after_gbp": 31758.71,
+                          "delta_gbp": -1726.74
+                        },
+                        {
+                          "country": "Germany",
+                          "before_gbp": 31638.42,
+                          "after_gbp": 28025.02,
+                          "delta_gbp": -3613.4
+                        },
+                        {
+                          "country": "Hong Kong",
+                          "before_gbp": 734.52,
+                          "after_gbp": 326.1,
+                          "delta_gbp": -408.42
+                        },
+                        {
+                          "country": "Iceland",
+                          "before_gbp": 1294.32,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -1294.32
+                        },
+                        {
+                          "country": "Israel",
+                          "before_gbp": 138.03,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -138.03
+                        },
+                        {
+                          "country": "Italy",
+                          "before_gbp": 3489.69,
+                          "after_gbp": 4571.08,
+                          "delta_gbp": 1081.39
+                        },
+                        {
+                          "country": "Japan",
+                          "before_gbp": 1948.04,
+                          "after_gbp": 8460.08,
+                          "delta_gbp": 6512.04
+                        },
+                        {
+                          "country": "Malta",
+                          "before_gbp": 0.0,
+                          "after_gbp": 743.43,
+                          "delta_gbp": 743.43
+                        },
+                        {
+                          "country": "Netherlands",
+                          "before_gbp": 40708.65,
+                          "after_gbp": 25874.01,
+                          "delta_gbp": -14834.64
+                        },
+                        {
+                          "country": "Norway",
+                          "before_gbp": 3687.23,
+                          "after_gbp": 6527.5,
+                          "delta_gbp": 2840.27
+                        },
+                        {
+                          "country": "Poland",
+                          "before_gbp": 0.0,
+                          "after_gbp": 1361.23,
+                          "delta_gbp": 1361.23
+                        },
+                        {
+                          "country": "Portugal",
+                          "before_gbp": 6206.67,
+                          "after_gbp": 2644.9,
+                          "delta_gbp": -3561.77
+                        },
+                        {
+                          "country": "RSA",
+                          "before_gbp": 1002.31,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -1002.31
+                        },
+                        {
+                          "country": "Singapore",
+                          "before_gbp": 7067.32,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -7067.32
+                        },
+                        {
+                          "country": "Spain",
+                          "before_gbp": 8636.94,
+                          "after_gbp": 8678.96,
+                          "delta_gbp": 42.02
+                        },
+                        {
+                          "country": "Sweden",
+                          "before_gbp": 5766.16,
+                          "after_gbp": 2722.23,
+                          "delta_gbp": -3043.93
+                        },
+                        {
+                          "country": "Switzerland",
+                          "before_gbp": 8065.18,
+                          "after_gbp": 8118.96,
+                          "delta_gbp": 53.78
+                        },
+                        {
+                          "country": "USA",
+                          "before_gbp": 2311.2,
+                          "after_gbp": 0.0,
+                          "delta_gbp": -2311.2
+                        },
+                        {
+                          "country": "United Kingdom",
+                          "before_gbp": 938975.01,
+                          "after_gbp": 1325346.21,
+                          "delta_gbp": 386371.2
+                        },
+                        {
+                          "country": "Unspecified",
+                          "before_gbp": 0.0,
+                          "after_gbp": 965.75,
+                          "delta_gbp": 965.75
+                        }
+                      ],
+                      "delta_gbp": 354517.03
+                    },
+                    "elapsed_ms": 1.08,
+                    "warnings": [],
+                    "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+                    "contract_version": "retail-1.0"
+                  }
+                ],
+                "trace": [
+                  {
+                    "step": "retrieve",
+                    "detail": "Retrieved versioned public-retail metric and source contracts."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "Compared gross positive sales with parameterized SQL."
+                  },
+                  {
+                    "step": "execute",
+                    "detail": "Reconciled country contributions to the observed sales change."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numerical findings against SQL evidence and country totals."
+                  },
+                  {
+                    "step": "generate",
+                    "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+                  },
+                  {
+                    "step": "verify",
+                    "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+                  }
+                ],
+                "findings": [
+                  {
+                    "label": "October gross positive sales",
+                    "field_path": "before.gross_sales_gbp",
+                    "value": 1154979.3,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "November gross positive sales",
+                    "field_path": "after.gross_sales_gbp",
+                    "value": 1509496.33,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "Sales change",
+                    "field_path": "delta_gbp",
+                    "value": 354517.03,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "October invoice count",
+                    "field_path": "before.orders",
+                    "value": 2040,
+                    "unit": "invoices",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "October invoice line count",
+                    "field_path": "before.lines",
+                    "value": 59304,
+                    "unit": "lines",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "October unit volume",
+                    "field_path": "before.units",
+                    "value": 623401,
+                    "unit": "units",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "November invoice count",
+                    "field_path": "after.orders",
+                    "value": 2769,
+                    "unit": "invoices",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "November invoice line count",
+                    "field_path": "after.lines",
+                    "value": 83369,
+                    "unit": "lines",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "November unit volume",
+                    "field_path": "after.units",
+                    "value": 754507,
+                    "unit": "units",
+                    "scale": 1,
+                    "evidence_id": "ev_4977640466"
+                  },
+                  {
+                    "label": "Australia: Sales change contribution",
+                    "field_path": "countries.0.delta_gbp",
+                    "value": -9907.81,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Austria: Sales change contribution",
+                    "field_path": "countries.1.delta_gbp",
+                    "value": 286.0,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Belgium: Sales change contribution",
+                    "field_path": "countries.2.delta_gbp",
+                    "value": 630.38,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Channel Islands: Sales change contribution",
+                    "field_path": "countries.3.delta_gbp",
+                    "value": -1108.55,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Cyprus: Sales change contribution",
+                    "field_path": "countries.4.delta_gbp",
+                    "value": -3951.98,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Czech Republic: Sales change contribution",
+                    "field_path": "countries.5.delta_gbp",
+                    "value": -277.48,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Denmark: Sales change contribution",
+                    "field_path": "countries.6.delta_gbp",
+                    "value": 1208.81,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "EIRE: Sales change contribution",
+                    "field_path": "countries.7.delta_gbp",
+                    "value": 6420.51,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Finland: Sales change contribution",
+                    "field_path": "countries.8.delta_gbp",
+                    "value": 248.12,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "France: Sales change contribution",
+                    "field_path": "countries.9.delta_gbp",
+                    "value": -1726.74,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Germany: Sales change contribution",
+                    "field_path": "countries.10.delta_gbp",
+                    "value": -3613.4,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Hong Kong: Sales change contribution",
+                    "field_path": "countries.11.delta_gbp",
+                    "value": -408.42,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Iceland: Sales change contribution",
+                    "field_path": "countries.12.delta_gbp",
+                    "value": -1294.32,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Israel: Sales change contribution",
+                    "field_path": "countries.13.delta_gbp",
+                    "value": -138.03,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Italy: Sales change contribution",
+                    "field_path": "countries.14.delta_gbp",
+                    "value": 1081.39,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Japan: Sales change contribution",
+                    "field_path": "countries.15.delta_gbp",
+                    "value": 6512.04,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Malta: Sales change contribution",
+                    "field_path": "countries.16.delta_gbp",
+                    "value": 743.43,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Netherlands: Sales change contribution",
+                    "field_path": "countries.17.delta_gbp",
+                    "value": -14834.64,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Norway: Sales change contribution",
+                    "field_path": "countries.18.delta_gbp",
+                    "value": 2840.27,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Poland: Sales change contribution",
+                    "field_path": "countries.19.delta_gbp",
+                    "value": 1361.23,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Portugal: Sales change contribution",
+                    "field_path": "countries.20.delta_gbp",
+                    "value": -3561.77,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "RSA: Sales change contribution",
+                    "field_path": "countries.21.delta_gbp",
+                    "value": -1002.31,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Singapore: Sales change contribution",
+                    "field_path": "countries.22.delta_gbp",
+                    "value": -7067.32,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Spain: Sales change contribution",
+                    "field_path": "countries.23.delta_gbp",
+                    "value": 42.02,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Sweden: Sales change contribution",
+                    "field_path": "countries.24.delta_gbp",
+                    "value": -3043.93,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Switzerland: Sales change contribution",
+                    "field_path": "countries.25.delta_gbp",
+                    "value": 53.78,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "USA: Sales change contribution",
+                    "field_path": "countries.26.delta_gbp",
+                    "value": -2311.2,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "United Kingdom: Sales change contribution",
+                    "field_path": "countries.27.delta_gbp",
+                    "value": 386371.2,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  },
+                  {
+                    "label": "Unspecified: Sales change contribution",
+                    "field_path": "countries.28.delta_gbp",
+                    "value": 965.75,
+                    "unit": "GBP",
+                    "scale": 1,
+                    "evidence_id": "ev_2e700320f5"
+                  }
+                ],
+                "warnings": [
+                  "Country contributions describe arithmetic change, not a causal explanation.",
+                  "Gross positive sales exclude cancellations/nonpositive lines and are not net revenue or profit.",
+                  "Transaction records contain no visits, SaaS activation, funnel events, or randomized assignments.",
+                  "Exact duplicate rows are retained; missing customer identifiers do not exclude valid sales."
+                ],
+                "metrics": {
+                  "elapsed_ms": 7216.67,
+                  "tool_calls": 2,
+                  "model_calls": 1,
+                  "input_tokens": 4147,
+                  "output_tokens": 230,
+                  "estimated_cost_usd": 0.0020268,
+                  "reserved_request_usd": 0.02,
+                  "reserved_model_cost_usd": 0.00886,
+                  "uncertain_usage_calls": 0,
+                  "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+                  "last_provider_http_status": 200
+                },
+                "claims": [
+                  {
+                    "text": "The United Kingdom was the largest positive contributor to the sales increase between the two months. United Kingdom: Sales change contribution: 386,371.2 GBP.",
+                    "fact_ids": [
+                      "f36"
+                    ],
+                    "evidence_ids": [
+                      "ev_2e700320f5"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  },
+                  {
+                    "text": "Several countries including the Netherlands, Australia, and Singapore contributed negatively to the overall sales change. Netherlands: Sales change contribution: -14,834.64 GBP; Australia: Sales change contribution: -9,907.81 GBP; Singapore: Sales change contribution: -7,067.32 GBP.",
+                    "fact_ids": [
+                      "f26",
+                      "f9",
+                      "f31"
+                    ],
+                    "evidence_ids": [
+                      "ev_2e700320f5"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  },
+                  {
+                    "text": "Countries such as Japan, EIRE, and Norway also contributed positively to the sales change but to a lesser extent than the United Kingdom. Japan: Sales change contribution: 6,512.04 GBP; EIRE: Sales change contribution: 6,420.51 GBP; Norway: Sales change contribution: 2,840.27 GBP.",
+                    "fact_ids": [
+                      "f24",
+                      "f16",
+                      "f27"
+                    ],
+                    "evidence_ids": [
+                      "ev_2e700320f5"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  },
+                  {
+                    "text": "The total sales change is the sum of all country contributions, confirming the accounting decomposition approach. Sales change: 354,517.03 GBP.",
+                    "fact_ids": [
+                      "f2"
+                    ],
+                    "evidence_ids": [
+                      "ev_2e700320f5",
+                      "ev_4977640466"
+                    ],
+                    "contract_ids": [
+                      "retail_country"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "id": "ev_2e700320f5",
+                    "kind": "evidence",
+                    "title": "retail_country_contributions"
+                  },
+                  {
+                    "id": "retail_country",
+                    "kind": "contract",
+                    "title": "Country contribution to sales change"
+                  },
+                  {
+                    "id": "ev_4977640466",
+                    "kind": "evidence",
+                    "title": "compare_retail_sales"
+                  }
+                ],
+                "generation": {
+                  "method": "llm_grounded",
+                  "schema_version": "3.1",
+                  "model": "gpt-4.1-mini-2025-04-14",
+                  "numeric_validation": "passed",
+                  "citation_validation": "passed",
+                  "numeric_validation_scope": "Server-rendered fact values and explicit quantity checks; narrative entailment needs review.",
+                  "semantic_validation": "not_automated"
+                },
+                "request_id": "02817dda7115419fb7be4702798d1571",
+                "model": "gpt-4.1-mini-2025-04-14",
+                "dataset": {
+                  "hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
+                  "label": "UCI Online Retail",
+                  "source_type": "real_public_transactions",
+                  "source_rows": 541909,
+                  "source": {
+                    "citation": "Chen, D. (2015). Online Retail [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33.",
+                    "doi": "10.24432/C5BW33",
+                    "download_url": "https://archive.ics.uci.edu/static/public/352/online+retail.zip",
+                    "license": "CC BY 4.0",
+                    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+                    "name": "UCI Online Retail",
+                    "source_rows": 541909,
+                    "source_sha256": "f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b",
+                    "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+                    "workbook_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+                  },
+                  "audit": {
+                    "cancellation_lines": 9288,
+                    "country_count": 38,
+                    "exact_duplicate_rows": 5268,
+                    "excluded_lines": 11805,
+                    "included_lines": 530104,
+                    "invalid_lines": 0,
+                    "missing_customer_id_lines": 135080,
+                    "missing_description_lines": 1454,
+                    "nonpositive_price_lines": 2517,
+                    "nonpositive_quantity_lines": 10624,
+                    "source_date_max": "2011-12-09T12:50:00",
+                    "source_date_min": "2010-12-01T08:26:00",
+                    "total_rows": 541909
+                  },
+                  "before_month": "2011-10",
+                  "after_month": "2011-11"
+                },
+                "baseline": {
+                  "name": "fixed_sql_single_pass",
+                  "same_model": "gpt-4.1-mini-2025-04-14",
+                  "answer_calls_per_answerable_request": 1,
+                  "dynamic_action_selection": false,
+                  "information_access": "Same retrieved contracts and relevant precomputed allowlisted SQL/tool summaries.",
+                  "preprocessing_advantage": "A deterministic controller selects and executes the relevant analytical tools before the one answer call. This gives the baseline correct tool selection and precomputed arithmetic; it is not a raw-data, unaided LLM baseline.",
+                  "boundary_policy": "Deterministic unsupported/clarification cases use zero model calls in both arms.",
+                  "comparison_scope": "Complete analytical system versus fixed-preprocessing single-pass summarizer; does not isolate LangGraph or dynamic planning.",
+                  "budget": "Both arms use the same per-request provider limit and conservative request reservation. The agent can spend several calls selecting tools; the baseline spends one answer call.",
+                  "sql_preprocessing_calls": 2,
+                  "preprocessing_ms": 152.42
+                },
+                "reservation_usd": 0.02
+              }
+            }
+          }
+        }
+      ],
+      "summary_by_system": {
+        "agent": {
+          "planned": 3,
+          "attempted": 3,
+          "automatic_passes": 3,
+          "whole_task_passes": 0,
+          "manual_reviews_pending": 3,
+          "model_calls": 8,
+          "tool_calls": 5,
+          "input_tokens": 11347,
+          "output_tokens": 731,
+          "estimated_cost_usd": 0.0057084,
+          "uncertain_usage_calls": 0,
+          "cost_basis": "Pinned token pricing; failures without confirmed usage retain the provider gateway conservative upper bound.",
+          "latency_ms": {
+            "mean": 19799.98,
+            "median": 21008.84,
+            "p95": 31239.31
+          }
+        },
+        "baseline": {
+          "planned": 3,
+          "attempted": 3,
+          "automatic_passes": 3,
+          "whole_task_passes": 0,
+          "manual_reviews_pending": 3,
+          "model_calls": 3,
+          "tool_calls": 5,
+          "input_tokens": 7652,
+          "output_tokens": 481,
+          "estimated_cost_usd": 0.0038304,
+          "uncertain_usage_calls": 0,
+          "cost_basis": "Pinned token pricing; failures without confirmed usage retain the provider gateway conservative upper bound.",
+          "latency_ms": {
+            "mean": 7758.42,
+            "median": 7745.07,
+            "p95": 8313.49
+          }
+        }
+      }
+    }
+  ],
+  "summary_by_system": {
+    "agent": {
+      "planned": 3,
+      "attempted": 3,
+      "automatic_passes": 3,
+      "whole_task_passes": 0,
+      "manual_reviews_pending": 3,
+      "model_calls": 8,
+      "tool_calls": 5,
+      "input_tokens": 11347,
+      "output_tokens": 731,
+      "estimated_cost_usd": 0.0057084,
+      "uncertain_usage_calls": 0,
+      "cost_basis": "Pinned token pricing; failures without confirmed usage retain the provider gateway conservative upper bound.",
+      "latency_ms": {
+        "mean": 19799.98,
+        "median": 21008.84,
+        "p95": 31239.31
+      }
+    },
+    "baseline": {
+      "planned": 3,
+      "attempted": 3,
+      "automatic_passes": 3,
+      "whole_task_passes": 0,
+      "manual_reviews_pending": 3,
+      "model_calls": 3,
+      "tool_calls": 5,
+      "input_tokens": 7652,
+      "output_tokens": 481,
+      "estimated_cost_usd": 0.0038304,
+      "uncertain_usage_calls": 0,
+      "cost_basis": "Pinned token pricing; failures without confirmed usage retain the provider gateway conservative upper bound.",
+      "latency_ms": {
+        "mean": 7758.42,
+        "median": 7745.07,
+        "p95": 8313.49
+      }
+    }
+  },
+  "summary": {
+    "planned": 6,
+    "attempted": 6,
+    "automatic_passes": 6,
+    "whole_task_passes": 0,
+    "manual_reviews_pending": 6,
+    "model_calls": 11,
+    "tool_calls": 10,
+    "input_tokens": 18999,
+    "output_tokens": 1212,
+    "estimated_cost_usd": 0.0095388,
+    "uncertain_usage_calls": 0,
+    "cost_basis": "Pinned token pricing; failures without confirmed usage retain the provider gateway conservative upper bound.",
+    "latency_ms": {
+      "mean": 13779.2,
+      "median": 8029.28,
+      "p95": 31239.31
+    }
+  },
+  "attempted_response_count": 6,
+  "model_calls": 11,
+  "model_tokens": 20211,
+  "model_api_cost_usd": 0.0095388,
+  "automatic_pass": true,
+  "whole_task_pass": null,
+  "elapsed_ms": 82790.59,
+  "completed_at_utc": "2026-10-02T06:33:35.370290+00:00",
+  "source_stability": {
+    "unchanged": true,
+    "ending_source_sha256": {
+      "backend/__init__.py": "eb173961626a1638058344cd0bc23dd0c6447aae7046aa32b22d88fc92bffff7",
+      "backend/agent.py": "968a6f8a86a3e3be7c674c7d7126725bf0987c5ca0fdca092c4bb72bc0563f5c",
+      "backend/budget.py": "602092aecd30e7c2ec46653611aa66d8bd7aeff61d3a70051e0be4b9969bca82",
+      "backend/data.py": "181c3c1f2aea6c443ba9cb3325efd8eae91b69219d07835d5c2561769a53cccc",
+      "backend/download_embedding_model.py": "c84e6c41a22265c94ceea9ad71add7e20fb62e895641d53cd84567c9c2d78d4a",
+      "backend/generation.py": "e3134dc74840bb59ad11f19dcd33374c9141198e9fd7529c624cd99f9a6be13b",
+      "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
+      "backend/provider.py": "2b34c1c66e9b368faa6428bf2afc0a2f20fe37328dd058ddc8b6b9fd15fc251c",
+      "backend/retail.py": "8537968537f7113c6fd02d3a481c4d23b1f3a4903963e5616aa3bf9505bec304",
+      "backend/retrieval.py": "1ab2f32baee5e97c2614891d53a74676efac5f8049aedfb2c790d0380d5cd2e1",
+      "backend/statistics.py": "66fe39a9280c68ac8708c7e2f3c40bc72b0d2e8b9a0bc9bacf8fd72f1ed4c939",
+      "backend/tools.py": "3c09ddecfef2474eb27ea46c6260b5cfe142441543ed29eb1a11931a660227e3",
+      "backend/wordpiece.py": "c8f7a411c6acba31a103a1e6987a9782899acd77e0ba4acb2232f6424cf40297",
+      "contracts/metrics.json": "f485e6312de9b932074007edff830b79fe0684c71708f6e4d54195c08ea3bffb",
+      "docs/EVALUATION.md": "9e49a956c6122064f343ed3a84f9f6dfc58ae2d9180dfeb41726fe99fcd74cbb",
+      "evals/__init__.py": "598147b41534c45ed83128dfabd0bf1975bf3655e7bcc1c072004f7e0cf00b06",
+      "evals/build_manifest.py": "b9df31dca43858f88dedfeaeb875163b673cd3cec4c2038e92f4a6059f6671cf",
+      "evals/live.py": "b7d7cd72bc8db770f59ee177f5794b1bec314ed7a432ba324582bf0d7eb1d06b",
+      "evals/reference.py": "206b441a45356fea43aaa280206f92959264d9d624a753fc0c2c298d733b0374",
+      "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc",
+      "evals/retrieval.py": "582889d1c355c21a536b5ef33a22f474c661c71679644de1596d6a4f0fcda561",
+      "evals/run.py": "3fb75dd4fa7f547a88a4dbd3d16350c70325f68708e506209e7d242015ef918d"
+    }
+  },
+  "per_case_instability": {
+    "dev-metric-01": {
+      "agent": {
+        "automatic_pass_count": 1,
+        "repeats": 1,
+        "statuses": [
+          "completed"
+        ]
+      },
+      "baseline": {
+        "automatic_pass_count": 1,
+        "repeats": 1,
+        "statuses": [
+          "completed"
+        ]
+      }
+    },
+    "dev-experiment_valid-01": {
+      "agent": {
+        "automatic_pass_count": 1,
+        "repeats": 1,
+        "statuses": [
+          "completed"
+        ]
+      },
+      "baseline": {
+        "automatic_pass_count": 1,
+        "repeats": 1,
+        "statuses": [
+          "completed"
+        ]
+      }
+    },
+    "retail-live-02": {
+      "agent": {
+        "automatic_pass_count": 1,
+        "repeats": 1,
+        "statuses": [
+          "completed"
+        ]
+      },
+      "baseline": {
+        "automatic_pass_count": 1,
+        "repeats": 1,
+        "statuses": [
+          "completed"
+        ]
+      }
+    }
+  },
+  "budget_before": {
+    "day": "2026-10-02",
+    "storage_backend": "sqlite",
+    "reservation_usd": 0.02,
+    "daily_cap_usd": 5.0,
+    "total_cap_usd": 5.0,
+    "daily_reserved_usd": 0.6,
+    "total_reserved_usd": 0.6,
+    "daily_remaining_usd": 4.4,
+    "total_remaining_usd": 4.4
+  },
+  "budget_after": {
+    "day": "2026-10-02",
+    "storage_backend": "sqlite",
+    "reservation_usd": 0.02,
+    "daily_cap_usd": 5.0,
+    "total_cap_usd": 5.0,
+    "daily_reserved_usd": 0.72,
+    "total_reserved_usd": 0.72,
+    "daily_remaining_usd": 4.28,
+    "total_remaining_usd": 4.28
+  }
+}

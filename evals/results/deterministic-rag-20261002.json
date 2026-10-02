@@ -1,0 +1,970 @@
+{
+  "scope": "Deterministic controller and numerical synthetic regression. No LLM calls, no live model benchmark, no single-pass baseline comparison.",
+  "run_at_utc": "2026-10-02T06:10:22.969468+00:00",
+  "mode": "deterministic",
+  "split": "test",
+  "benchmark_scope": "deterministic_regression",
+  "manifest_sha256": "59dcf22cf989d64ef22be3c01b7d0d8b6dc4395671f953990222b140dff1e663",
+  "code_sha": "a7d03a559780c9fc2506284df3d1c533e3ab81d4",
+  "working_tree_dirty": true,
+  "source_sha256": {
+    "backend/__init__.py": "eb173961626a1638058344cd0bc23dd0c6447aae7046aa32b22d88fc92bffff7",
+    "backend/agent.py": "968a6f8a86a3e3be7c674c7d7126725bf0987c5ca0fdca092c4bb72bc0563f5c",
+    "backend/budget.py": "602092aecd30e7c2ec46653611aa66d8bd7aeff61d3a70051e0be4b9969bca82",
+    "backend/data.py": "181c3c1f2aea6c443ba9cb3325efd8eae91b69219d07835d5c2561769a53cccc",
+    "backend/download_embedding_model.py": "c84e6c41a22265c94ceea9ad71add7e20fb62e895641d53cd84567c9c2d78d4a",
+    "backend/generation.py": "3e823d16c5013dbb13007a44b62c4f0acb4ee7673aa9b9986ad75811b77b628e",
+    "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
+    "backend/provider.py": "d0100c8d9f072bc7c48453dc825a8839ea2b93d3740b8627ae3f4b19a9c82f7b",
+    "backend/retail.py": "8537968537f7113c6fd02d3a481c4d23b1f3a4903963e5616aa3bf9505bec304",
+    "backend/retrieval.py": "1ab2f32baee5e97c2614891d53a74676efac5f8049aedfb2c790d0380d5cd2e1",
+    "backend/statistics.py": "66fe39a9280c68ac8708c7e2f3c40bc72b0d2e8b9a0bc9bacf8fd72f1ed4c939",
+    "backend/tools.py": "3c09ddecfef2474eb27ea46c6260b5cfe142441543ed29eb1a11931a660227e3",
+    "backend/wordpiece.py": "c8f7a411c6acba31a103a1e6987a9782899acd77e0ba4acb2232f6424cf40297",
+    "evals/__init__.py": "598147b41534c45ed83128dfabd0bf1975bf3655e7bcc1c072004f7e0cf00b06",
+    "evals/build_manifest.py": "b9df31dca43858f88dedfeaeb875163b673cd3cec4c2038e92f4a6059f6671cf",
+    "evals/live.py": "84c47efb5c50e075fc75c04da58cd0a49a6bbaf3e6ecf912df2ec9e5c4dd1613",
+    "evals/reference.py": "206b441a45356fea43aaa280206f92959264d9d624a753fc0c2c298d733b0374",
+    "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc",
+    "evals/retrieval.py": "582889d1c355c21a536b5ef33a22f474c661c71679644de1596d6a4f0fcda561",
+    "evals/run.py": "3fb75dd4fa7f547a88a4dbd3d16350c70325f68708e506209e7d242015ef918d"
+  },
+  "model": null,
+  "model_calls": 0,
+  "model_tokens": 0,
+  "model_api_cost_usd": 0,
+  "runs": [
+    {
+      "repeat": 1,
+      "passed": 30,
+      "total": 30,
+      "cases": [
+        {
+          "id": "test-metric-01",
+          "family": "metric",
+          "seed": 91000,
+          "dataset_sha256": "da8c7ffd44879ccbf741739714778341c6ce768a1dc8d1042c5a5557a989b56b",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 532.0
+        },
+        {
+          "id": "test-metric-02",
+          "family": "metric",
+          "seed": 91001,
+          "dataset_sha256": "283565fe0ddc9f1cf58e2ed234b0e80ab5c6b010a72784d997b0a2da30127a2f",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 203.48
+        },
+        {
+          "id": "test-metric-03",
+          "family": "metric",
+          "seed": 91002,
+          "dataset_sha256": "07443a560b5725eaf3448b704376e276ffa695769f77f6299bfe88ace309a68e",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 221.34
+        },
+        {
+          "id": "test-metric-04",
+          "family": "metric",
+          "seed": 91003,
+          "dataset_sha256": "cca0296a67f0d9d118493f2d7e51258b355e2c3c190d2de978ebe953344477aa",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 236.34
+        },
+        {
+          "id": "test-metric-05",
+          "family": "metric",
+          "seed": 91004,
+          "dataset_sha256": "b060b4fbb1b8cd73de74ef83565d9f22d1d9f0a44f3f396ba35abd7ed71d08ee",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 270.13
+        },
+        {
+          "id": "test-funnel-01",
+          "family": "funnel",
+          "seed": 91100,
+          "dataset_sha256": "070a5ad7c065f60de07e28c0eae5eaec59b16bab742fde5f7d0fe16f88df4468",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 190.7
+        },
+        {
+          "id": "test-funnel-02",
+          "family": "funnel",
+          "seed": 91101,
+          "dataset_sha256": "7ccc30ce0f6947e3e954c5ab5cc03b2f121c9270353e9b2c6c4e73c453963245",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 193.83
+        },
+        {
+          "id": "test-funnel-03",
+          "family": "funnel",
+          "seed": 91102,
+          "dataset_sha256": "c737b125b522924b3362fdb3bc41b2fbe212bcc56cb385cdfe761fddbc0a027b",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 218.14
+        },
+        {
+          "id": "test-funnel-04",
+          "family": "funnel",
+          "seed": 91103,
+          "dataset_sha256": "9a777ce04dbbca1e71707823a3da36af73207ba77791a8332802e8405c6dfd1c",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 251.04
+        },
+        {
+          "id": "test-funnel-05",
+          "family": "funnel",
+          "seed": 91104,
+          "dataset_sha256": "816e5f4834963ad44bf4170a94b0f800d8a2319556607a05f98c06a5177b7076",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 245.26
+        },
+        {
+          "id": "test-decomposition-01",
+          "family": "decomposition",
+          "seed": 91200,
+          "dataset_sha256": "faa9b1eadeb02faa6a91c37569c8016cc78fe604262053cf0422093be425e294",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 237.17
+        },
+        {
+          "id": "test-decomposition-02",
+          "family": "decomposition",
+          "seed": 91201,
+          "dataset_sha256": "bd5e7f6c181e89900bbec2490401e0aff1486f137a479f84aa979e11c5407cea",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 241.5
+        },
+        {
+          "id": "test-decomposition-03",
+          "family": "decomposition",
+          "seed": 91202,
+          "dataset_sha256": "d85d0017946b1b337ac278c3e17052f5dcebb2b9b0af19c301d8a0beb0948383",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 238.69
+        },
+        {
+          "id": "test-decomposition-04",
+          "family": "decomposition",
+          "seed": 91203,
+          "dataset_sha256": "1d6176c60bd10b09d36c466b6e94c8d924897d48a254be487e40620a6b8fe192",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 292.89
+        },
+        {
+          "id": "test-decomposition-05",
+          "family": "decomposition",
+          "seed": 91204,
+          "dataset_sha256": "faf8a9e2ffa3a2650ee0a543e4952f2324c7ca0bc542a735f3feaf7d6f31645a",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 249.25
+        },
+        {
+          "id": "test-experiment_valid-01",
+          "family": "experiment_valid",
+          "seed": 91300,
+          "dataset_sha256": "7c7e27395cac2bd51cc5cb4dac76ee67ede43daef18653ba5a86ee9372a637b3",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 170.81
+        },
+        {
+          "id": "test-experiment_valid-02",
+          "family": "experiment_valid",
+          "seed": 91301,
+          "dataset_sha256": "91270ae883e5b9647d90b77f3a92061dc004499d1088f3156c5a6bfca34f6a33",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 181.92
+        },
+        {
+          "id": "test-experiment_valid-03",
+          "family": "experiment_valid",
+          "seed": 91302,
+          "dataset_sha256": "376e13eb9593095436202b51885b543d32a5742665f11e22ed779a603a79dd94",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 192.28
+        },
+        {
+          "id": "test-experiment_valid-04",
+          "family": "experiment_valid",
+          "seed": 91303,
+          "dataset_sha256": "3cbf2b65479ad4a75e72afd63046be8dd1ee867b926cbd05ae445847f124eb55",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 197.7
+        },
+        {
+          "id": "test-experiment_valid-05",
+          "family": "experiment_valid",
+          "seed": 91304,
+          "dataset_sha256": "01361ff9614b3eeae94d836b264a7e221046e887e508f7bb5daf1da3a09fb2ef",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 208.61
+        },
+        {
+          "id": "test-experiment_srm-01",
+          "family": "experiment_srm",
+          "seed": 91400,
+          "dataset_sha256": "4ae7d10f454f75133efb18d9fa2150de2dbedc48e0b220d4a1f9587eb6d8bd36",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 170.29
+        },
+        {
+          "id": "test-experiment_srm-02",
+          "family": "experiment_srm",
+          "seed": 91401,
+          "dataset_sha256": "4e36a173c16bd9fa7842b732a8586241ad37032df6ec4439254ec3367371d775",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 177.42
+        },
+        {
+          "id": "test-experiment_srm-03",
+          "family": "experiment_srm",
+          "seed": 91402,
+          "dataset_sha256": "9edbb965e5ad9c21e626f0d5b89482b70be0821417fe1ba23ee9a995d0e464d2",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 182.87
+        },
+        {
+          "id": "test-experiment_srm-04",
+          "family": "experiment_srm",
+          "seed": 91403,
+          "dataset_sha256": "f6b33a47c796eea3204a7c45b4ee595e7e8b9a91b08acc342707af9879b9a4b2",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 195.02
+        },
+        {
+          "id": "test-experiment_srm-05",
+          "family": "experiment_srm",
+          "seed": 91404,
+          "dataset_sha256": "786c4d9f8e3ca55c3f3b71e552f18a0234a49b1d438b6d613f03cd34f439c31d",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 200.94
+        },
+        {
+          "id": "test-boundary-01",
+          "family": "boundary",
+          "seed": 91500,
+          "dataset_sha256": "ddc4e303ef05cd3c941f97f874742d9f2f0a5ae7fd71623d83bf2be49f56d883",
+          "passed": true,
+          "status": "needs_clarification",
+          "tool_calls": 0,
+          "elapsed_ms": 26.13
+        },
+        {
+          "id": "test-boundary-02",
+          "family": "boundary",
+          "seed": 91501,
+          "dataset_sha256": "e20b97c980fe07dcd3ad11c17257f58f0772268181faad65056ba3e2e27b0889",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 26.83
+        },
+        {
+          "id": "test-boundary-03",
+          "family": "boundary",
+          "seed": 91502,
+          "dataset_sha256": "50ae7acef31f9a41c25beab6eed0234c8956a42a9b4d985b985b5f84ab6ebb4c",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 28.08
+        },
+        {
+          "id": "test-boundary-04",
+          "family": "boundary",
+          "seed": 91503,
+          "dataset_sha256": "e39cdb57e9b37d868a5526327b41966933bfb0f289ba5ef80ed22000bc6f3859",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 29.66
+        },
+        {
+          "id": "test-boundary-05",
+          "family": "boundary",
+          "seed": 91504,
+          "dataset_sha256": "252dbc3a32a72fb9a2c1f9bbdff7b7501d534f373eae7507530ee82c02d77a55",
+          "passed": true,
+          "status": "needs_clarification",
+          "tool_calls": 0,
+          "elapsed_ms": 32.56
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "passed": 30,
+      "total": 30,
+      "cases": [
+        {
+          "id": "test-metric-01",
+          "family": "metric",
+          "seed": 91000,
+          "dataset_sha256": "da8c7ffd44879ccbf741739714778341c6ce768a1dc8d1042c5a5557a989b56b",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 195.29
+        },
+        {
+          "id": "test-metric-02",
+          "family": "metric",
+          "seed": 91001,
+          "dataset_sha256": "283565fe0ddc9f1cf58e2ed234b0e80ab5c6b010a72784d997b0a2da30127a2f",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 204.1
+        },
+        {
+          "id": "test-metric-03",
+          "family": "metric",
+          "seed": 91002,
+          "dataset_sha256": "07443a560b5725eaf3448b704376e276ffa695769f77f6299bfe88ace309a68e",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 213.99
+        },
+        {
+          "id": "test-metric-04",
+          "family": "metric",
+          "seed": 91003,
+          "dataset_sha256": "cca0296a67f0d9d118493f2d7e51258b355e2c3c190d2de978ebe953344477aa",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 222.2
+        },
+        {
+          "id": "test-metric-05",
+          "family": "metric",
+          "seed": 91004,
+          "dataset_sha256": "b060b4fbb1b8cd73de74ef83565d9f22d1d9f0a44f3f396ba35abd7ed71d08ee",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 253.03
+        },
+        {
+          "id": "test-funnel-01",
+          "family": "funnel",
+          "seed": 91100,
+          "dataset_sha256": "070a5ad7c065f60de07e28c0eae5eaec59b16bab742fde5f7d0fe16f88df4468",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 192.27
+        },
+        {
+          "id": "test-funnel-02",
+          "family": "funnel",
+          "seed": 91101,
+          "dataset_sha256": "7ccc30ce0f6947e3e954c5ab5cc03b2f121c9270353e9b2c6c4e73c453963245",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 194.87
+        },
+        {
+          "id": "test-funnel-03",
+          "family": "funnel",
+          "seed": 91102,
+          "dataset_sha256": "c737b125b522924b3362fdb3bc41b2fbe212bcc56cb385cdfe761fddbc0a027b",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 202.91
+        },
+        {
+          "id": "test-funnel-04",
+          "family": "funnel",
+          "seed": 91103,
+          "dataset_sha256": "9a777ce04dbbca1e71707823a3da36af73207ba77791a8332802e8405c6dfd1c",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 246.81
+        },
+        {
+          "id": "test-funnel-05",
+          "family": "funnel",
+          "seed": 91104,
+          "dataset_sha256": "816e5f4834963ad44bf4170a94b0f800d8a2319556607a05f98c06a5177b7076",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 225.71
+        },
+        {
+          "id": "test-decomposition-01",
+          "family": "decomposition",
+          "seed": 91200,
+          "dataset_sha256": "faa9b1eadeb02faa6a91c37569c8016cc78fe604262053cf0422093be425e294",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 207.6
+        },
+        {
+          "id": "test-decomposition-02",
+          "family": "decomposition",
+          "seed": 91201,
+          "dataset_sha256": "bd5e7f6c181e89900bbec2490401e0aff1486f137a479f84aa979e11c5407cea",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 219.9
+        },
+        {
+          "id": "test-decomposition-03",
+          "family": "decomposition",
+          "seed": 91202,
+          "dataset_sha256": "d85d0017946b1b337ac278c3e17052f5dcebb2b9b0af19c301d8a0beb0948383",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 234.88
+        },
+        {
+          "id": "test-decomposition-04",
+          "family": "decomposition",
+          "seed": 91203,
+          "dataset_sha256": "1d6176c60bd10b09d36c466b6e94c8d924897d48a254be487e40620a6b8fe192",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 246.45
+        },
+        {
+          "id": "test-decomposition-05",
+          "family": "decomposition",
+          "seed": 91204,
+          "dataset_sha256": "faf8a9e2ffa3a2650ee0a543e4952f2324c7ca0bc542a735f3feaf7d6f31645a",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 267.63
+        },
+        {
+          "id": "test-experiment_valid-01",
+          "family": "experiment_valid",
+          "seed": 91300,
+          "dataset_sha256": "7c7e27395cac2bd51cc5cb4dac76ee67ede43daef18653ba5a86ee9372a637b3",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 181.5
+        },
+        {
+          "id": "test-experiment_valid-02",
+          "family": "experiment_valid",
+          "seed": 91301,
+          "dataset_sha256": "91270ae883e5b9647d90b77f3a92061dc004499d1088f3156c5a6bfca34f6a33",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 200.05
+        },
+        {
+          "id": "test-experiment_valid-03",
+          "family": "experiment_valid",
+          "seed": 91302,
+          "dataset_sha256": "376e13eb9593095436202b51885b543d32a5742665f11e22ed779a603a79dd94",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 189.04
+        },
+        {
+          "id": "test-experiment_valid-04",
+          "family": "experiment_valid",
+          "seed": 91303,
+          "dataset_sha256": "3cbf2b65479ad4a75e72afd63046be8dd1ee867b926cbd05ae445847f124eb55",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 195.03
+        },
+        {
+          "id": "test-experiment_valid-05",
+          "family": "experiment_valid",
+          "seed": 91304,
+          "dataset_sha256": "01361ff9614b3eeae94d836b264a7e221046e887e508f7bb5daf1da3a09fb2ef",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 204.94
+        },
+        {
+          "id": "test-experiment_srm-01",
+          "family": "experiment_srm",
+          "seed": 91400,
+          "dataset_sha256": "4ae7d10f454f75133efb18d9fa2150de2dbedc48e0b220d4a1f9587eb6d8bd36",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 169.64
+        },
+        {
+          "id": "test-experiment_srm-02",
+          "family": "experiment_srm",
+          "seed": 91401,
+          "dataset_sha256": "4e36a173c16bd9fa7842b732a8586241ad37032df6ec4439254ec3367371d775",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 184.32
+        },
+        {
+          "id": "test-experiment_srm-03",
+          "family": "experiment_srm",
+          "seed": 91402,
+          "dataset_sha256": "9edbb965e5ad9c21e626f0d5b89482b70be0821417fe1ba23ee9a995d0e464d2",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 193.65
+        },
+        {
+          "id": "test-experiment_srm-04",
+          "family": "experiment_srm",
+          "seed": 91403,
+          "dataset_sha256": "f6b33a47c796eea3204a7c45b4ee595e7e8b9a91b08acc342707af9879b9a4b2",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 194.4
+        },
+        {
+          "id": "test-experiment_srm-05",
+          "family": "experiment_srm",
+          "seed": 91404,
+          "dataset_sha256": "786c4d9f8e3ca55c3f3b71e552f18a0234a49b1d438b6d613f03cd34f439c31d",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 210.21
+        },
+        {
+          "id": "test-boundary-01",
+          "family": "boundary",
+          "seed": 91500,
+          "dataset_sha256": "ddc4e303ef05cd3c941f97f874742d9f2f0a5ae7fd71623d83bf2be49f56d883",
+          "passed": true,
+          "status": "needs_clarification",
+          "tool_calls": 0,
+          "elapsed_ms": 26.03
+        },
+        {
+          "id": "test-boundary-02",
+          "family": "boundary",
+          "seed": 91501,
+          "dataset_sha256": "e20b97c980fe07dcd3ad11c17257f58f0772268181faad65056ba3e2e27b0889",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 28.63
+        },
+        {
+          "id": "test-boundary-03",
+          "family": "boundary",
+          "seed": 91502,
+          "dataset_sha256": "50ae7acef31f9a41c25beab6eed0234c8956a42a9b4d985b985b5f84ab6ebb4c",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 29.02
+        },
+        {
+          "id": "test-boundary-04",
+          "family": "boundary",
+          "seed": 91503,
+          "dataset_sha256": "e39cdb57e9b37d868a5526327b41966933bfb0f289ba5ef80ed22000bc6f3859",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 30.08
+        },
+        {
+          "id": "test-boundary-05",
+          "family": "boundary",
+          "seed": 91504,
+          "dataset_sha256": "252dbc3a32a72fb9a2c1f9bbdff7b7501d534f373eae7507530ee82c02d77a55",
+          "passed": true,
+          "status": "needs_clarification",
+          "tool_calls": 0,
+          "elapsed_ms": 34.2
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "passed": 30,
+      "total": 30,
+      "cases": [
+        {
+          "id": "test-metric-01",
+          "family": "metric",
+          "seed": 91000,
+          "dataset_sha256": "da8c7ffd44879ccbf741739714778341c6ce768a1dc8d1042c5a5557a989b56b",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 201.06
+        },
+        {
+          "id": "test-metric-02",
+          "family": "metric",
+          "seed": 91001,
+          "dataset_sha256": "283565fe0ddc9f1cf58e2ed234b0e80ab5c6b010a72784d997b0a2da30127a2f",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 222.62
+        },
+        {
+          "id": "test-metric-03",
+          "family": "metric",
+          "seed": 91002,
+          "dataset_sha256": "07443a560b5725eaf3448b704376e276ffa695769f77f6299bfe88ace309a68e",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 231.03
+        },
+        {
+          "id": "test-metric-04",
+          "family": "metric",
+          "seed": 91003,
+          "dataset_sha256": "cca0296a67f0d9d118493f2d7e51258b355e2c3c190d2de978ebe953344477aa",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 274.41
+        },
+        {
+          "id": "test-metric-05",
+          "family": "metric",
+          "seed": 91004,
+          "dataset_sha256": "b060b4fbb1b8cd73de74ef83565d9f22d1d9f0a44f3f396ba35abd7ed71d08ee",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 238.84
+        },
+        {
+          "id": "test-funnel-01",
+          "family": "funnel",
+          "seed": 91100,
+          "dataset_sha256": "070a5ad7c065f60de07e28c0eae5eaec59b16bab742fde5f7d0fe16f88df4468",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 195.27
+        },
+        {
+          "id": "test-funnel-02",
+          "family": "funnel",
+          "seed": 91101,
+          "dataset_sha256": "7ccc30ce0f6947e3e954c5ab5cc03b2f121c9270353e9b2c6c4e73c453963245",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 203.23
+        },
+        {
+          "id": "test-funnel-03",
+          "family": "funnel",
+          "seed": 91102,
+          "dataset_sha256": "c737b125b522924b3362fdb3bc41b2fbe212bcc56cb385cdfe761fddbc0a027b",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 218.1
+        },
+        {
+          "id": "test-funnel-04",
+          "family": "funnel",
+          "seed": 91103,
+          "dataset_sha256": "9a777ce04dbbca1e71707823a3da36af73207ba77791a8332802e8405c6dfd1c",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 229.56
+        },
+        {
+          "id": "test-funnel-05",
+          "family": "funnel",
+          "seed": 91104,
+          "dataset_sha256": "816e5f4834963ad44bf4170a94b0f800d8a2319556607a05f98c06a5177b7076",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 244.75
+        },
+        {
+          "id": "test-decomposition-01",
+          "family": "decomposition",
+          "seed": 91200,
+          "dataset_sha256": "faa9b1eadeb02faa6a91c37569c8016cc78fe604262053cf0422093be425e294",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 216.89
+        },
+        {
+          "id": "test-decomposition-02",
+          "family": "decomposition",
+          "seed": 91201,
+          "dataset_sha256": "bd5e7f6c181e89900bbec2490401e0aff1486f137a479f84aa979e11c5407cea",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 228.26
+        },
+        {
+          "id": "test-decomposition-03",
+          "family": "decomposition",
+          "seed": 91202,
+          "dataset_sha256": "d85d0017946b1b337ac278c3e17052f5dcebb2b9b0af19c301d8a0beb0948383",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 241.53
+        },
+        {
+          "id": "test-decomposition-04",
+          "family": "decomposition",
+          "seed": 91203,
+          "dataset_sha256": "1d6176c60bd10b09d36c466b6e94c8d924897d48a254be487e40620a6b8fe192",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 252.69
+        },
+        {
+          "id": "test-decomposition-05",
+          "family": "decomposition",
+          "seed": 91204,
+          "dataset_sha256": "faf8a9e2ffa3a2650ee0a543e4952f2324c7ca0bc542a735f3feaf7d6f31645a",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 2,
+          "elapsed_ms": 258.35
+        },
+        {
+          "id": "test-experiment_valid-01",
+          "family": "experiment_valid",
+          "seed": 91300,
+          "dataset_sha256": "7c7e27395cac2bd51cc5cb4dac76ee67ede43daef18653ba5a86ee9372a637b3",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 174.0
+        },
+        {
+          "id": "test-experiment_valid-02",
+          "family": "experiment_valid",
+          "seed": 91301,
+          "dataset_sha256": "91270ae883e5b9647d90b77f3a92061dc004499d1088f3156c5a6bfca34f6a33",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 180.25
+        },
+        {
+          "id": "test-experiment_valid-03",
+          "family": "experiment_valid",
+          "seed": 91302,
+          "dataset_sha256": "376e13eb9593095436202b51885b543d32a5742665f11e22ed779a603a79dd94",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 194.07
+        },
+        {
+          "id": "test-experiment_valid-04",
+          "family": "experiment_valid",
+          "seed": 91303,
+          "dataset_sha256": "3cbf2b65479ad4a75e72afd63046be8dd1ee867b926cbd05ae445847f124eb55",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 200.79
+        },
+        {
+          "id": "test-experiment_valid-05",
+          "family": "experiment_valid",
+          "seed": 91304,
+          "dataset_sha256": "01361ff9614b3eeae94d836b264a7e221046e887e508f7bb5daf1da3a09fb2ef",
+          "passed": true,
+          "status": "completed",
+          "tool_calls": 1,
+          "elapsed_ms": 210.93
+        },
+        {
+          "id": "test-experiment_srm-01",
+          "family": "experiment_srm",
+          "seed": 91400,
+          "dataset_sha256": "4ae7d10f454f75133efb18d9fa2150de2dbedc48e0b220d4a1f9587eb6d8bd36",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 178.16
+        },
+        {
+          "id": "test-experiment_srm-02",
+          "family": "experiment_srm",
+          "seed": 91401,
+          "dataset_sha256": "4e36a173c16bd9fa7842b732a8586241ad37032df6ec4439254ec3367371d775",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 179.23
+        },
+        {
+          "id": "test-experiment_srm-03",
+          "family": "experiment_srm",
+          "seed": 91402,
+          "dataset_sha256": "9edbb965e5ad9c21e626f0d5b89482b70be0821417fe1ba23ee9a995d0e464d2",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 192.29
+        },
+        {
+          "id": "test-experiment_srm-04",
+          "family": "experiment_srm",
+          "seed": 91403,
+          "dataset_sha256": "f6b33a47c796eea3204a7c45b4ee595e7e8b9a91b08acc342707af9879b9a4b2",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 238.03
+        },
+        {
+          "id": "test-experiment_srm-05",
+          "family": "experiment_srm",
+          "seed": 91404,
+          "dataset_sha256": "786c4d9f8e3ca55c3f3b71e552f18a0234a49b1d438b6d613f03cd34f439c31d",
+          "passed": true,
+          "status": "invalid_data",
+          "tool_calls": 1,
+          "elapsed_ms": 206.16
+        },
+        {
+          "id": "test-boundary-01",
+          "family": "boundary",
+          "seed": 91500,
+          "dataset_sha256": "ddc4e303ef05cd3c941f97f874742d9f2f0a5ae7fd71623d83bf2be49f56d883",
+          "passed": true,
+          "status": "needs_clarification",
+          "tool_calls": 0,
+          "elapsed_ms": 26.27
+        },
+        {
+          "id": "test-boundary-02",
+          "family": "boundary",
+          "seed": 91501,
+          "dataset_sha256": "e20b97c980fe07dcd3ad11c17257f58f0772268181faad65056ba3e2e27b0889",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 28.84
+        },
+        {
+          "id": "test-boundary-03",
+          "family": "boundary",
+          "seed": 91502,
+          "dataset_sha256": "50ae7acef31f9a41c25beab6eed0234c8956a42a9b4d985b985b5f84ab6ebb4c",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 29.64
+        },
+        {
+          "id": "test-boundary-04",
+          "family": "boundary",
+          "seed": 91503,
+          "dataset_sha256": "e39cdb57e9b37d868a5526327b41966933bfb0f289ba5ef80ed22000bc6f3859",
+          "passed": true,
+          "status": "unsupported",
+          "tool_calls": 0,
+          "elapsed_ms": 30.39
+        },
+        {
+          "id": "test-boundary-05",
+          "family": "boundary",
+          "seed": 91504,
+          "dataset_sha256": "252dbc3a32a72fb9a2c1f9bbdff7b7501d534f373eae7507530ee82c02d77a55",
+          "passed": true,
+          "status": "needs_clarification",
+          "tool_calls": 0,
+          "elapsed_ms": 33.5
+        }
+      ]
+    }
+  ],
+  "omitted_checks": [
+    "Live-model correctness and nondeterminism",
+    "Single-pass model baseline",
+    "Manual narrative review",
+    "Public deployment validation"
+  ],
+  "gate_scope": "Numerical/controller regression only; not the full release gate",
+  "protocol_notes": [
+    "Before the first agent benchmark execution, SRM terminal status aligned with invalid_data; unnamed nonexistent experiment aligned with needs_clarification. Manifest questions, seeds and split unchanged."
+  ],
+  "passed": true
+}

@@ -167,3 +167,226 @@ def test_retail_end_to_end_returns_real_source_and_semantic_contracts():
     assert report['metrics']['tool_calls'] == 2
     assert any(doc['id'] == 'retail_country' for doc in report['retrieval'])
     assert all(doc['method'] == 'minilm_cosine_similarity' for doc in report['retrieval'])
+
+
+def test_retail_deterministic_never_checks_or_calls_live_provider(snapshot, monkeypatch):
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question: [])
+    for name in ('live_available', 'reserve', 'generate_report'):
+        monkeypatch.setattr(retail, name, lambda *args, **kwargs: pytest.fail('Deterministic request used live path'), raising=False)
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot)
+    assert report['status'] == 'completed'
+    assert report['model'] is None
+    assert len(report['findings']) == 3
+
+
+def test_retail_live_is_gated_before_retrieval(snapshot, monkeypatch):
+    monkeypatch.setattr(retail, 'live_available', lambda: False, raising=False)
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question: pytest.fail('Disabled live request retrieved contracts'))
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode='live')
+    assert report['status'] == 'budget_exceeded'
+    assert report['metrics']['tool_calls'] == report['metrics']['model_calls'] == 0
+    assert report['findings'] == []
+
+
+def test_retail_live_reservation_failure_stops_work(snapshot, monkeypatch):
+    from backend.budget import BudgetError
+    monkeypatch.setattr(retail, 'live_available', lambda: True, raising=False)
+    def refuse(**kwargs):
+        raise BudgetError('Live request budget or rate limit exhausted')
+    monkeypatch.setattr(retail, 'reserve', refuse, raising=False)
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question: pytest.fail('Unreserved request retrieved contracts'))
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode='live', client='test-client')
+    assert report['status'] == 'budget_exceeded'
+    assert report['evidence'] == []
+
+
+def test_retail_live_report_uses_executed_country_evidence(snapshot, monkeypatch):
+    stages = []
+    monkeypatch.setattr(retail, 'live_available', lambda: True, raising=False)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs: stages.append(('reserve', kwargs['client'])), raising=False)
+    def retrieve(question):
+        stages.append(('retrieve', question))
+        return [{**retail.CONTRACTS[0], 'version':'1.0'}]
+    monkeypatch.setattr(retail, 'retrieve_contracts', retrieve)
+    def generate(state, findings):
+        stages.append(('generate', state['question']))
+        assert state['metrics']['tool_calls'] == 2
+        assert isinstance(state['started'], float)
+        assert len(state['evidence']) == 2
+        assert state['retrieval'][0]['id'] == 'retail_gross_sales'
+        assert state['warnings'] and state['trace']
+        country_findings = [finding for finding in findings if finding['field_path'].startswith('countries.')]
+        assert len(country_findings) == 3
+        for country in ('UK', 'France', 'Germany'):
+            assert sum(country in finding['label'] for finding in country_findings) == 1
+        for finding in country_findings:
+            row = state['evidence'][1]['result']['countries'][int(finding['field_path'].split('.')[1])]
+            assert row['country'] in finding['label']
+            assert finding['value'] == row[finding['field_path'].split('.')[2]]
+        return {'status':'completed', 'summary':'Grounded model narrative.', 'findings':findings,
+                'warnings':state['warnings'], 'trace':state['trace'],
+                'claims':[{'text':'Grounded model narrative.', 'fact_ids':['f0'], 'evidence_ids':[state['evidence'][0]['id']], 'contract_ids':['retail_gross_sales']}],
+                'citations':[{'id':'retail_gross_sales','kind':'contract','title':'Gross positive sales in GBP'}],
+                'generation':{'method':'llm_grounded','numeric_validation':'passed','citation_validation':'passed','semantic_validation':'not_automated'},
+                'metrics':{**state['metrics'], 'model_calls':1, 'input_tokens':100, 'output_tokens':30, 'estimated_cost_usd':.000088}}
+    monkeypatch.setattr(retail, 'generate_report', generate, raising=False)
+    report = retail.run_retail_analysis('Which countries contributed to the sales change?', snapshot=snapshot, mode='live', client='test-client')
+    assert report['status'] == 'completed'
+    assert report['mode'] == 'live'
+    assert report['model'] == retail.MODEL
+    assert report['summary'] == 'Grounded model narrative.'
+    assert report['metrics']['model_calls'] == 1
+    assert report['claims'] and report['citations']
+    assert [stage[0] for stage in stages] == ['reserve', 'retrieve', 'generate']
+    assert stages[0][1] == 'test-client'
+
+
+def test_retail_live_generation_failure_is_safe_and_preserves_evidence(snapshot, monkeypatch):
+    monkeypatch.setattr(retail, 'live_available', lambda: True, raising=False)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs: None, raising=False)
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question: [])
+    def fail(*args):
+        raise ValueError('private provider credential or payload')
+    monkeypatch.setattr(retail, 'generate_report', fail, raising=False)
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode='live')
+    assert report['status'] == 'provider_error'
+    assert report['findings'] == []
+    assert report['claims'] == []
+    assert len(report['evidence']) == report['metrics']['tool_calls'] == 2
+    assert 'private' not in str(report)
+
+
+def test_retail_unknown_mode_is_rejected_without_work(snapshot, monkeypatch):
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question: pytest.fail('Invalid mode retrieved contracts'))
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode='shell')
+    assert report['status'] == 'invalid_data'
+    assert report['evidence'] == []
+
+
+def test_retail_unsupported_live_request_does_not_reserve(snapshot, monkeypatch):
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs: pytest.fail('Unsupported request reserved budget'))
+    report = retail.run_retail_analysis('What is sales conversion?', snapshot=snapshot, mode='live')
+    assert report['status'] == 'unsupported'
+    assert report['metrics']['model_calls'] == report['metrics']['tool_calls'] == 0
+
+
+def test_retail_late_generation_withholds_claims_but_retains_usage(snapshot, monkeypatch):
+    clock = {'now':0.0}
+    monkeypatch.setattr(retail.time, 'perf_counter', lambda:clock['now'])
+    monkeypatch.setattr(retail, 'live_available', lambda:True)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs:None)
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question:[])
+    def late(state, findings):
+        clock['now'] = 46.0
+        return {'status':'completed','summary':'Late model narrative.','findings':findings,
+                'claims':[{'text':'Late model narrative.'}], 'citations':[{'id':'source'}],
+                'generation':{'method':'llm_grounded','numeric_validation':'passed','citation_validation':'passed'},
+                'metrics':{**state['metrics'],'model_calls':1,'input_tokens':100,'output_tokens':20,'estimated_cost_usd':.000072}}
+    monkeypatch.setattr(retail, 'generate_report', late)
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode='live')
+    assert report['status'] == 'timed_out'
+    assert report['findings'] == report['claims'] == report['citations'] == []
+    assert report['metrics']['model_calls'] == 1
+    assert report['metrics']['input_tokens'] == 100
+    assert report['metrics']['tool_calls'] == 2
+    assert 'Late' not in report['summary']
+
+
+def test_retail_live_grounds_public_data_with_mocked_provider(monkeypatch):
+    from backend import generation
+    monkeypatch.setattr(retail, 'live_available', lambda:True)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs:None)
+    def generated(state, facts):
+        total = next(fact for fact in facts if fact['label'] == 'Sales change')
+        country = next(fact for fact in facts if fact['label'] == 'United Kingdom: Sales change contribution')
+        assert state['reservation_usd'] == .02
+        assert state['metrics']['reserved_request_usd'] == .02
+        assert any(doc['id'] == 'retail_country' for doc in state['retrieval'])
+        return {'status':'answered', 'abstention_reason':'', 'claims':[
+            {'text':f"Gross positive sales changed by {{{{{total['id']}}}}}; the United Kingdom contribution was {{{{{country['id']}}}}}. This is an arithmetic decomposition, not a causal explanation.",
+             'fact_ids':[total['id'],country['id']], 'evidence_ids':[total['evidence_id'],country['evidence_id']], 'contract_ids':['retail_country']}
+        ]}, {'prompt_tokens':500,'completion_tokens':100}
+    monkeypatch.setattr(generation, 'generate_answer', generated)
+    report = retail.run_retail_analysis('Which countries contributed to the sales change?', mode='live')
+    assert report['status'] == 'completed'
+    assert report['generation']['method'] == 'llm_grounded'
+    assert report['generation']['numeric_validation'] == report['generation']['citation_validation'] == 'passed'
+    assert report['generation']['semantic_validation'] == 'not_automated'
+    assert report['metrics']['model_calls'] == 1
+    assert report['metrics']['tool_calls'] == 2
+    assert len(report['findings']) == 9 + len(report['evidence'][1]['result']['countries'])
+    assert 'United Kingdom' in report['summary']
+    assert len(report['citations']) == 3
+
+
+def test_retail_live_rejects_unverified_narrative_but_keeps_usage(snapshot, monkeypatch):
+    from backend import generation
+    monkeypatch.setattr(retail, 'live_available', lambda:True)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs:None)
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question:[retail.CONTRACTS[0]])
+    def generated(state, facts):
+        return {'status':'answered','abstention_reason':'','claims':[
+            {'text':'Gross sales changed by 999 GBP.', 'fact_ids':[],
+             'evidence_ids':[state['evidence'][0]['id']], 'contract_ids':['retail_gross_sales']}
+        ]}, {'prompt_tokens':100,'completion_tokens':30}
+    monkeypatch.setattr(generation, 'generate_answer', generated)
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode='live')
+    assert report['status'] == 'verification_failed'
+    assert report['findings'] == report['claims'] == report['citations'] == []
+    assert report['metrics']['model_calls'] == 1
+    assert report['metrics']['input_tokens'] == 100
+    assert '999' not in report['summary']
+    assert report['metrics']['tool_calls'] == len(report['evidence']) == 2
+
+
+def test_retail_live_can_ground_invoice_and_volume_counts(monkeypatch):
+    from backend import generation
+    monkeypatch.setattr(retail, 'live_available', lambda:True)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs:None)
+    def generated(state, facts):
+        counts = [fact for fact in facts if fact['field_path'] in
+                  ('before.orders','after.orders','before.lines','after.lines','before.units','after.units')]
+        assert len(counts) == 6
+        assert {fact['unit'] for fact in counts} == {'invoices','lines','units'}
+        claims = []
+        for field, metric in [('orders','invoice count'),('lines','invoice line count'),('units','unit volume')]:
+            before = next(fact for fact in counts if fact['field_path'] == 'before.' + field)
+            after = next(fact for fact in counts if fact['field_path'] == 'after.' + field)
+            claims.append({'text':f"The {metric} changed from {{{{{before['id']}}}}} in October to {{{{{after['id']}}}}} in November.",
+                           'fact_ids':[before['id'],after['id']], 'evidence_ids':[before['evidence_id']],
+                           'contract_ids':[state['retrieval'][0]['id']]})
+        return {'status':'answered','abstention_reason':'','claims':claims}, {'prompt_tokens':500,'completion_tokens':120}
+    monkeypatch.setattr(generation, 'generate_answer', generated)
+    report = retail.run_retail_analysis('Compare invoice counts and transaction volume from October to November 2011', mode='live')
+    assert report['status'] == 'completed'
+    assert report['generation']['numeric_validation'] == report['generation']['citation_validation'] == 'passed'
+    assert len(report['claims']) == 3
+    assert all(label in report['summary'] for label in ('invoice count','invoice line count','unit volume'))
+    assert report['metrics']['model_calls'] == 1
+    comparison = report['evidence'][0]['result']
+    for finding in report['findings']:
+        if finding['unit'] != 'GBP':
+            period, field = finding['field_path'].split('.')
+            assert finding['value'] == comparison[period][field]
+
+
+@pytest.mark.parametrize('mode', ['deterministic','live'])
+@pytest.mark.parametrize('failure', [retail.ToolError('private data validation details'), OSError('private database path')])
+def test_retail_second_tool_failure_preserves_completed_evidence(snapshot, monkeypatch, mode, failure):
+    monkeypatch.setattr(retail, 'retrieve_contracts', lambda question:[])
+    monkeypatch.setattr(retail, 'live_available', lambda:True)
+    monkeypatch.setattr(retail, 'reserve', lambda **kwargs:None)
+    def fail(self):
+        raise failure
+    monkeypatch.setattr(retail.RetailAnalytics, 'country_contributions', fail)
+    monkeypatch.setattr(retail, 'generate_report', lambda *args:pytest.fail('Failed tool request attempted narrative generation'))
+    report = retail.run_retail_analysis('Compare gross sales', snapshot=snapshot, mode=mode)
+    expected = 'provider_error' if mode == 'live' and not isinstance(failure, retail.ToolError) else 'invalid_data'
+    assert report['status'] == expected
+    assert report['metrics']['tool_calls'] == len(report['evidence']) == 1
+    assert report['evidence'][0]['tool'] == 'compare_retail_sales'
+    assert report['evidence'][0]['result']['delta_gbp'] == pytest.approx(.2)
+    assert report['metrics']['model_calls'] == 0
+    assert report['findings'] == report['claims'] == report['citations'] == []
+    assert report['trace'][-1]['step'] == 'execute'
+    assert 'private' not in str(report)

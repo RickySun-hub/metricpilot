@@ -1,0 +1,107 @@
+{
+  "scope": "Cumulative project API accounting from unique recorded request IDs plus the unchanged persistent admission ledger.",
+  "calculated_at_utc": "2026-10-02T07:23:16.675757+00:00",
+  "model": "gpt-4.1-mini-2025-04-14",
+  "pricing_usd_per_million_tokens": {
+    "input": 0.4,
+    "output": 1.6
+  },
+  "pricing_discount_assumption": "No cached-input discount; estimate, not an invoice.",
+  "deduplication": "Request IDs remove copied smoke and restored v2 checkpoint duplicates.",
+  "duplicate_report_copies_not_counted_twice": 31,
+  "recorded_admitted_requests": 92,
+  "recorded_model_attempts": 205,
+  "reported_input_tokens": 263117,
+  "reported_output_tokens": 20876,
+  "observed_token_cost_estimate_usd": 0.1386484,
+  "recorded_conservative_cost_estimate_usd": 0.1436196,
+  "recorded_uncertain_usage_calls": 2,
+  "recorded_unknown_usage_cost_upper_bound_usd": 0.0049712,
+  "admitted_requests_without_response_record": 2,
+  "unrecorded_admission_reservations_usd": 0.04,
+  "conservative_estimate_including_unrecorded_admissions_usd": 0.1836196,
+  "lifetime_admissions": 94,
+  "lifetime_reserved_usd": 1.88,
+  "absolute_authorized_ceiling_usd": 5,
+  "remaining_reserved_allowance_usd": 3.12,
+  "billing_note": "Reserved allowance is not money billed. Exact provider invoice and cached-token discounts were not retrieved. Two interrupted admissions have no surviving response; reservations remain and no tokens or successful calls are invented.",
+  "paid_work_status": "stopped",
+  "sources": [
+    {
+      "file": "artifacts/local/live-smoke-20261002.json",
+      "sha256": "95f49046e33c6684a27db3951ea07053f01d5f3b813952caeb9ff4fbad00fd19"
+    },
+    {
+      "file": "artifacts/local/live-smoke-diagnostic-20261002.json",
+      "sha256": "0851bd44e2040d3e619e078ebe6d3ecbb3413b483d5ff74237b7a1794e677210"
+    },
+    {
+      "file": "artifacts/local/live-smoke-rag-20261002.json",
+      "sha256": "850d036953917482db535ff4af5afad947997d5a494a7254ba3848179c7d244a"
+    },
+    {
+      "file": "artifacts/local/live-smoke-rag-debug-20261002.json",
+      "sha256": "724f0133900d70cfd92a1c5d834678c78a6b67c4b8215630bd5a54df088fe109"
+    },
+    {
+      "file": "artifacts/local/live-smoke-rag-debug2-20261002.json",
+      "sha256": "5c5e2e70e478d7d35f1040ec4e23dac6e90515ee9ce79e3eed14799d2bd7b63f"
+    },
+    {
+      "file": "artifacts/local/live-smoke-rag-reviewed-20261002.json",
+      "sha256": "98747fe5c5268022a403c9b9d75ebbb7ef9b9fc8e0eced28745a98a8995eced7"
+    },
+    {
+      "file": "artifacts/local/grounding-development-diagnostic.json",
+      "sha256": "79868e8dc8a9bc7e91562f2b0f7e77b14da9ee241da18a43b27d13fdc80b201f"
+    },
+    {
+      "file": "artifacts/local/grounding-development-v2.json",
+      "sha256": "07b6095edcd1a23e5edffbb3e2ff181d27664e9817422a3dad1277a05d1834b2"
+    },
+    {
+      "file": "artifacts/local/grounding-development-v3.json",
+      "sha256": "e99e57fe2cf990cc17b1fd8849e1816ba7402b58ce5bf1531fe7dd24e2e11b8e"
+    },
+    {
+      "file": "artifacts/local/grounding-srm-diagnostic-20261002.json",
+      "sha256": "4acaa643ae5d6db1267fd36f5f606c7f60fc1c8be52c49b8902ead5eade14d54"
+    },
+    {
+      "file": "evals/results/live-synthetic-v3-20261002.json",
+      "sha256": "2a898bb6d09b1f27043ffdc61e217509e155e7bfd37a018a3af93ab309141729"
+    },
+    {
+      "file": "evals/results/live-adversarial-v3-20261002.json",
+      "sha256": "695c583e26f57c99545e1df36f179258a8fe6ab451a51bdca69bdf7e9891f673"
+    },
+    {
+      "file": "evals/results/live-synthetic-v2-resumed-20261002.json",
+      "sha256": "214a7c108d03671a906c4fce0e37c254d7c938d0e4c318dac9686f54919d6de5"
+    },
+    {
+      "file": "evals/results/live-smoke-20261002.json",
+      "sha256": "a376bd7088df3f1e422664615e1d5e7bba8bb5058a768bc36c4c7992b58172a7"
+    },
+    {
+      "file": "evals/results/live-development-v3_1-20261002.json",
+      "sha256": "65ba6d861f50c000ff6a854aa9fa3c86cdf33799ee6d40b9c51fa101a31c73d0"
+    },
+    {
+      "file": "evals/results/live-development-v3-20261002.json",
+      "sha256": "efb680e08802922422f01808e4a6b240a797d150eda77ddc03615ec9f200640a"
+    },
+    {
+      "file": "evals/results/live-retail-v3-20261002.json",
+      "sha256": "c6b838aea114ba46fab05042b9a8e96269278ac5f5629c8d85ed5107c006c190"
+    },
+    {
+      "file": "evals/results/live-synthetic-v2-20261002.json",
+      "sha256": "e7637a10fbca6b458e14c490a4b5bb4e4c6cb944e7025db7caa1ee7551322f02"
+    },
+    {
+      "file": "evals/results/live-synthetic-20261002.json",
+      "sha256": "450c84159c73ed269c54c2de2ec7f7571ed11b177d9cb1e08c30f0bdf5cdbdc5"
+    }
+  ]
+}

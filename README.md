@@ -1,158 +1,218 @@
 # MetricPilot
 
-**Investigate product metrics. Inspect the evidence. Respect uncertainty.**
+### Evidence, all the way down.
 
-MetricPilot is an implemented analytics application with a Next.js interface, FastAPI backend, DuckDB tools, local semantic retrieval, and a bounded LangGraph controller. It investigates activation changes, ordered funnels, and user-level A/B experiments on **12,000 synthetic users and 50,504 synthetic events**.
+**Research prototype · partial live-model evaluation.** The final primary synthetic attempt stopped after **10/180** planned responses: **7** passed automatic checks, **3** were withheld, and **170** were not attempted. This is not a completed protocol score or release-qualified model result.
 
-It also includes a separate **real public-data case study** at `/retail`: **541,909 UCI Online Retail invoice lines** are audited and reduced to privacy-minimized month-country aggregates. A deterministic LangGraph workflow retrieves metric contracts, runs two parameterized DuckDB tools, and validates gross-positive-sales findings against their evidence. [Source, license, cleaning policy and independent numerical checks](docs/REAL_DATA.md).
+**An inspectable analytics application: question → metric contract → bounded tool → SQL evidence → cited answer → verification.**
 
-**Execution boundary:** this zero-cost release runs real SQL and statistical calculations with a deterministic controller. An optional OpenAI action selector is implemented and covered by mocked safety tests, but **no real LLM calls, model-quality benchmark, or LLM-baseline comparison have been performed**. Deterministic mode is visibly labeled; it is not presented as a live LLM agent.
+MetricPilot combines **Next.js, FastAPI, LangGraph, DuckDB and local MiniLM retrieval** to investigate product metrics and a real public retail dataset. The dashboard puts the question, result and evidence trail beside one another, then makes the SQL, source contracts, execution trace and evaluation record available for inspection.
 
-[Public demo — temporary, pending owner claim](https://temporary-quick-fiddle-x0gi9g1.vercel.app) · [Build issues](https://github.com/RickySun-hub/metricpilot/issues) · [Verification scope](docs/EVALUATION.md)
+[Explore the code](app/components) · [Evaluation protocol](docs/EVALUATION.md) · [Architecture](docs/ARCHITECTURE.md) · [Run locally](#run-locally) · [MIT license](LICENSE)
 
-The anonymous demo was verified publicly for the earlier implementation. Its recorded expiry was October 1, 2026 at 02:00:24 UTC unless claimed; continuing ownership and availability are unverified. It is not a permanent resume/demo URL, and the new real-data case has not been deployed. No registration or API key is needed to run deterministic mode locally.
+## Start with the recorded showcase
 
-[Recorded public walkthrough (47 seconds, WebM)](docs/assets/demo.webm) — fresh activation analysis, executed SQL, SRM rejection, and an inconclusive experiment result. The recording preserves waiting time and uses deterministic mode throughout.
+The default interface is a **static, recorded-results dashboard**. It makes no model requests and needs no API key or backend to inspect:
 
-![Activation investigation from the verified public application](docs/assets/activation.png)
+- A genuine recorded live-model funnel investigation, including cited claims, exact SQL, retrieved metric contracts, token usage and estimated cost
+- Historical public-retail investigations in recorded live-model and deterministic modes, with audited source data and reconciled country contributions
+- Separate numerical, retrieval and live-model evaluation views, including incomplete or failed runs rather than a manufactured success score
+- A readable architecture view connecting each stage to its implementation
 
-## What it does
+The recorded live sample is one execution, **not a model-quality benchmark**. Numerical and citation checks do not establish semantic correctness. Its review was AI-assisted, not a human-review claim. Each saved report links to the underlying artifact and shows its execution mode and date.
 
-| Question | Behavior | Evidence |
+“Local workspace” preserves the original deterministic question-input flow when opened on localhost. Public/static hosting keeps server execution disabled, with setup instructions instead. The static showcase never invokes a paid model.
+
+### Two investigations, two data boundaries
+
+| Investigation | Dataset | What is shown |
 | --- | --- | --- |
-| Why did activation change? | Compare mature signup cohorts and decompose channel/device mix versus within-group change | Counts, rates, exact decomposition, SQL and bound parameters |
-| Where did the practice funnel change? | Compare signup → start → completion with ordered, session-matched events | User-level step counts and conditional rates |
-| Is onboarding_srm trustworthy? | Detect sample ratio mismatch and withhold effect interpretation | Assignment counts, SRM p-value and validity status |
-| Should we ship onboarding_valid? | Report a Newcombe 95% score interval and constrain the recommendation | Intent-to-treat counts, effect and uncertainty |
+| Ordered practice funnel | 12,000 synthetic users, 50,504 synthetic events | Signup → practice start → completion, using mature cohorts and session-matched event ordering |
+| Country sales contribution | 541,909 historical UCI invoice lines | October–November 2011 gross positive sales, exclusions, country contributions and independent reconciliation |
 
-The demo uses fixed September 1–8 and September 8–15, 2026 signup cohorts, fully observed by September 30. “The two weeks” means these demo cohorts, not the current calendar. Unsupported metrics/windows are rejected or clarified.
+Synthetic outputs describe synthetic data. Public retail outputs are historical descriptive findings, not causal business impact, net revenue or profit.
 
-On the default snapshot, activation falls from **56.2167% to 30.5%**. Inspect the exact mix/within-group contributions in the report. These are synthetic observations and an accounting identity, not real business impact or causal findings.
+## What the engineering demonstrates
+
+- **Analytical correctness:** parameterized SQL tools with independent numerical references, explicit denominator and observation-window definitions, experiment validity checks and uncertainty intervals
+- **Grounded generation:** retrieved contracts and executed evidence constrain live answers; the current generator selects verified facts and the server renders their numerical values
+- **Controlled execution:** allowlisted actions, bounded calls, deadlines, fail-closed validation and persistent spending reservations; no model-generated SQL or shell execution
+- **Transparent evaluation:** frozen synthetic cases, repeated runs, a disclosed single-pass baseline, mechanical checks, separate semantic review and preserved failure artifacts
+- **Full-stack delivery:** reusable React dashboard components, typed report adapters, a sanitized static data projection, FastAPI endpoints and CI checks
+
+Implemented with **AI assistance at the repository owner’s request**. This does not imply independent hand-authorship or that the owner has already demonstrated understanding. The [explanation guide](docs/INTERVIEW_GUIDE.md) provides concrete exercises for reproducing and defending the work.
+
+## Measured evidence
+
+These tracks answer different questions; their scores must not be blended.
+
+| Track | Recorded evidence | Interpretation |
+| --- | --- | --- |
+| Deterministic regression | 30/30 cases in each of 3 repeated runs | Numerical/controller regression; not 90 independent cases or LLM accuracy |
+| Contract retrieval | Semantic 9/10 top-1, 10/10 top-3; lexical 9/10 top-1, 10/10 top-3 | Ten development queries; no semantic-superiority claim |
+| Public-data reconciliation | 39/39 independent checks | Historical retail totals and all comparison-country contributions |
+| Recorded live smoke | 3 model calls, 3,466 tokens, $0.0018028 estimated API cost | One successful funnel sample; not a benchmark |
+| Final primary paired attempt (v3) | 10/180 attempted; 7 automatic passes, 3 withheld, 170 unrun | Stopped on repeated grounding rejections; no full-protocol model score or release qualification |
+| Historical v1 / v2 attempts | v1: 9/180 attempted, 3 automatic passes; v2 resumed: 45/180 attempted, 39 automatic passes | Separate failed histories; resumed checkpoint responses count once, not as a second trial |
+
+Sources: [deterministic run](evals/results/deterministic-rag-20261002.json), [retrieval comparison](evals/results/retrieval.json), [retail checks](evals/results/retail.json), [recorded live smoke](evals/results/live-smoke-20261002.json), [final primary v3 attempt](evals/results/live-synthetic-v3-20261002.json), [historical v1](evals/results/live-synthetic-20261002.json), [historical resumed v2](evals/results/live-synthetic-v2-resumed-20261002.json).
+
+All failed attempts are retained rather than overwritten. The dashboard defaults to the final primary v3 attempt and labels previous runs historical. Independent retail/adversarial supplements appear separately as **execution blocked**, with no recorded outcomes: retail had 8 planned responses and adversarial had 12. The retail admission has no saved provider response, so its actual attempted outcome is unknown; adversarial did not start. Earlier successful development samples are not substitutes for these missing checks. Consult the exact run’s protocol, source hashes, attempted count and review state; do not infer full release readiness from an automatic pass.
+
+Blocked-status sources: [retail supplement](evals/results/live-retail-v3-20261002.json), [adversarial supplement](evals/results/live-adversarial-v3-20261002.json).
+
+When grounding verification fails, the model narrative and generated findings are withheld while executed SQL evidence remains inspectable. This is a fail-closed guard outcome, not a correct completed analytical answer. Deterministic tools remain available locally without model API calls.
+
+Estimated model costs use the recorded pricing/accounting basis. They are not provider invoices, spending reservations, or total hosting costs. The [deduplicated accounting record](evals/results/cost-accounting-20261002.json) separates returned-token estimates, uncertain usage and reserved allowance across interruptions.
 
 ## Architecture
 
 ```mermaid
-flowchart TD
-    UI[Next.js interface] --> API[FastAPI validation]
-    API --> B{Supported question?}
-    B -->|No| C[Clarify or abstain]
-    B -->|Yes| R[Local MiniLM semantic retrieval]
-    R --> G[LangGraph controller]
-    G --> S{Execution mode}
-    S -->|Default: zero API cost| D[Deterministic action selection]
-    S -->|Optional: disabled publicly| L[OpenAI structured action selection]
-    D --> T[Validated DuckDB SQL / Python statistics]
-    L --> T
-    T --> E[Evidence records]
-    E --> G
-    G --> V[Numeric validation and templated report]
-    V --> UI
+flowchart LR
+    Q[Question and scope] --> R[Local contract retrieval]
+    R --> C[Bounded LangGraph controller]
+    C --> T[Allowlisted SQL and statistical tools]
+    T --> E[Exact evidence records]
+    E --> C
+    E --> G[Cited generation or deterministic template]
+    G --> V[Numeric and citation checks]
+    V --> UI[Inspectable Next.js report]
+    A[Recorded run artifacts] --> S[Sanitized showcase projection]
+    S --> UI
 ```
 
-The optional model branch chooses approved actions; it never supplies executable SQL. Application code validates arguments, budgets and termination. Numerical claims come from tool evidence and are checked against result fields. Narrative uses deterministic templates, deliberately limiting flexibility and hallucination exposure.
+| Layer | Responsibility | Boundary |
+| --- | --- | --- |
+| Next.js dashboard | Saved reports, charts, citations, evaluation and local input | No browser credentials; no paid calls from the showcase |
+| FastAPI | Validate requests, concurrency and execution limits | Unsupported requests clarify or abstain |
+| MiniLM retrieval | Rank versioned metric definitions locally | Similarity is relevance, not answer confidence |
+| LangGraph | Select approved actions, or run the fixed retail workflow | The model cannot supply arbitrary SQL or code |
+| DuckDB / Python | Execute maintained queries and statistical calculations | Read-only data and validated parameters |
+| Generation / verification | Resolve selected facts and check references | Qualitative entailment requires separate review |
+| Evaluation | Independent references, paired comparison and failure records | Deterministic, development and held-out evidence stay distinct |
 
-Semantic retrieval uses a pinned, quantized **all-MiniLM-L6-v2** model with CPU ONNX Runtime, masked mean pooling and cosine similarity. There is no paid embedding endpoint or hosted vector database. Upstream weights are attributed in [models/README.md](models/README.md).
-
-## Measured verification
-
-- **149 tests passed locally**: independent numerical references, public-data import and SQL checks, safe API failures, deadline boundaries, restart/concurrent quota accounting, retrieval/tokenizer parity and mocked live safety.
-- **30/30 deterministic regression cases passed in each of three repeated runs.** The 60-case manifest has 30 development/30 test cases with distinct scenario seeds. This is bounded synthetic regression, not live LLM accuracy.
-- On **10 labeled development retrieval queries**, semantic and lexical retrieval both achieved **9/10 top-1 and 10/10 top-3** contract hits. This does not establish semantic superiority.
-- Desktop **1440×1000** and mobile **390×844** flows checked with Playwright: four scenarios, evidence expansion, no page errors or horizontal overflow.
-
-The desktop/mobile record above covers the earlier synthetic release. The new `/retail` page passes TypeScript and production build checks; its browser interactions and public deployment remain unverified. A local 40-request/8-thread API smoke and process restart passed, which does not establish hosted load capacity. [Current verification scope](docs/EVALUATION.md).
-
-Measured records and omissions: [deterministic results](evals/results/deterministic.json), [retrieval comparison](evals/results/retrieval.json), [protocol](docs/EVALUATION.md). [GitHub CI passed for the implementation commit](https://github.com/RickySun-hub/metricpilot/actions/runs/36800913164); the public walkthrough and [browser checks](docs/assets/public-qa.json) were verified separately.
+The synthetic tasks cover activation change, ordered funnels and user-level onboarding experiments. The retail case follows a fixed workflow; it is not described as autonomous action selection.
 
 ## Run locally
 
-Prerequisites: **Python 3.12**, **Node.js 22+**. Never put credentials in commands or tracked files.
+Prerequisites: **Python 3.12** and **Node.js 22+**. Credentials are never required for the recorded showcase or deterministic analysis.
+
+### Recorded dashboard only
 
 ```bash
-git clone https://github.com/RickySun-hub/metricpilot.git
+git clone --branch feat/recorded-dashboard-rag-20261002 https://github.com/RickySun-hub/metricpilot.git
 cd metricpilot
+npm ci
+npm run dev -- --hostname 127.0.0.1
+```
+
+Open `http://127.0.0.1:3000`. The saved results load directly from the checked-in sanitized artifact. `/retail` opens the public-data investigation directly.
+
+```bash
+npm run typecheck
+npm run build
+```
+
+For a GitHub project site, set `METRICPILOT_BASE_PATH=/metricpilot` when building (PowerShell: `$env:METRICPILOT_BASE_PATH='/metricpilot'`). Leave it unset for root-domain hosting. When publishing a review branch, also set `METRICPILOT_SOURCE_REF` to that exact branch or commit so evidence links resolve to the published revision; the default is `main`. Verify with `node scripts/test-static-export.cjs /metricpilot` or without the argument for root hosting.
+
+The build exports the recorded dashboard into `out/`. It can be served by a static host without a Python backend. Next.js warns that API rewrites are not applied to static exports; that does not affect saved-result inspection.
+
+### Local deterministic investigations
+
+Create and activate a Python virtual environment:
+
+```bash
 python -m venv .venv
 ```
 
-Activate `.venv` (`.venv\Scripts\Activate.ps1` on PowerShell; `source .venv/bin/activate` on macOS/Linux), then:
+Use `source .venv/bin/activate` on macOS/Linux or `.venv\Scripts\Activate.ps1` in PowerShell, then:
 
 ```bash
 python -m pip install -r requirements.txt -r requirements-dev.txt
-npm ci
 python -m uvicorn api.index:app --host 127.0.0.1 --port 8000
 ```
 
-In a second terminal set `METRICPILOT_API_URL=http://127.0.0.1:8000` and run `npm run dev`. PowerShell:
+In a second terminal, configure the Next.js API rewrite and start development mode. macOS/Linux:
+
+```bash
+METRICPILOT_API_URL=http://127.0.0.1:8000 npm run dev -- --hostname 127.0.0.1
+```
+
+PowerShell:
 
 ```powershell
 $env:METRICPILOT_API_URL='http://127.0.0.1:8000'
 npm run dev -- --hostname 127.0.0.1
 ```
 
-Open `http://127.0.0.1:3000`; API docs: `http://127.0.0.1:8000/api/docs`. The repo includes the compressed synthetic snapshot and pinned local embedding assets. Reproduce inputs:
+Open “Local workspace” in the dashboard and run a supported question. The form uses deterministic tools only. The static `out/` folder does not implement these API routes. [API and deployment details](docs/DEPLOYMENT.md).
 
-```bash
-python -m backend.data
-python -m backend.download_embedding_model
-```
-
-The second command downloads public pretrained assets, not paid inference. Run checks:
+### Reproduce verification and showcase data
 
 ```bash
 python -m pytest -q
 python -m evals.run --mode deterministic --split test --repeats 3
 python -m evals.retrieval
 python -m evals.retail
+python scripts/build-showcase-data.py
+python scripts/test-showcase-data.py
+node scripts/test-dashboard.cjs
 npm run typecheck
 npm run build
 ```
 
-`npm run build` exports a static frontend to `out/`. Production also needs FastAPI; serving only `out/` does not provide analytics. A backend Dockerfile is included; Docker execution has not been verified locally.
-
-Open `/retail` for the real-data case. It uses the bundled aggregate snapshot, so no workbook download, customer records, or additional runtime dependency is needed. To reproduce the optional offline import, follow [REAL_DATA.md](docs/REAL_DATA.md).
+The showcase builder reads saved JSON only. It does not invoke the model, execute analytical tools or read local credentials. It preserves report facts while dropping operational budget/provider fields, and ignores unfinished evaluation files. Source paths and dates stay attached to every record.
 
 ## Real public-data case study
 
-- Audited all **541,909** historical source lines; retained **530,104** positive-quantity, positive-price, non-cancelled lines and excluded **11,805**
-- Counted **135,080 missing customer IDs** and **5,268 repeated exact rows**; missing IDs and duplicates are explicitly retained for this non-customer-level metric
-- Compared complete October and November 2011: **GBP 1,154,979.30 → GBP 1,509,496.33**, a **GBP 354,517.03** observed difference
+- Audited all **541,909** original rows; retained **530,104** positive-quantity, positive-price, non-cancelled lines
+- Recorded **135,080 missing customer IDs** and **5,268 repeated exact rows**; both are retained under the documented non-customer-level metric policy
+- Compared complete October and November 2011: **GBP 1,154,979.30 → GBP 1,509,496.33**, a **GBP 354,517.03** difference
 - Reconciled all **29** comparison-country contributions and monthly totals against separate Python/Decimal source-row accumulators
-- Kept this historical descriptive analysis separate from the frozen synthetic test suite, SaaS conversion/funnel claims, randomized experiments, and any live-model benchmark
+- Bundled month-country aggregates, without customer identifiers
 
-The underlying data is Chen (2015), UCI Online Retail, [DOI 10.24432/C5BW33](https://doi.org/10.24432/C5BW33), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). These are gross positive sales under the documented exclusion policy, not net revenue, profit, or business uplift. [Executed public-data check](evals/results/retail.json).
+Source: Chen (2015), UCI Online Retail, [DOI 10.24432/C5BW33](https://doi.org/10.24432/C5BW33), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). [Data audit and reproduction](docs/REAL_DATA.md).
 
-## Optional LLM integration
+## Optional live model execution
 
-The default/public configuration keeps `METRICPILOT_ENABLE_LIVE=0`. Live mode is not required for the working analytics demo. Later activation requires an approved server-side key, explicit budget and the [deployment controls](docs/DEPLOYMENT.md). Public live mode additionally requires shared durable quota storage.
+Live execution is separate from the public recorded showcase. The backend defaults to `METRICPILOT_ENABLE_LIVE=0`. Activation requires approved server-side credentials, an explicit spending allowance and the [documented controls](docs/DEPLOYMENT.md). Public live mode additionally requires shared durable quotas.
 
-The code uses a fixed GPT-4.1-mini snapshot, structured actions, finite calls, duplicate-call rejection, conservative cost preflight and evidence-only reports. These have mocked tests, not real-provider verification. Hosted Redis accounting is also unverified. Live benchmark/baseline are future work; the evaluation CLI refuses to invent them.
+The code uses pinned `gpt-4.1-mini-2025-04-14`, structured responses, finite calls, duplicate-call rejection and prospective cost checks. Keep one persistent accounting ledger across calls and restarts. Do not reset it, increase the allowance or expose a public paid endpoint to improve a demo.
+
+The current grounding schema uses model-selected verified facts with server-rendered numerical values. Earlier saved runs preserve their original method and provenance. Mechanical checks do not prove that every qualitative statement follows from its source.
+
+## Limitations
+
+- Narrow metrics, fixed demo windows and synthetic regression cases; not a general database copilot
+- Maintained SQL templates; not unrestricted text-to-SQL
+- Descriptive decomposition; no causal inference or measured business uplift
+- Fixed-horizon binary experiments; no sequential testing or multiple-comparison adjustment
+- Small retrieval development set; no demonstrated semantic advantage
+- Live failures and incomplete benchmarks are part of the record
+- No claim of real customer adoption, analyst time saved, production scale or permanent deployed service
 
 ## Repository guide
 
 ```text
-app/                Next.js input, reports, charts and evidence
-api/index.py        FastAPI health, analysis and evaluation
-backend/            Data, SQL tools, statistics, retrieval and graph
-contracts/          Versioned definitions
-data/               Synthetic snapshot and checksum manifest
-models/minilm/      Pinned ONNX weights, tokenizer and attribution
-tests/              Numerical, API, retrieval and mocked safety checks
-evals/              Independent references, case manifest and results
-docs/               Architecture, deployment, demo and claims guidance
+app/components/     Shared recorded dashboard, evidence and evaluation views
+app/data/           Sanitized checked-in showcase snapshot
+api/                FastAPI analysis, health and evaluation endpoints
+backend/            SQL tools, statistics, retrieval, controller and generation
+contracts/          Versioned metric definitions
+data/               Synthetic snapshot and public retail aggregates
+models/             Pinned pretrained embedding assets and attribution
+tests/              Numerical, API, safety and mocked-provider checks
+evals/              Frozen cases, independent references and recorded results
+scripts/            Showcase generation and frontend/data checks
+docs/               Design, protocol, data audit and explanation guides
 ```
 
-## Limitations / next work
+## License and attribution
 
-- Synthetic data, fixed windows and narrow task vocabulary; not a general database copilot.
-- Deterministic public execution; real LLM selection and baseline remain unverified.
-- Validated SQL templates, not unrestricted text-to-SQL.
-- Descriptive decomposition, not causal inference.
-- One user-level binary outcome at a fixed horizon; no sequential testing or multiple-comparison adjustment.
-- No measured business uplift, time savings, real adoption or enterprise-scale reliability.
-- Constrained report templates; no open-ended narrative analysis.
+Project code is available under the [MIT license](LICENSE), copyright 2026 Ricky Sun. The MIT grant does not replace upstream licenses: UCI retail data remains **CC BY 4.0**, and pretrained embedding weights retain their [upstream license and attribution](models/README.md).
 
-Next: separately authorize real-model evaluation, compare a baseline with disclosed information differences, obtain independent review, then expand scope based on failures.
+## Earlier deployment record
 
-## Ownership
+An earlier deterministic UI was verified on a temporary anonymous Vercel deployment. Its recorded expiry was **October 1, 2026**, unless claimed; continuing ownership and availability are unverified. It is not the current dashboard or a permanent resume link.
 
-Implemented with **AI assistance at the repository owner's request**. This does not imply the owner independently hand-authored every component or has already demonstrated understanding. Before interview claims, work through [the explanation guide](docs/INTERVIEW_GUIDE.md) and reproduce the checks. Pretrained weights belong to their upstream authors; no model training/fine-tuning is claimed.
+[Earlier 47-second walkthrough](docs/assets/demo.webm) · [Earlier browser QA record](docs/assets/public-qa.json) · [Deployment history](docs/DEPLOYMENT.md)

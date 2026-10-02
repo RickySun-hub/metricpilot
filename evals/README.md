@@ -20,10 +20,26 @@ are reproducibility checks, not 90 independent test cases. The synthetic test
 set is small and is exposed when it informs fixes; it must not be marketed as
 fresh held-out generalization after tuning against it.
 
-No paid model requests are made. `--mode live` deliberately exits until a
-separately budgeted live benchmark and single-pass baseline are implemented.
-The original full release gate also needs live-model and deployment checks;
-passing this regression does not satisfy that full gate.
+Deterministic mode makes no paid requests. An explicitly authorized paired live
+evaluator is now implemented:
+
+```
+python -m evals.run --mode live --allow-paid --split test --repeats 3
+```
+
+It requires enabled provider configuration and the persistent $5 total ceiling.
+It does not configure credentials or change/reset quotas. The full run compares
+the agent and the same-model fixed-SQL-preprocessing/one-answer-call baseline on
+all 30 test cases three times. Budget stops retain all planned failures in the
+denominator. Timestamped results include complete redacted backend responses,
+usage/cost, numeric/citation checks, hashes, and separate human-review templates.
+`--family metric --limit 1 --repeats 1` is explicitly a partial smoke check.
+`--track retail` and `--track adversarial` run separate supplemental cases.
+See [the protocol](../docs/EVALUATION.md) for baseline information advantages,
+manual semantic review, exposure, safety probes, and omitted checks.
+
+Automatic passes alone do not satisfy the full release gate. Mocked-provider
+unit tests are evaluator plumbing checks, never live-model quality scores.
 
 All fixture dates, people and behavioral events are synthetic.
 

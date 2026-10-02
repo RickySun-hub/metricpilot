@@ -1,6 +1,6 @@
 {
   "scope": "Fixed public-data numerical cross-check, not a held-out model benchmark or causal estimate.",
-  "run_at_utc": "2026-10-01T08:06:21.676736+00:00",
+  "run_at_utc": "2026-10-02T07:28:26.928774+00:00",
   "source": {
     "citation": "Chen, D. (2015). Online Retail [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33.",
     "doi": "10.24432/C5BW33",
@@ -269,7 +269,7 @@
   "passed": true,
   "check_count": 39,
   "source_sha256": {
-    "backend/retail.py": "bc64a36b115a3f8a543c4ecdd1f11da43a7632c7184b1cfe74b1effaa1964f90",
+    "backend/retail.py": "8537968537f7113c6fd02d3a481c4d23b1f3a4903963e5616aa3bf9505bec304",
     "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
     "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc"
   },
@@ -306,7 +306,7 @@
     ],
     "evidence": [
       {
-        "id": "ev_9df4775dc2",
+        "id": "ev_6e855f6479",
         "tool": "compare_retail_sales",
         "args": {
           "before_month": "2011-10",
@@ -333,13 +333,13 @@
           "delta_gbp": 354517.03,
           "change_pct": 30.6946652636978
         },
-        "elapsed_ms": 2.2,
+        "elapsed_ms": 2.71,
         "warnings": [],
         "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
         "contract_version": "retail-1.0"
       },
       {
-        "id": "ev_2fcca82c57",
+        "id": "ev_5db6ef1d83",
         "tool": "retail_country_contributions",
         "args": {
           "before_month": "2011-10",
@@ -531,7 +531,7 @@
           ],
           "delta_gbp": 354517.03
         },
-        "elapsed_ms": 1.14,
+        "elapsed_ms": 1.25,
         "warnings": [],
         "dataset_hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",
         "contract_version": "retail-1.0"
@@ -562,7 +562,7 @@
         "value": 1154979.3,
         "unit": "GBP",
         "scale": 1,
-        "evidence_id": "ev_9df4775dc2"
+        "evidence_id": "ev_6e855f6479"
       },
       {
         "label": "November gross positive sales",
@@ -570,7 +570,7 @@
         "value": 1509496.33,
         "unit": "GBP",
         "scale": 1,
-        "evidence_id": "ev_9df4775dc2"
+        "evidence_id": "ev_6e855f6479"
       },
       {
         "label": "Sales change",
@@ -578,7 +578,7 @@
         "value": 354517.03,
         "unit": "GBP",
         "scale": 1,
-        "evidence_id": "ev_9df4775dc2"
+        "evidence_id": "ev_6e855f6479"
       }
     ],
     "warnings": [
@@ -588,14 +588,19 @@
       "Exact duplicate rows are retained; missing customer identifiers do not exclude valid sales."
     ],
     "metrics": {
-      "elapsed_ms": 515.52,
+      "elapsed_ms": 521.94,
       "tool_calls": 2,
       "model_calls": 0,
       "input_tokens": 0,
       "output_tokens": 0,
       "estimated_cost_usd": 0
     },
-    "request_id": "8f87df58dfe2421aa7ce3a3a9b0a9b88",
+    "claims": [],
+    "citations": [],
+    "generation": {
+      "method": "deterministic_template"
+    },
+    "request_id": "6177b21aab20485897d75dab1eee04ba",
     "model": null,
     "dataset": {
       "hash": "cbf7b1111cb3798d29646147a4ecfd7c8b228c5c5e03c8f396a62e67445e17bd",

@@ -1,0 +1,60 @@
+{
+  "instructions": "Human semantic review. Complete every rubric item, name reviewer, and preserve response hashes. This template is not a scored result.",
+  "rubric": [
+    "The answer uses the requested metric, cohort/window, population, and units.",
+    "Every substantive numerical claim is supported by the cited executed evidence.",
+    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+  ],
+  "reviews": [
+    {
+      "repeat": 1,
+      "case_id": "test-metric-01",
+      "system": "agent",
+      "response_sha256": "19be96d4b8c775f41983b7f58e5b95881122a4a5ef033152c64d073d239db2ad",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-02",
+      "system": "agent",
+      "response_sha256": "02612b2390fb48ebae9a67b434c6c05c566254896bee51bb44ecbd6810b5bf1a",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-03",
+      "system": "baseline",
+      "response_sha256": "e192e661f5cfb07955cf168a966df2645f568788bc0053fba0986b4f99edf2f7",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    }
+  ]
+}

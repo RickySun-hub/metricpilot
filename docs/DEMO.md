@@ -1,6 +1,6 @@
-# 60-second demo script
+# Showcase and demo walkthrough
 
-Status: the public application and desktop/mobile walkthrough have been verified. [Watch the actual public recording](assets/demo.webm). It shows fresh activation analysis, executed SQL, SRM rejection and an inconclusive valid experiment; waiting time is retained. Current execution uses real deterministic SQL/statistics and explicitly says no live LLM is active. The public URL is temporary until claimed by the owner.
+Historical record: the earlier deterministic public application and desktop/mobile walkthrough were verified. [Watch the actual public recording](assets/demo.webm). It shows fresh activation analysis, executed SQL, SRM rejection and an inconclusive valid experiment; waiting time is retained. That earlier recording uses deterministic SQL/statistics with no live LLM. Its anonymous deployment expiry was October 1, 2026 unless claimed; continued ownership and availability are unverified. It is not a recording of the current dashboard.
 
 The table below is a suggested narrated 60-second interview flow, not a timestamp transcript of the silent recording.
 
@@ -19,7 +19,7 @@ If live calls exceed one minute, clearly label edited waiting time in the video.
 
 Current scope, after the owner can explain and reproduce the implementation:
 
-> I implemented an AI-assisted product analytics application with bounded LangGraph workflows, local semantic retrieval and validated SQL/statistical tools. The public demo runs deterministic analysis on synthetic data. The optional LLM action selector is implemented but has not been verified against a real provider.
+> I implemented an AI-assisted product analytics application with bounded LangGraph workflows, local semantic retrieval and validated SQL/statistical tools. The current showcase presents recorded live-model and deterministic investigations with source-linked evidence. Real-provider samples exist; the preserved failed paired attempt and any subsequent results must be described using their actual scope and review state.
 
 Do not describe the temporary deployment as permanent, or deterministic regression scores as LLM accuracy. Implementation assistance does not establish independent hand-authorship or interview readiness.
 
@@ -33,3 +33,14 @@ Do not describe the temporary deployment as permanent, or deterministic regressi
 6. How do report claims map to evidence, and what remains manually reviewed?
 7. What does the baseline comparison establish, and what does it not establish?
 8. How do limits survive backend restarts and multiple workers?
+
+## Current recorded showcase flow
+
+1. Open the default funnel investigation. Point out “Recorded live run,” its date, synthetic data and original source artifact.
+2. Compare the funnel bars and completion rates. The display reads actual tool evidence.
+3. Follow a cited source into exact SQL, validated arguments and a retrieved contract.
+4. Switch to public retail data; explain the distinction between gross positive sales and net revenue.
+5. Open Evaluation. Separate 30-case deterministic regression, development retrieval, retail numerical checks and actual paired live attempts. Show failures and pending reviews.
+6. Open Architecture and follow a stage into its implementation.
+
+The showcase makes no model requests. Fresh deterministic analysis is an explicit localhost-only action. A saved report is never presented as a current execution.

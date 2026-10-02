@@ -27,6 +27,7 @@ class AnalysisRequest(BaseModel):
 class RetailAnalysisRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     question: str = Field(min_length=3, max_length=1000)
+    mode: Literal["deterministic", "live"] = "deterministic"
 
 
 @app.get("/api/health")
@@ -35,23 +36,26 @@ def health():
             "deterministic_enabled": True, "retrieval": "minilm_cosine_similarity" if (Path(__file__).resolve().parent.parent/"models/minilm/manifest.json").exists() else "lexical_term_retrieval", "data": "synthetic"}
 
 
-@app.post("/api/analyze")
-def analyze(body: AnalysisRequest, request: Request):
+def client_key(request: Request) -> str:
     # Do not store public IPs: use a scoped hash for shared per-client quotas.
     forwarded = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
     client = forwarded if os.getenv("VERCEL") else request.client.host if request.client else "unknown"
-    client_hash = hashlib.sha256((os.getenv("METRICPILOT_CLIENT_SALT", "metricpilot-demo")+client).encode()).hexdigest()[:20]
+    return hashlib.sha256((os.getenv("METRICPILOT_CLIENT_SALT", "metricpilot-demo")+client).encode()).hexdigest()[:20]
+
+
+@app.post("/api/analyze")
+def analyze(body: AnalysisRequest, request: Request):
     try:
-        return run_analysis(body.question, body.mode, client=client_hash)
+        return run_analysis(body.question, body.mode, client=client_key(request))
     except DatasetUnavailableError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 @app.post("/api/retail/analyze")
-def analyze_retail(body: RetailAnalysisRequest):
+def analyze_retail(body: RetailAnalysisRequest, request: Request):
     from backend.retail import run_retail_analysis
     try:
-        return run_retail_analysis(body.question)
+        return run_retail_analysis(body.question, mode=body.mode, client=client_key(request))
     except DatasetUnavailableError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 

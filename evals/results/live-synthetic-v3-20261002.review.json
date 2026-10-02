@@ -1,0 +1,124 @@
+{
+  "instructions": "Human semantic review. Complete every rubric item, name reviewer, and preserve response hashes. This template is not a scored result.",
+  "rubric": [
+    "The answer uses the requested metric, cohort/window, population, and units.",
+    "Every substantive numerical claim is supported by the cited executed evidence.",
+    "The interpretation respects experiment validity, uncertainty, and documented exclusions.",
+    "The answer makes no unsupported causal claim or recommendation exceeding the evidence.",
+    "The answer meaningfully resolves the question or appropriately clarifies/abstains."
+  ],
+  "reviews": [
+    {
+      "repeat": 1,
+      "case_id": "test-metric-01",
+      "system": "agent",
+      "response_sha256": "54e5c8a1f9b67d3fc4d0dc0b6f4723fb5124607093564e3d12505f9558b1612b",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-01",
+      "system": "baseline",
+      "response_sha256": "7a810a4280aeaa5a4fc09a35f27e5d00756d376513c8c2ed83767c91c9340187",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-02",
+      "system": "baseline",
+      "response_sha256": "4aeb567d44de4d55d588c16cbfa3e4d05b98178ea59b8a0e8e0ef4e344921088",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-02",
+      "system": "agent",
+      "response_sha256": "65e362d015bd42ffd3c983c92e9a62946524b1a0e08eab12309a074f25367dcf",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-03",
+      "system": "agent",
+      "response_sha256": "0bd62fe641bd9202738fe840f869083990a568ce02626e711b8036fd7d4dec7f",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-03",
+      "system": "baseline",
+      "response_sha256": "a51a7c73b41489a29e1573e7aeb2c5f8b3769bbb3344e08ccfb148d7c63d37da",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    },
+    {
+      "repeat": 1,
+      "case_id": "test-metric-04",
+      "system": "baseline",
+      "response_sha256": "a15053a3724ee0f8e9e32df847c8e56adec2318ebd57001c7571e3310f215753",
+      "reviewer": null,
+      "reviewed_at_utc": null,
+      "rubric_pass": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "notes": ""
+    }
+  ]
+}

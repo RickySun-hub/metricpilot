@@ -1,0 +1,322 @@
+{
+  "scope": "One real-provider smoke; not a benchmark",
+  "budget_before": {
+    "day": "2026-10-02",
+    "storage_backend": "sqlite",
+    "reservation_usd": 0.02,
+    "daily_cap_usd": 1.0,
+    "total_cap_usd": 5.0,
+    "daily_reserved_usd": 0.1,
+    "total_reserved_usd": 0.1,
+    "daily_remaining_usd": 0.9,
+    "total_remaining_usd": 4.9
+  },
+  "budget_after": {
+    "day": "2026-10-02",
+    "storage_backend": "sqlite",
+    "reservation_usd": 0.02,
+    "daily_cap_usd": 1.0,
+    "total_cap_usd": 5.0,
+    "daily_reserved_usd": 0.12,
+    "total_reserved_usd": 0.12,
+    "daily_remaining_usd": 0.88,
+    "total_remaining_usd": 4.88
+  },
+  "response": {
+    "question": "Compare the ordered practice funnel.",
+    "mode": "live",
+    "status": "completed",
+    "summary": "The ordered practice funnel shows a decrease in the signup-to-practice start rate from before to after, dropping from 84.6 % to 70.4167 %. The practice completion rate within seven days also decreased, from 56.2167 % before to 30.5 % after. Conditional completion rate, the rate of completion given practice start, declined from 66.45 % before to 43.3136 % after. The funnel analysis counts unique users and matches start and completion session identifiers in timestamp order within seven days of signup, as defined in the ordered practice funnel contract.",
+    "retrieval": [
+      {
+        "id": "funnel",
+        "title": "Ordered practice funnel",
+        "text": "The funnel is signup to practice start to practice completion within seven days. Count unique users and match start/completion session identifiers in timestamp order. Report both signup-to-step and conditional completion rates.",
+        "score": 0.6375,
+        "version": "1.0",
+        "method": "minilm_cosine_similarity"
+      },
+      {
+        "id": "scope",
+        "title": "Supported analytical scope",
+        "text": "Only activation, ordered funnel and onboarding_valid/onboarding_srm experiments are defined. Segment by acquisition channel or signup device. Engagement, revenue, retention and arbitrary custom metrics are not defined; clarify or abstain.",
+        "score": 0.2662,
+        "version": "1.0",
+        "method": "minilm_cosine_similarity"
+      },
+      {
+        "id": "confidence",
+        "title": "Effect uncertainty",
+        "text": "Report treatment minus control in percentage points with a 95% Newcombe score interval based on Wilson intervals. An interval crossing zero is inconclusive, not proof of no effect. Statistical significance alone does not justify shipping.",
+        "score": 0.2482,
+        "version": "1.0",
+        "method": "minilm_cosine_similarity"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "ev_61fd9ce987",
+        "tool": "analyze_funnel",
+        "args": {
+          "before": [
+            "2026-09-01",
+            "2026-09-08"
+          ],
+          "after": [
+            "2026-09-08",
+            "2026-09-15"
+          ],
+          "cutoff": "2026-09-30T00:00:00"
+        },
+        "sql": "WITH starts AS (\n  SELECT e.user_id, e.practice_session_id, MIN(e.event_at) AS started_at\n  FROM events e JOIN users u USING(user_id)\n  WHERE e.event_type='practice_start' AND e.practice_session_id <> ''\n    AND e.event_at >= u.signup_at AND e.event_at < u.signup_at + INTERVAL 7 DAY\n  GROUP BY e.user_id, e.practice_session_id\n), completions AS (\n  SELECT DISTINCT e.user_id FROM events e\n  JOIN starts s ON e.user_id=s.user_id AND e.practice_session_id=s.practice_session_id\n  JOIN users u ON e.user_id=u.user_id\n  WHERE e.event_type='practice_complete' AND e.event_at >= s.started_at\n    AND e.event_at < u.signup_at + INTERVAL 7 DAY\n), cohort AS (\n  SELECT u.*, CASE WHEN EXISTS(SELECT 1 FROM starts s WHERE s.user_id=u.user_id) THEN 1 ELSE 0 END AS started,\n    CASE WHEN c.user_id IS NOT NULL THEN 1 ELSE 0 END AS completed\n  FROM users u LEFT JOIN completions c USING(user_id)\n  WHERE u.signup_at >= CAST(? AS TIMESTAMP) AND u.signup_at < CAST(? AS TIMESTAMP)\n    AND u.signup_at + INTERVAL 7 DAY <= CAST(? AS TIMESTAMP)\n) SELECT COUNT(*) denominator, COALESCE(SUM(started),0) started, COALESCE(SUM(completed),0) numerator FROM cohort",
+        "result": {
+          "before": {
+            "users": 6000,
+            "started": 5076,
+            "completed": 3373,
+            "start_rate": 0.846,
+            "completion_rate": 0.5621666666666667,
+            "conditional_completion_rate": 0.6644996059889677
+          },
+          "after": {
+            "users": 6000,
+            "started": 4225,
+            "completed": 1830,
+            "start_rate": 0.7041666666666667,
+            "completion_rate": 0.305,
+            "conditional_completion_rate": 0.4331360946745562
+          }
+        },
+        "warnings": [],
+        "elapsed_ms": 31.96,
+        "dataset_hash": "42883552ad9e04da91fd6cc85e3327a2a1e5bfb74594c4a727fb9c9425cbd2c6",
+        "contract_version": "1.0"
+      }
+    ],
+    "trace": [
+      {
+        "step": "retrieve",
+        "detail": "Retrieved versioned metric contracts using minilm_cosine_similarity."
+      },
+      {
+        "step": "select",
+        "detail": "Selected approved action: analyze_funnel."
+      },
+      {
+        "step": "execute",
+        "detail": "analyze_funnel completed; evidence ev_61fd9ce987"
+      },
+      {
+        "step": "select",
+        "detail": "Selected approved action: finish."
+      },
+      {
+        "step": "generate",
+        "detail": "Generated an answer using retrieved definitions and actual SQL evidence."
+      },
+      {
+        "step": "verify",
+        "detail": "Checked numeric substitutions and citation targets. Qualitative entailment requires separate review."
+      }
+    ],
+    "findings": [
+      {
+        "label": "Before completion",
+        "value": 56.21666666666667,
+        "unit": "%",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "before.completion_rate",
+        "scale": 100
+      },
+      {
+        "label": "After completion",
+        "value": 30.5,
+        "unit": "%",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "after.completion_rate",
+        "scale": 100
+      },
+      {
+        "label": "Before starts",
+        "value": 84.6,
+        "unit": "%",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "before.start_rate",
+        "scale": 100
+      },
+      {
+        "label": "After starts",
+        "value": 70.41666666666667,
+        "unit": "%",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "after.start_rate",
+        "scale": 100
+      },
+      {
+        "label": "Before conditional completion",
+        "value": 66.44996059889678,
+        "unit": "%",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "before.conditional_completion_rate",
+        "scale": 100
+      },
+      {
+        "label": "After conditional completion",
+        "value": 43.31360946745562,
+        "unit": "%",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "after.conditional_completion_rate",
+        "scale": 100
+      },
+      {
+        "label": "Before users",
+        "value": 6000,
+        "unit": "users",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "before.users",
+        "scale": 1
+      },
+      {
+        "label": "Before started",
+        "value": 5076,
+        "unit": "users",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "before.started",
+        "scale": 1
+      },
+      {
+        "label": "Before completed",
+        "value": 3373,
+        "unit": "users",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "before.completed",
+        "scale": 1
+      },
+      {
+        "label": "After users",
+        "value": 6000,
+        "unit": "users",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "after.users",
+        "scale": 1
+      },
+      {
+        "label": "After started",
+        "value": 4225,
+        "unit": "users",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "after.started",
+        "scale": 1
+      },
+      {
+        "label": "After completed",
+        "value": 1830,
+        "unit": "users",
+        "evidence_id": "ev_61fd9ce987",
+        "field_path": "after.completed",
+        "scale": 1
+      }
+    ],
+    "warnings": [],
+    "metrics": {
+      "elapsed_ms": 25226.57,
+      "model_calls": 3,
+      "tool_calls": 1,
+      "input_tokens": 3119,
+      "output_tokens": 347,
+      "estimated_cost_usd": 0.0018028,
+      "reserved_request_usd": 0.02,
+      "reserved_model_cost_usd": 0.0115104,
+      "uncertain_usage_calls": 0,
+      "cost_basis": "Pinned standard token rates; failed or missing-usage calls charged at conservative upper bound.",
+      "last_provider_http_status": 200
+    },
+    "claims": [
+      {
+        "text": "The ordered practice funnel shows a decrease in the signup-to-practice start rate from before to after, dropping from 84.6 % to 70.4167 %.",
+        "fact_ids": [
+          "f2",
+          "f3"
+        ],
+        "evidence_ids": [
+          "ev_61fd9ce987"
+        ],
+        "contract_ids": [
+          "funnel"
+        ]
+      },
+      {
+        "text": "The practice completion rate within seven days also decreased, from 56.2167 % before to 30.5 % after.",
+        "fact_ids": [
+          "f0",
+          "f1"
+        ],
+        "evidence_ids": [
+          "ev_61fd9ce987"
+        ],
+        "contract_ids": [
+          "funnel"
+        ]
+      },
+      {
+        "text": "Conditional completion rate, the rate of completion given practice start, declined from 66.45 % before to 43.3136 % after.",
+        "fact_ids": [
+          "f4",
+          "f5"
+        ],
+        "evidence_ids": [
+          "ev_61fd9ce987"
+        ],
+        "contract_ids": [
+          "funnel"
+        ]
+      },
+      {
+        "text": "The funnel analysis counts unique users and matches start and completion session identifiers in timestamp order within seven days of signup, as defined in the ordered practice funnel contract.",
+        "fact_ids": [],
+        "evidence_ids": [
+          "ev_61fd9ce987"
+        ],
+        "contract_ids": [
+          "funnel"
+        ]
+      }
+    ],
+    "citations": [
+      {
+        "id": "ev_61fd9ce987",
+        "kind": "evidence",
+        "title": "analyze_funnel"
+      },
+      {
+        "id": "funnel",
+        "kind": "contract",
+        "title": "Ordered practice funnel"
+      }
+    ],
+    "generation": {
+      "method": "llm_grounded",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "numeric_validation": "passed",
+      "citation_validation": "passed",
+      "semantic_validation": "not_automated"
+    },
+    "reservation_usd": 0.02,
+    "request_id": "170dc294210449b795af5c2f9544b606",
+    "model": "gpt-4.1-mini-2025-04-14",
+    "dataset": {
+      "hash": "42883552ad9e04da91fd6cc85e3327a2a1e5bfb74594c4a727fb9c9425cbd2c6",
+      "users": 12000,
+      "events": 50504,
+      "label": "Synthetic interview-preparation SaaS",
+      "cutoff": "2026-09-30T00:00:00"
+    }
+  },
+  "manual_review": {
+    "reviewer": "AI-assisted implementation reviewer",
+    "human_review": false,
+    "scope": "This one sample only",
+    "passed": true,
+    "notes": "Verified each displayed value and qualitative definition against actual funnel evidence and retrieved contract. No significance, causal, rollout, or equal-count comparability claim."
+  }
+}

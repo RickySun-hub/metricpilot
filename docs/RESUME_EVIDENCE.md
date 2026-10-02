@@ -1,14 +1,14 @@
 # Resume claims and evidence requirements
 
-**Implementation is now verified under a zero-cost deterministic scope.** Real LLM performance, baseline gains and permanent deployment remain unverified. The implementation used AI assistance; owner understanding must be demonstrated separately. Add verified facts to the current canonical master before tailoring; this file does not modify it.
+**Deterministic analytics and actual grounded model generation have been exercised.** A small paired development check passed; the final synthetic run stopped with 7 automatic passes among 10 attempted responses and 170 unrun. Supplements were execution-blocked. This supports a functional bounded RAG demonstration, not reliable general-analyst performance, a completed full-protocol score, baseline superiority or permanent deployment. The implementation used AI assistance; owner understanding must be demonstrated separately. Add verified facts to the current canonical master before tailoring; this file does not modify it.
 
 ## Currently supported three-bullet version
 
 - Implemented a product analytics application covering activation, funnel and experiment review across 50,504 synthetic events, by integrating Next.js/FastAPI, validated DuckDB SQL and Python statistical tools.
 - Validated numerical and controller behavior on 30 synthetic regression cases with 30/30 passes in each of three runs, by comparing SQL outputs with independent record-level references and checking score intervals against statistical libraries.
-- Grounded analytical reports in ten versioned metric contracts and traceable tool outputs, by integrating local MiniLM semantic retrieval, a bounded LangGraph controller and numerical evidence validation.
+- Grounded model-generated analytical reports in versioned metric contracts and traceable tool outputs, by integrating local MiniLM retrieval, a bounded LangGraph controller, source citations and server-rendered verified numerical facts.
 
-Do not call the 30/30 result LLM accuracy. Do not describe the public deterministic controller as a live autonomous model. A verified temporary deployment exists, but use a deployment bullet only after its persistent owner-controlled URL is confirmed. The original live-model templates below remain conditional future claims.
+Do not call the 30/30 result LLM accuracy. Do not describe the public deterministic controller as a live autonomous model. An earlier temporary deployment was verified historically and has an expired recorded claim window; use a deployment bullet only after an owner-controlled URL is verified. The benchmark templates below remain conditional until the final run is complete.
 
 ## Suggested project heading
 
@@ -34,12 +34,12 @@ Define warm/cold conditions, sample size and cost basis. Do not substitute an un
 
 | Claim | Required record | Current status |
 | --- | --- | --- |
-| Built and deployed | Code SHA, public URL, task traces | Implemented; temporary public deployment verified, permanent URL pending |
+| Built and deployed | Code SHA, public URL, task traces | Implemented; historical temporary deployment only, current owner-controlled URL unverified |
 | N synthetic events | Generation command, row count, dataset hash | 50,504 events; data/manifest.json |
 | A/B benchmark passes | Frozen split/rubric hashes and actual run summary | 3×30/30 deterministic checks; no model-quality score |
-| Baseline comparison | Same model/config record and disclosed differences | Not evaluated |
-| D/E invalid cases | Predefined cases and observed terminal statuses | Synthetic validity/abstention checks recorded; no live model claim |
-| Latency and model cost | Hosted run records, timing definition and pricing basis | Not measured |
+| Baseline comparison | Same model/config record and disclosed differences | Small actual development comparison recorded; final v3 stopped 10/180 attempted (7 automatic passes); earlier failures retained |
+| D/E invalid cases | Predefined cases and observed terminal statuses | Synthetic checks and actual SRM development answers recorded; final supplemental evaluation execution-blocked; no full live critical-case score |
+| Latency and model cost | Hosted run records, timing definition and pricing basis | Local real-provider timings/token estimates recorded; hosted latency unverified |
 
 ## Skills to add only after use and understanding
 

@@ -1,0 +1,335 @@
+{
+  "reviewer": "independent AI reviewer",
+  "human_review": false,
+  "reviewed_at_utc": "2026-10-02T06:43:07.041255+00:00",
+  "input_artifact": "evals/results/live-development-v3_1-20261002.json",
+  "input_artifact_sha256": "65ba6d861f50c000ff6a854aa9fa3c86cdf33799ee6d40b9c51fa101a31c73d0",
+  "scope": "Independent AI-assisted semantic review of all six completed schema-v3.1 development responses, including summaries, claims, retrieved definitions, actual recorded tool results, SQL, warnings and citations.",
+  "method": "Direct semantic reading plus independent arithmetic from recorded result inputs; response hashes and every finding field/scale and claim citation mapping verified without importing application calculation helpers.",
+  "summary": {
+    "responses_reviewed": 6,
+    "findings_checked": 94,
+    "claims_checked": 17,
+    "responses_supported_with_minor_clarity_caveats": 6,
+    "material_semantic_defects_observed": 0,
+    "official_human_reviews_completed": 0,
+    "guard_withholding_counted_as_quality_pass": false
+  },
+  "limitations": [
+    "This is AI-assisted independent review, not human review, a replacement for the official human-review template, or a release approval. The official human review template and benchmark/source artifacts remain untouched.",
+    "Grounding assessed against the supplied frozen recorded evidence. Raw transaction/event records were not independently regenerated, provider transcripts were not re-run, and UI rendering/warning visibility was not checked.",
+    "The development run has only three questions with two systems each. These six response-level observations do not establish held-out generalization, production readiness, or results for the separately running full-v2 benchmark.",
+    "All six reviewed responses contain generated answers with completed status. No withheld/blocked answer was treated as semantic success.",
+    "Full-response criteria include the retrieved contracts, findings and warnings. Standalone narrative improvements are recorded separately rather than concealing this scope."
+  ],
+  "reviews": [
+    {
+      "case_id": "dev-metric-01",
+      "system": "agent",
+      "question": "Why did activation fall last week?",
+      "reviewer": "independent AI reviewer",
+      "human_review": false,
+      "response_sha256": "698378a25cc09f3bf36bd29cea55f6943864633ec6b0a2b5e0aee9b226cac7bc",
+      "response_hash_verified": true,
+      "outcome": "supported_with_minor_clarity_caveats",
+      "criteria": {
+        "requested_metric_window_population_units": true,
+        "every_substantive_number_supported_by_cited_executed_evidence": true,
+        "interpretation_respects_validity_uncertainty_exclusions": true,
+        "no_unsupported_causal_claim_or_recommendation": true,
+        "question_meaningfully_answered_within_documented_contract": true
+      },
+      "material_semantic_defects": [],
+      "wording_caveats": [
+        {
+          "severity": "minor_clarity",
+          "text": "Within-group activation rates actually increased slightly in both acquisition channels",
+          "issue": "“Slightly” has no declared practical-size threshold. The direction is correct; neutral “increased” or the actual changes would be more precise."
+        },
+        {
+          "severity": "minor_clarity",
+          "text": "between the two documented signup cohorts",
+          "issue": "State the explicit September 1–8 and September 8–15, 2026 signup windows and seven-day activation in the summary so it stands alone."
+        }
+      ],
+      "notes": [
+        "The response uses seven-day activation among eligible signup cohorts. Executed SQL enforces September 1 <= signup < September 8 and September 8 <= signup < September 15, 2026 UTC, with full seven-day maturity at the September 30 cutoff. Completion requires a matching practice-session start, not merely an unordered completion event.",
+        "329/600 versus 198/600 independently reconciles to 54.833333% versus 33.0%, a -21.833333 percentage-point change.",
+        "The country-independent channel decomposition uses symmetric average-rate/average-weight terms. Recomputed mix=-26.625 pp and within=+4.7916667 pp sum to -21.8333333 pp. Paid share rises from 20% to 80%; its activation rate is below organic in both periods.",
+        "The narrative calls this arithmetic accounting and the response warning explicitly denies causal interpretation. It does not establish why channel shares changed, nor claim to do so.",
+        "Window criterion passes only against this benchmark’s retrieved fixed-window contract. The relative phrase “last week” is not independently resolved to the current calendar week; the actual dates should be made explicit when presenting this answer.",
+        "The claim that both channel rates increased is supported: organic +5.625 pp and paid +3.958333 pp."
+      ],
+      "checked_evidence_ids": [
+        "ev_1dfef36d7e",
+        "ev_d0248861bc"
+      ],
+      "all_findings_mapping_checked": true,
+      "findings_checked": 5,
+      "claims_checked": 3,
+      "independent_arithmetic_from_recorded_inputs": {
+        "before_numerator": 329,
+        "before_denominator": 600,
+        "after_numerator": 198,
+        "after_denominator": 600,
+        "delta_pp": -21.833333333333332,
+        "mix_pp": -26.625,
+        "within_pp": 4.791666666666667
+      }
+    },
+    {
+      "case_id": "dev-metric-01",
+      "system": "baseline",
+      "question": "Why did activation fall last week?",
+      "reviewer": "independent AI reviewer",
+      "human_review": false,
+      "response_sha256": "7cbccbf72ab5c0298a3b80650e9ee8a5260c6f4b2ac5013a558ae8f43ad06605",
+      "response_hash_verified": true,
+      "outcome": "supported_with_minor_clarity_caveats",
+      "criteria": {
+        "requested_metric_window_population_units": true,
+        "every_substantive_number_supported_by_cited_executed_evidence": true,
+        "interpretation_respects_validity_uncertainty_exclusions": true,
+        "no_unsupported_causal_claim_or_recommendation": true,
+        "question_meaningfully_answered_within_documented_contract": true
+      },
+      "material_semantic_defects": [],
+      "wording_caveats": [
+        {
+          "severity": "minor_clarity",
+          "text": "between the two documented signup cohorts",
+          "issue": "State the explicit September 1–8 and September 8–15, 2026 signup windows and seven-day activation in the summary so it stands alone."
+        }
+      ],
+      "notes": [
+        "The response uses seven-day activation among eligible signup cohorts. Executed SQL enforces September 1 <= signup < September 8 and September 8 <= signup < September 15, 2026 UTC, with full seven-day maturity at the September 30 cutoff. Completion requires a matching practice-session start, not merely an unordered completion event.",
+        "329/600 versus 198/600 independently reconciles to 54.833333% versus 33.0%, a -21.833333 percentage-point change.",
+        "The country-independent channel decomposition uses symmetric average-rate/average-weight terms. Recomputed mix=-26.625 pp and within=+4.7916667 pp sum to -21.8333333 pp. Paid share rises from 20% to 80%; its activation rate is below organic in both periods.",
+        "The narrative calls this arithmetic accounting and the response warning explicitly denies causal interpretation. It does not establish why channel shares changed, nor claim to do so.",
+        "Window criterion passes only against this benchmark’s retrieved fixed-window contract. The relative phrase “last week” is not independently resolved to the current calendar week; the actual dates should be made explicit when presenting this answer."
+      ],
+      "checked_evidence_ids": [
+        "ev_4c9cb91686",
+        "ev_51092f30d4"
+      ],
+      "all_findings_mapping_checked": true,
+      "findings_checked": 5,
+      "claims_checked": 2,
+      "independent_arithmetic_from_recorded_inputs": {
+        "before_numerator": 329,
+        "before_denominator": 600,
+        "after_numerator": 198,
+        "after_denominator": 600,
+        "delta_pp": -21.833333333333332,
+        "mix_pp": -26.625,
+        "within_pp": 4.791666666666667
+      }
+    },
+    {
+      "case_id": "dev-experiment_valid-01",
+      "system": "baseline",
+      "question": "Evaluate the onboarding_valid A/B experiment.",
+      "reviewer": "independent AI reviewer",
+      "human_review": false,
+      "response_sha256": "0ba5f42ad82b3a6e34ecb3d7962184b777a95689e4fcc781dafd832c7d4b5ce2",
+      "response_hash_verified": true,
+      "outcome": "supported_with_minor_clarity_caveats",
+      "criteria": {
+        "requested_metric_window_population_units": true,
+        "every_substantive_number_supported_by_cited_executed_evidence": true,
+        "interpretation_respects_validity_uncertainty_exclusions": true,
+        "no_unsupported_causal_claim_or_recommendation": true,
+        "question_meaningfully_answered_within_documented_contract": true
+      },
+      "material_semantic_defects": [],
+      "wording_caveats": [
+        {
+          "severity": "minor_clarity",
+          "text": "The observed difference in completion rates between treatment and control is very small",
+          "issue": "The observed +1 pp is supported, but “very small” is a judgment without a declared material-effect threshold. Prefer “The observed difference is +1 pp”; retain the wide confidence interval."
+        },
+        {
+          "severity": "minor_clarity",
+          "text": "SRM p-value: 1 p.",
+          "issue": "p-values are dimensionless; render “SRM p = 1” instead of a trailing “p” unit."
+        },
+        {
+          "severity": "minor_clarity",
+          "text": "the confidence interval includes zero",
+          "issue": "The findings identify the interval as 95%; repeat 95% and the seven-day outcome in the summary for standalone clarity."
+        }
+      ],
+      "notes": [
+        "The cited contract specifies the onboarding_valid user-level fixed-horizon experiment and intent-to-treat completion within seven days of assignment. SQL keeps mature assignments and preserves noncompleters with the left join.",
+        "Control=171/300=57%; treatment=174/300=58%; treatment-control=+1 pp. Recomputed 95% Newcombe score interval is [-6.8714481,+8.8539771] pp; recomputed 50:50 chi-square SRM p=1.",
+        "“No allocation imbalance was detected” is appropriately limited to the SRM result. It does not claim that balanced allocation proves correct randomization or overall experiment validity.",
+        "“Inconclusive evidence of an effect” correctly follows from an interval spanning zero. The answer does not assert equivalence, prove no effect, or recommend rollout.",
+        "The response warning retains the fixed-horizon, single-binary-outcome scope and unmeasured-guardrail limitation. This review has not verified UI visibility of that warning."
+      ],
+      "checked_evidence_ids": [
+        "ev_d1fecee718"
+      ],
+      "all_findings_mapping_checked": true,
+      "findings_checked": 4,
+      "claims_checked": 2,
+      "independent_arithmetic_from_recorded_inputs": {
+        "control_successes": 171,
+        "control_n": 300,
+        "treatment_successes": 174,
+        "treatment_n": 300,
+        "effect_pp": 1.0,
+        "ci_low_pp": -6.871448081864884,
+        "ci_high_pp": 8.853977059890383,
+        "srm_pvalue": 1.0
+      }
+    },
+    {
+      "case_id": "dev-experiment_valid-01",
+      "system": "agent",
+      "question": "Evaluate the onboarding_valid A/B experiment.",
+      "reviewer": "independent AI reviewer",
+      "human_review": false,
+      "response_sha256": "c66fef2cf1c615bce0e855708faa455fd5148f8f4c4c9ccedc723c521bb1407a",
+      "response_hash_verified": true,
+      "outcome": "supported_with_minor_clarity_caveats",
+      "criteria": {
+        "requested_metric_window_population_units": true,
+        "every_substantive_number_supported_by_cited_executed_evidence": true,
+        "interpretation_respects_validity_uncertainty_exclusions": true,
+        "no_unsupported_causal_claim_or_recommendation": true,
+        "question_meaningfully_answered_within_documented_contract": true
+      },
+      "material_semantic_defects": [],
+      "wording_caveats": [
+        {
+          "severity": "minor_clarity",
+          "text": "The observed difference in completion rates between treatment and control is very small",
+          "issue": "The observed +1 pp is supported, but “very small” is a judgment without a declared material-effect threshold. Prefer “The observed difference is +1 pp”; retain the wide confidence interval."
+        },
+        {
+          "severity": "minor_clarity",
+          "text": "SRM p-value: 1 p.",
+          "issue": "p-values are dimensionless; render “SRM p = 1” instead of a trailing “p” unit."
+        },
+        {
+          "severity": "minor_clarity",
+          "text": "the confidence interval includes zero",
+          "issue": "The findings identify the interval as 95%; repeat 95% and the seven-day outcome in the summary for standalone clarity."
+        }
+      ],
+      "notes": [
+        "The cited contract specifies the onboarding_valid user-level fixed-horizon experiment and intent-to-treat completion within seven days of assignment. SQL keeps mature assignments and preserves noncompleters with the left join.",
+        "Control=171/300=57%; treatment=174/300=58%; treatment-control=+1 pp. Recomputed 95% Newcombe score interval is [-6.8714481,+8.8539771] pp; recomputed 50:50 chi-square SRM p=1.",
+        "“No allocation imbalance was detected” is appropriately limited to the SRM result. It does not claim that balanced allocation proves correct randomization or overall experiment validity.",
+        "“Inconclusive evidence of an effect” correctly follows from an interval spanning zero. The answer does not assert equivalence, prove no effect, or recommend rollout.",
+        "The response warning retains the fixed-horizon, single-binary-outcome scope and unmeasured-guardrail limitation. This review has not verified UI visibility of that warning."
+      ],
+      "checked_evidence_ids": [
+        "ev_1b0a6a1240"
+      ],
+      "all_findings_mapping_checked": true,
+      "findings_checked": 4,
+      "claims_checked": 2,
+      "independent_arithmetic_from_recorded_inputs": {
+        "control_successes": 171,
+        "control_n": 300,
+        "treatment_successes": 174,
+        "treatment_n": 300,
+        "effect_pp": 1.0,
+        "ci_low_pp": -6.871448081864884,
+        "ci_high_pp": 8.853977059890383,
+        "srm_pvalue": 1.0
+      }
+    },
+    {
+      "case_id": "retail-live-02",
+      "system": "agent",
+      "question": "Which countries contributed to the sales change?",
+      "reviewer": "independent AI reviewer",
+      "human_review": false,
+      "response_sha256": "df2ae809e72e425a471baf923dfefbb6c4b391cf57c2f018e2a91b0214ada549",
+      "response_hash_verified": true,
+      "outcome": "supported_with_minor_clarity_caveats",
+      "criteria": {
+        "requested_metric_window_population_units": true,
+        "every_substantive_number_supported_by_cited_executed_evidence": true,
+        "interpretation_respects_validity_uncertainty_exclusions": true,
+        "no_unsupported_causal_claim_or_recommendation": true,
+        "question_meaningfully_answered_within_documented_contract": true
+      },
+      "material_semantic_defects": [],
+      "wording_caveats": [
+        {
+          "severity": "minor_clarity",
+          "text": "the sales increase between the two months",
+          "issue": "Name October to November 2011 and “gross positive sales” in the summary. Those qualifiers currently require the retrieved definition/findings/warnings."
+        }
+      ],
+      "notes": [
+        "The requested contribution question is answered for October versus November 2011 gross positive sales in GBP, as defined by the retrieved contract and executed arguments.",
+        "All 29 country before/after pairs and deltas reconcile. Country sums equal October GBP 1,154,979.30 and November GBP 1,509,496.33; total change is GBP 354,517.03.",
+        "UK GBP +386,371.20 is the largest positive contribution. Japan +6,512.04, EIRE +6,420.51 and Norway +2,840.27 are supported positives; Netherlands -14,834.64, Australia -9,907.81 and Singapore -7,067.32 are supported negatives.",
+        "The narrative calls this accounting decomposition. The response warning also expressly rules out causal explanation and states the positive-quantity/price, cancellation exclusion, retained-duplicate and missing-customer-ID policies.",
+        "No net-revenue, profit, causal-uplift, visits, activation or experiment claims are made. The summary is a useful selection of countries; all 29 contributions remain available in evidence/findings."
+      ],
+      "checked_evidence_ids": [
+        "ev_f1dc65b996",
+        "ev_58193eca74"
+      ],
+      "all_findings_mapping_checked": true,
+      "findings_checked": 38,
+      "claims_checked": 4,
+      "independent_arithmetic_from_recorded_inputs": {
+        "countries_checked": 29,
+        "country_before_sum_gbp": "1154979.30",
+        "country_after_sum_gbp": "1509496.33",
+        "country_delta_sum_gbp": "354517.03"
+      }
+    },
+    {
+      "case_id": "retail-live-02",
+      "system": "baseline",
+      "question": "Which countries contributed to the sales change?",
+      "reviewer": "independent AI reviewer",
+      "human_review": false,
+      "response_sha256": "503b5da1d90cf2fbfd46e964ef7ce56eeed2b0f02e976c075b0897407b6e3b2f",
+      "response_hash_verified": true,
+      "outcome": "supported_with_minor_clarity_caveats",
+      "criteria": {
+        "requested_metric_window_population_units": true,
+        "every_substantive_number_supported_by_cited_executed_evidence": true,
+        "interpretation_respects_validity_uncertainty_exclusions": true,
+        "no_unsupported_causal_claim_or_recommendation": true,
+        "question_meaningfully_answered_within_documented_contract": true
+      },
+      "material_semantic_defects": [],
+      "wording_caveats": [
+        {
+          "severity": "minor_clarity",
+          "text": "the sales increase between the two months",
+          "issue": "Name October to November 2011 and “gross positive sales” in the summary. Those qualifiers currently require the retrieved definition/findings/warnings."
+        }
+      ],
+      "notes": [
+        "The requested contribution question is answered for October versus November 2011 gross positive sales in GBP, as defined by the retrieved contract and executed arguments.",
+        "All 29 country before/after pairs and deltas reconcile. Country sums equal October GBP 1,154,979.30 and November GBP 1,509,496.33; total change is GBP 354,517.03.",
+        "UK GBP +386,371.20 is the largest positive contribution. Japan +6,512.04, EIRE +6,420.51 and Norway +2,840.27 are supported positives; Netherlands -14,834.64, Australia -9,907.81 and Singapore -7,067.32 are supported negatives.",
+        "The narrative calls this accounting decomposition. The response warning also expressly rules out causal explanation and states the positive-quantity/price, cancellation exclusion, retained-duplicate and missing-customer-ID policies.",
+        "No net-revenue, profit, causal-uplift, visits, activation or experiment claims are made. The summary is a useful selection of countries; all 29 contributions remain available in evidence/findings."
+      ],
+      "checked_evidence_ids": [
+        "ev_4977640466",
+        "ev_2e700320f5"
+      ],
+      "all_findings_mapping_checked": true,
+      "findings_checked": 38,
+      "claims_checked": 4,
+      "independent_arithmetic_from_recorded_inputs": {
+        "countries_checked": 29,
+        "country_before_sum_gbp": "1154979.30",
+        "country_after_sum_gbp": "1509496.33",
+        "country_delta_sum_gbp": "354517.03"
+      }
+    }
+  ]
+}

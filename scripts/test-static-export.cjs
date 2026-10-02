@@ -1,0 +1,13 @@
+const fs=require('node:fs');
+const assert=require('node:assert/strict');
+const prefix=process.argv[2] || '';
+const sourceRef=process.argv[3] || 'main';
+const home=fs.readFileSync('out/index.html','utf8');
+assert.ok(home.includes(`href="${prefix}/"`),'Home link must include the configured base path');
+const sources=[...home.matchAll(/(?:src|href)="([^" ]+\.(?:js|css)(?:[?#][^" ]*)?)"/g)].map(match=>match[1]);
+assert.ok(sources.length>0,'Export must have JS and CSS assets');
+for(const source of sources)assert.ok(source.startsWith(`${prefix}/_next/`),`Unprefixed export asset: ${source}`);
+assert.ok(fs.existsSync('out/retail.html')||fs.existsSync('out/retail/index.html'),'Retail route must export');
+assert.ok(!home.includes('METRICPILOT_ENABLE_LIVE'),'Secret/config names must not leak to home HTML');
+assert.ok(home.includes(`/blob/${sourceRef}/evals/results/`),'Evidence links must point to the configured source revision');
+console.log(`Static export assets/home route verified for basePath ${prefix || '(root)'}`);

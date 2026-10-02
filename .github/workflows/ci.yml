@@ -10,6 +10,7 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt -r requirements-dev.txt
       - run: python -m pytest -q
+      - run: python scripts/test-showcase-data.py
       - run: python -m evals.run --mode deterministic --split test
       - uses: actions/upload-artifact@v4
         with:
@@ -17,6 +18,8 @@ jobs:
           path: evals/results/deterministic.json
   frontend:
     runs-on: ubuntu-latest
+    env:
+      METRICPILOT_SOURCE_REF: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,5 +27,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: node scripts/test-dashboard.cjs
       - run: npm run typecheck
       - run: npm run build
+      - run: node scripts/test-static-export.cjs '' "$METRICPILOT_SOURCE_REF"

@@ -43,8 +43,8 @@ def test_unavailable_dataset_returns_safe_json_and_recovers(monkeypatch, failure
     assert response.json()['status'] == 'completed'
 
 
-def test_public_retail_endpoint_rejects_live_and_arbitrary_data():
-    for extra in [{'mode':'live'}, {'source_path':'/etc/passwd'}, {'sql':'SELECT 1'}]:
+def test_public_retail_endpoint_rejects_unknown_modes_and_arbitrary_data():
+    for extra in [{'mode':'shell'}, {'source_path':'/etc/passwd'}, {'sql':'SELECT 1'}]:
         response=client.post('/api/retail/analyze',json={'question':'Compare sales',**extra})
         assert response.status_code == 422
 
@@ -57,3 +57,42 @@ def test_public_retail_unavailable_snapshot_returns_safe_json(monkeypatch):
     response=client.post('/api/retail/analyze',json={'question':'Compare sales'})
     assert response.status_code == 503
     assert response.json()['detail'].startswith('The public retail dataset is unavailable.')
+
+
+def test_public_retail_endpoint_passes_live_mode_and_hashed_client(monkeypatch):
+    import hashlib
+    import backend.retail as retail
+    monkeypatch.delenv('VERCEL', raising=False)
+    monkeypatch.setenv('METRICPILOT_CLIENT_SALT', 'offline-test-salt')
+    def capture(question, snapshot=None, mode='deterministic', client='local'):
+        return {'question':question, 'mode':mode, 'client':client}
+    monkeypatch.setattr(retail, 'run_retail_analysis', capture)
+    response=client.post('/api/retail/analyze',json={'question':'Compare sales','mode':'live'})
+    assert response.status_code == 200
+    assert response.json() == {'question':'Compare sales','mode':'live',
+                               'client':hashlib.sha256(b'offline-test-salttestclient').hexdigest()[:20]}
+
+
+def test_public_retail_defaults_to_deterministic_mode(monkeypatch):
+    import backend.retail as retail
+    def capture(question, snapshot=None, mode='deterministic', client='local'):
+        return {'mode':mode}
+    monkeypatch.setattr(retail, 'run_retail_analysis', capture)
+    assert client.post('/api/retail/analyze',json={'question':'Compare sales'}).json() == {'mode':'deterministic'}
+
+
+def test_public_retail_uses_same_forwarded_client_quota_scope_as_synthetic(monkeypatch):
+    import backend.retail as retail
+    import api.index as api
+    monkeypatch.setenv('VERCEL', '1')
+    monkeypatch.setenv('METRICPILOT_CLIENT_SALT', 'offline-test-salt')
+    def capture(question, mode='deterministic', **kwargs):
+        return {'client':kwargs['client']}
+    monkeypatch.setattr(retail, 'run_retail_analysis', capture)
+    monkeypatch.setattr(api, 'run_analysis', capture)
+    headers = {'x-forwarded-for':'198.51.100.20, 192.0.2.10'}
+    retail_response = client.post('/api/retail/analyze',json={'question':'Compare sales'},headers=headers)
+    synthetic_response = client.post('/api/analyze',json={'question':'Compare activation'},headers=headers)
+    assert retail_response.status_code == synthetic_response.status_code == 200
+    assert retail_response.json()['client'] == synthetic_response.json()['client']
+    assert '198.51.100.20' not in retail_response.text

@@ -145,10 +145,17 @@ netting returns, gives different totals and must carry a different metric label.
 ## Execute the case study
 
 Use the normal local startup commands, then open `/retail`. The separate
-`POST /api/retail/analyze` endpoint accepts only a question and runs a fixed
-LangGraph sequence: local MiniLM contract retrieval, sales-comparison SQL,
-country-contribution SQL, and evidence-backed numeric validation. No model
-calls or configurable SQL are accepted by this endpoint.
+`POST /api/retail/analyze` endpoint accepts a question and optional `mode`
+(`deterministic` by default, or explicitly enabled `live`). Both use the fixed
+LangGraph sequence: local MiniLM contract retrieval, sales-comparison SQL and
+country-contribution SQL. Deterministic mode uses checked templates without API
+calls; live mode adds cited model interpretation and server-rendered verified
+facts under the persistent budget. Neither mode accepts configurable SQL.
+
+A successful actual-model retail development example is recorded separately.
+The final paired retail supplement was execution-blocked before any response
+was recorded; it has no published model-quality score. Do not substitute the
+development example for that missing evaluation.
 
 ```sh
 python -m evals.retail

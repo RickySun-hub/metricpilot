@@ -11,7 +11,8 @@ from langgraph.graph import END, START, StateGraph
 
 from .budget import BudgetError, live_available, reserve
 from .data import default_dataset
-from .provider import MODEL, choose_action
+from .provider import MODEL, MAX_MODEL_CALLS, account_usage, choose_action
+from .generation import GroundingError, generate_report
 from .retrieval import retrieve
 from .tools import Analytics, ToolError, default_analytics
 
@@ -24,7 +25,7 @@ class DatasetUnavailableError(RuntimeError):
 
 
 def _timeout():
-    return {"status": "timed_out", "summary": "Request deadline reached.", "findings": []}
+    return {"status": "timed_out", "summary": "Request deadline reached.", "findings": [], "claims": [], "citations": []}
 
 
 class State(TypedDict, total=False):
@@ -40,6 +41,10 @@ class State(TypedDict, total=False):
     metrics: dict
     action: dict
     started: float
+    claims: list
+    citations: list
+    generation: dict
+    reservation_usd: float
 
 
 def _boundary(question: str):
@@ -95,6 +100,11 @@ def _findings(evidence):
             add(e, "After completion", "after.completion_rate", "%", 100)
             add(e, "Before starts", "before.start_rate", "%", 100)
             add(e, "After starts", "after.start_rate", "%", 100)
+            add(e, "Before conditional completion", "before.conditional_completion_rate", "%", 100)
+            add(e, "After conditional completion", "after.conditional_completion_rate", "%", 100)
+            for period in ("before", "after"):
+                for field in ("users", "started", "completed"):
+                    add(e, f"{period.title()} {field}", f"{period}.{field}", "users")
         elif e["tool"] == "check_experiment":
             add(e, "SRM p-value", "srm_pvalue", "p")
             if e["result"]["status"] == "valid":
@@ -105,15 +115,11 @@ def _findings(evidence):
 
 
 def validate_findings(findings, evidence):
-    lookup = {e["id"]: e for e in evidence}
-    for f in findings:
-        if f["evidence_id"] not in lookup:
-            raise ToolError("Unresolved evidence reference")
-        value = lookup[f["evidence_id"]]["result"]
-        for key in f["field_path"].split("."):
-            value = value[key]
-        if abs(f["value"]-value*f["scale"]) > 1e-9:
-            raise ToolError("Report value does not match evidence")
+    from .generation import _validated_facts
+    try:
+        _validated_facts(findings, {e["id"]:e for e in evidence})
+    except (GroundingError, KeyError, TypeError):
+        raise ToolError("Report value does not match evidence or its reference is unresolved") from None
 
 
 def run_analysis(question: str, mode: str = "deterministic", dataset: dict | None = None, client: str = "local") -> dict:
@@ -121,7 +127,7 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
     deadline = begun + REQUEST_TIMEOUT_SECONDS
     metrics = {"elapsed_ms": 0, "model_calls": 0, "tool_calls": 0, "input_tokens": 0, "output_tokens": 0, "estimated_cost_usd": 0}
     state = {"question": question, "mode": mode, "status": "running", "summary": "", "evidence": [], "retrieval": [],
-             "trace": [], "findings": [], "warnings": [], "metrics": metrics, "started": begun}
+             "trace": [], "findings": [], "claims": [], "citations": [], "generation": {"method": "deterministic_template" if mode == "deterministic" else "not_run"}, "warnings": [], "metrics": metrics, "started": begun}
     try:
         data = dataset if dataset is not None else default_dataset()
     except Exception as exc:
@@ -140,6 +146,8 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                 if not live_available():
                     raise BudgetError("Live mode is not enabled or lacks durable public quota accounting")
                 reserve(client=client)
+                state["reservation_usd"] = 0.02
+                metrics["reserved_request_usd"] = 0.02
             engine = Analytics(data) if dataset is not None else default_analytics()
             def retrieval_node(s):
                 documents = retrieve(s["question"])
@@ -149,14 +157,11 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                 if time.perf_counter() >= deadline:
                     return _timeout()
                 if s["mode"] == "live":
-                    if s["metrics"]["model_calls"] >= 6:
+                    if s["metrics"]["model_calls"] >= MAX_MODEL_CALLS:
                         return {"status": "budget_exceeded", "summary": "Model-call limit reached."}
                     action, usage = choose_action(s)
-                    updated = dict(s["metrics"])
-                    updated["model_calls"] += 1
-                    updated["input_tokens"] += usage.get("prompt_tokens", 0)
-                    updated["output_tokens"] += usage.get("completion_tokens", 0)
-                    updated["estimated_cost_usd"] = updated["input_tokens"]*0.4/1000000+updated["output_tokens"]*1.6/1000000
+                    updated = s["metrics"]
+                    account_usage(updated, usage)
                     if updated["estimated_cost_usd"] > 0.015:
                         return {"metrics": updated, "status": "budget_exceeded", "summary": "Per-request model cost limit reached."}
                 else:
@@ -169,7 +174,7 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                     return {"metrics": updated, "status": "needs_clarification" if action["action"] == "clarify" else "unsupported", "summary": "The model could not resolve a supported analytical task."}
                 if action["action"] != "finish" and len(s["evidence"]) >= 5:
                     return {"metrics": updated, "status": "budget_exceeded", "summary": "Tool-call limit reached."}
-                return {"metrics": updated, "action": action, "trace": s["trace"] + [{"step": "select", "detail": action["action"]+": "+action["reason"][:200]}]}
+                return {"metrics": updated, "action": action, "trace": s["trace"] + [{"step": "select", "detail": "Selected approved action: "+action["action"]+"."}]}
             def execute(s):
                 action = s["action"]
                 name = action["action"]
@@ -200,6 +205,11 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                 if time.perf_counter() >= deadline:
                     return _timeout()
                 warnings = [w for e in s["evidence"] for w in e["warnings"]]
+                if s["mode"] == "live":
+                    generated = generate_report({**s, "warnings": warnings}, findings)
+                    if time.perf_counter() >= deadline:
+                        return {**generated, **_timeout()}
+                    return generated
                 last = s["evidence"][-1]
                 if last["tool"] == "check_experiment":
                     summary = last["result"]["conclusion"]
@@ -217,13 +227,24 @@ def run_analysis(question: str, mode: str = "deterministic", dataset: dict | Non
                     warnings.append("The model ended before a decomposition; do not claim an explanation of the change.")
                 return {"summary": summary, "status": status, "findings": findings, "warnings": warnings,
                         "trace": s["trace"]+[{"step": "verify", "detail": "Numeric claims match evidence fields. Narrative is generated from deterministic templates."}]}
+            def guarded(fn):
+                def invoke(s):
+                    try:
+                        return fn(s)
+                    except BudgetError as exc:
+                        return {"status":"budget_exceeded","summary":str(exc),"findings":[],"claims":[],"citations":[],"metrics":s["metrics"]}
+                    except ToolError as exc:
+                        return {"status":"invalid_data","summary":str(exc),"findings":[],"claims":[],"citations":[],"metrics":s["metrics"]}
+                    except Exception:
+                        return {"status":"provider_error" if mode == "live" else "invalid_data","summary":"Execution failed; no verified report is available.","findings":[],"claims":[],"citations":[],"metrics":s["metrics"]}
+                return invoke
             graph = StateGraph(State)
             for name, fn in (("retrieve", retrieval_node), ("decide", decide), ("execute", execute), ("report", report)):
-                graph.add_node(name, fn)
+                graph.add_node(name, guarded(fn))
             graph.add_edge(START, "retrieve")
-            graph.add_edge("retrieve", "decide")
+            graph.add_conditional_edges("retrieve", lambda s: "decide" if s["status"] == "running" else END)
             graph.add_conditional_edges("decide", lambda s: END if s["status"] != "running" else "report" if s["action"]["action"] == "finish" else "execute")
-            graph.add_edge("execute", "decide")
+            graph.add_conditional_edges("execute", lambda s: "decide" if s["status"] == "running" else END)
             graph.add_edge("report", END)
             state = dict(graph.compile().invoke(state, {"recursion_limit": 20}))
     except BudgetError as exc:

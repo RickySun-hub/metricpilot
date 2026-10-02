@@ -1,0 +1,78 @@
+{
+  "scope": "Originally planned independent supplement; execution blocked before any response was recorded.",
+  "mode": "live",
+  "track": "adversarial",
+  "execution_status": "execution_blocked",
+  "run_at_utc": "2026-10-02T07:23:16.652135+00:00",
+  "benchmark_scope": "adversarial_supplement",
+  "repeats": 1,
+  "planned_case_count": 6,
+  "systems": [
+    "agent",
+    "baseline"
+  ],
+  "planned_response_count": 12,
+  "recorded_response_count": 0,
+  "completed_response_count": 0,
+  "attempted_response_count": 0,
+  "admitted_requests_without_response": 0,
+  "admitted_request_reservation_usd": 0.0,
+  "reservation_is_not_billed_cost": true,
+  "provider_tokens": null,
+  "model_api_cost_usd": 0,
+  "automatic_pass": false,
+  "whole_task_pass": false,
+  "runs": [],
+  "stop_reason": {
+    "kind": "execution_blocked",
+    "note": "Not started after the preceding execution interruption; paid work was stopped."
+  },
+  "summary": {
+    "planned": 12,
+    "attempted": 0,
+    "recorded": 0,
+    "automatic_passes": 0,
+    "whole_task_passes": 0,
+    "manual_reviews_pending": 0,
+    "model_calls": 0,
+    "estimated_cost_usd": 0
+  },
+  "release_gate": {
+    "status": "not_passed",
+    "reason": "No recorded evaluation outputs for this supplement."
+  },
+  "provider_configuration": {
+    "temperature": 0,
+    "schema_version": "3.2",
+    "service_tier": "default",
+    "pricing_basis_usd_per_million_tokens": {
+      "input": 0.4,
+      "output": 1.6
+    }
+  },
+  "source_sha256": {
+    "backend/__init__.py": "eb173961626a1638058344cd0bc23dd0c6447aae7046aa32b22d88fc92bffff7",
+    "backend/agent.py": "968a6f8a86a3e3be7c674c7d7126725bf0987c5ca0fdca092c4bb72bc0563f5c",
+    "backend/budget.py": "602092aecd30e7c2ec46653611aa66d8bd7aeff61d3a70051e0be4b9969bca82",
+    "backend/data.py": "181c3c1f2aea6c443ba9cb3325efd8eae91b69219d07835d5c2561769a53cccc",
+    "backend/download_embedding_model.py": "c84e6c41a22265c94ceea9ad71add7e20fb62e895641d53cd84567c9c2d78d4a",
+    "backend/generation.py": "3f3671b4878635f6132a5596ae40c58ae28be2969a75c718e76f562b6ad1618f",
+    "backend/import_retail.py": "2560780b1443b209f82b2329d03047b3f18ae206318263c8da71bcdcf25622c4",
+    "backend/provider.py": "218852584b79ea8ca9879a04b390e9a129b6ab6b9f40b7a6c8178a7592b04cbb",
+    "backend/retail.py": "8537968537f7113c6fd02d3a481c4d23b1f3a4903963e5616aa3bf9505bec304",
+    "backend/retrieval.py": "1ab2f32baee5e97c2614891d53a74676efac5f8049aedfb2c790d0380d5cd2e1",
+    "backend/statistics.py": "66fe39a9280c68ac8708c7e2f3c40bc72b0d2e8b9a0bc9bacf8fd72f1ed4c939",
+    "backend/tools.py": "3c09ddecfef2474eb27ea46c6260b5cfe142441543ed29eb1a11931a660227e3",
+    "backend/wordpiece.py": "c8f7a411c6acba31a103a1e6987a9782899acd77e0ba4acb2232f6424cf40297",
+    "contracts/metrics.json": "f485e6312de9b932074007edff830b79fe0684c71708f6e4d54195c08ea3bffb",
+    "docs/EVALUATION.md": "049bee7346aee80971770060537d23c0ee9457265c8fe383847c1c09884016e3",
+    "evals/__init__.py": "598147b41534c45ed83128dfabd0bf1975bf3655e7bcc1c072004f7e0cf00b06",
+    "evals/build_manifest.py": "b9df31dca43858f88dedfeaeb875163b673cd3cec4c2038e92f4a6059f6671cf",
+    "evals/live.py": "48ad93cc42b6da26fdd1380950dc9dd3ae45e062bd28bed1528701cfad4b3398",
+    "evals/reference.py": "206b441a45356fea43aaa280206f92959264d9d624a753fc0c2c298d733b0374",
+    "evals/retail.py": "665d4d610d6511ecfd9f81b1aec501c478538fbde1145f19373f146d107f7bcc",
+    "evals/retrieval.py": "582889d1c355c21a536b5ef33a22f474c661c71679644de1596d6a4f0fcda561",
+    "evals/run.py": "14ed51d9b2f5f68149d760fb5561412dfe6000456cefae981370a1363bd3b4d6"
+  },
+  "development_sample_note": "Successful recorded public-retail development examples are separate evidence and are not substituted for this blocked supplement."
+}
